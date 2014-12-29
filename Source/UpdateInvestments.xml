@@ -7,6 +7,17 @@
     xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	
+   	<!---------------------------------------------------------------->
+	<!-- Package: Strategic Alignment 4.0 							-->
+	<!-- Process: Strategy Control									-->
+	<!-- Step	: Close Evaluation									-->
+	<!-- Action	: Update Investments					-->
+	<!---------------------------------------------------------------->
+	<!-- Object : Evaluation Cycle (strat_eval_cycle)				-->
+	<!---------------------------------------------------------------->
+	<!-- Update Investment Alignment Score on the Investment Object	-->
+	<!---------------------------------------------------------------->
+	
     <core:set value="${gel_objectInstanceId}" var="vCycle_Intl"/>
 	
 	<core:if test="${DebugLevel &gt; 0}">

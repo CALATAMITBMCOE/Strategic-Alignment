@@ -7,6 +7,17 @@
     xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	
+   	<!---------------------------------------------------------------->
+	<!-- Package: Strategic Alignment 4.0 							-->
+	<!-- Process: Strategy Control									-->
+	<!-- Step	: Close Evaluation									-->
+	<!-- Action	: Calculate Investment Alignment					-->
+	<!---------------------------------------------------------------->
+	<!-- Object : Evaluation Cycle (strat_eval_cycle)				-->
+	<!---------------------------------------------------------------->
+	<!-- Calculate Investment Alignment Scores based on the answers	-->
+	<!---------------------------------------------------------------->
+	
     <core:set value="${gel_objectInstanceId}" var="vCycle_Intl"/>
 	
 	<core:if test="${DebugLevel &gt; 0}">
@@ -97,7 +108,7 @@
 			<core:set var="vAMet_Intl">${row[6]}</core:set>
 			<core:set var="vAMet_Code">${row[7]}</core:set>
 			<core:if test="${DebugLevel &gt; 0}">
-				<gel:log level="debug" message="-- Parent ${vParent} --Item: ${vItem_Code} has weigthpercent=${vItem_WPer} --Metric: ${vAMet_Code}."/> 
+				<gel:log level="debug" message="-- Parent ${vParent} --Item: ${vItem_Code} has weightpercent=${vItem_WPer} --Metric: ${vAMet_Code}."/> 
 			</core:if>
 			<core:set var="vTree_Weight_Acum" value="${vItem_WPer}"/>
 			<core:set var="vTreeLevel" value="${vCurrentLevel}"/>

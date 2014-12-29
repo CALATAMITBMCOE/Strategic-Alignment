@@ -1,0 +1,124 @@
+<gel:script xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:core="jelly:core"
+    xmlns:file="jelly:com.niku.union.gel.FileTagLibrary"
+    xmlns:gel="jelly:com.niku.union.gel.GELTagLibrary"
+    xmlns:soap="jelly:com.niku.union.gel.SOAPTagLibrary"
+    xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	
+   	<!---------------------------------------------------------------->
+	<!-- Package: Strategic Alignment 4.0 							-->
+	<!-- Process: Strategic Rollup Allocated and Committed Funding	-->
+	<!-- Step	: Rollup Funding									-->
+	<!-- Action	: Rollup funding									-->
+	<!---------------------------------------------------------------->
+	<!-- Object : Strategic Item (strategic_item)					-->
+	<!---------------------------------------------------------------->
+	<!-- Rollup Allocation and Commitment to Parent Levels  		-->
+	<!---------------------------------------------------------------->
+	
+    <core:set value="${gel_objectInstanceId}" var="vItem_Intl"/>
+
+	<core:set var="DebugLevel">1</core:set>
+	<core:if test="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="Start Script"/>
+		<gel:log level="debug" message=">>Item ID             : ${vItem_Intl}"/> 
+		<gel:log level="debug" message=">>Persisted XOG URL   : ${XOGURL}"/> 
+		<gel:log level="debug" message=">>Persisted LOG Folder: ${XOGlogFolder}"/> 
+		<gel:log level="debug" message=">>Persisted WEB Folder: ${XOGwebFolder}"/> 
+		<gel:log level="debug" message=">>Persisted SessionID : ${sessionID}"/> 
+		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/> 
+	</core:if>
+
+    <gel:setDataSource dbId="niku"/>
+	
+    <!-- Reading Item Data-->
+	<sql:query escapeText="false" var="vMinLevel">
+		SELECT SI.ITEM_LEVEL
+		FROM ODF_CA_STRATEGIC_ITEM SI
+		where SI.ID = ${vItem_Intl}
+	</sql:query>
+    <core:forEach items="${vMinLevel.rowsByIndex}" var="row">
+        <core:set var="vTree_MinL">${row[0]}</core:set>
+		<core:if test="${DebugLevel &gt; 0}">
+			<gel:log level="debug" message="-- Min Level Found: ${vTree_MinL}."/> 
+		</core:if>
+	</core:forEach>
+	
+	<sql:query escapeText="false" var="vMaxLevel">
+		SELECT MAX(TF.CHILD_LEVEL)
+		FROM ODF_CA_STRAT_TREE_FLAT TF
+		where TF.PARENT_ITEM = ${vItem_Intl}
+		and TF.CHILD_ITEM != ${vItem_Intl}
+	</sql:query>
+    <core:forEach items="${vMaxLevel.rowsByIndex}" var="row">
+        <core:set var="vTree_MaxL">${row[0]}</core:set>
+		<core:if test="${DebugLevel &gt; 0}">
+			<gel:log level="debug" message="-- Max Level Found: ${vTree_MaxL}."/> 
+		</core:if>
+	</core:forEach>
+	
+	<core:set var="vCurrentLevel" value="${vTree_MaxL}"/>
+	<core:while test="${vCurrentLevel &gt;= vTree_MinL}">
+		<core:if test="${DebugLevel &gt; 0}">
+			<gel:log level="debug" message="Processing Level ${vCurrentLevel}."/> 
+		</core:if>
+
+		<sql:update escapeText="false" var="vItemFields">
+			UPDATE ODF_CA_STRATEGIC_ITEM 
+				Set strat_commit_funding = round(nvl((select sum(F.PLANNED_CST_TOTAL) 
+												from INV_INVESTMENTS I
+													inner join ODF_CA_INV OI on OI.ID = I.ID
+													inner join ODF_OBJECT_INSTANCE_MAPPING OM on OM.PRIMARY_OBJECT_INSTANCE_ID = I.ID and OM.PRIMARY_OBJECT_INSTANCE_CODE = 'project' AND OM.SECONDARY_OBJECT_INSTANCE_CODE = 'financials'
+													inner join FIN_FINANCIALS F on F.ID = OM.SECONDARY_OBJECT_INSTANCE_ID
+												WHERE OI.STRAT_FUND_SOURCE = ODF_CA_STRATEGIC_ITEM.ID AND I.STATUS = 1),0),0),
+					strat_commit_benefit = round(nvl((select sum(F.PLANNED_BEN_TOTAL) 
+												from INV_INVESTMENTS I
+													inner join ODF_CA_INV OI on OI.ID = I.ID
+													inner join ODF_OBJECT_INSTANCE_MAPPING OM on OM.PRIMARY_OBJECT_INSTANCE_ID = I.ID and OM.PRIMARY_OBJECT_INSTANCE_CODE = 'project' AND OM.SECONDARY_OBJECT_INSTANCE_CODE = 'financials'
+													inner join FIN_FINANCIALS F on F.ID = OM.SECONDARY_OBJECT_INSTANCE_ID
+												WHERE OI.STRAT_FUND_SOURCE = ODF_CA_STRATEGIC_ITEM.ID AND I.STATUS = 1),0),0),
+					last_updated_date = sysdate,
+					last_updated_by = 1 
+			WHERE ODF_CA_STRATEGIC_ITEM.ID 
+				IN (select TF.CHILD_ITEM 
+					FROM ODF_CA_STRAT_TREE_FLAT TF
+					where TF.PARENT_ITEM = ${vItem_Intl})
+					AND ODF_CA_STRATEGIC_ITEM.ITEM_LEVEL = ${vCurrentLevel}
+			AND not EXISTS (select 'x' from ODF_CA_STRATEGIC_ITEM C where C.PARENTITEM = ODF_CA_STRATEGIC_ITEM.ID)
+		</sql:update>
+	
+		<sql:update escapeText="false" var="vItemFields">
+			UPDATE ODF_CA_STRATEGIC_ITEM 
+				Set strat_alloc_funding = (select sum(c1.strat_alloc_funding) from ODF_CA_STRATEGIC_ITEM C1 where C1.PARENTITEM = ODF_CA_STRATEGIC_ITEM.ID),
+					strat_commit_funding = (select sum(c2.strat_commit_funding) from ODF_CA_STRATEGIC_ITEM C2 where C2.PARENTITEM = ODF_CA_STRATEGIC_ITEM.ID)+
+											round(nvl((select sum(F.PLANNED_CST_TOTAL) 
+												from INV_INVESTMENTS I
+													inner join ODF_CA_INV OI on OI.ID = I.ID
+													inner join ODF_OBJECT_INSTANCE_MAPPING OM on OM.PRIMARY_OBJECT_INSTANCE_ID = I.ID and OM.PRIMARY_OBJECT_INSTANCE_CODE = 'project' AND OM.SECONDARY_OBJECT_INSTANCE_CODE = 'financials'
+													inner join FIN_FINANCIALS F on F.ID = OM.SECONDARY_OBJECT_INSTANCE_ID
+												WHERE OI.STRAT_FUND_SOURCE = ODF_CA_STRATEGIC_ITEM.ID AND I.STATUS = 1),0),0),
+					strat_alloc_benefit = (select sum(c1.strat_alloc_benefit) from ODF_CA_STRATEGIC_ITEM C1 where C1.PARENTITEM = ODF_CA_STRATEGIC_ITEM.ID),
+					strat_commit_benefit = (select sum(c2.strat_commit_benefit) from ODF_CA_STRATEGIC_ITEM C2 where C2.PARENTITEM = ODF_CA_STRATEGIC_ITEM.ID)+
+											round(nvl((select sum(F.PLANNED_BEN_TOTAL) 
+												from INV_INVESTMENTS I
+													inner join ODF_CA_INV OI on OI.ID = I.ID
+													inner join ODF_OBJECT_INSTANCE_MAPPING OM on OM.PRIMARY_OBJECT_INSTANCE_ID = I.ID and OM.PRIMARY_OBJECT_INSTANCE_CODE = 'project' AND OM.SECONDARY_OBJECT_INSTANCE_CODE = 'financials'
+													inner join FIN_FINANCIALS F on F.ID = OM.SECONDARY_OBJECT_INSTANCE_ID
+												WHERE OI.STRAT_FUND_SOURCE = ODF_CA_STRATEGIC_ITEM.ID AND I.STATUS = 1),0),0),
+					strat_alloc_fte = (select sum(c1.strat_alloc_fte) from ODF_CA_STRATEGIC_ITEM C1 where C1.PARENTITEM = ODF_CA_STRATEGIC_ITEM.ID),
+					last_updated_date = sysdate,
+					last_updated_by = 1 
+			WHERE ODF_CA_STRATEGIC_ITEM.ID 
+				IN (select TF.CHILD_ITEM 
+					FROM ODF_CA_STRAT_TREE_FLAT TF
+					where TF.PARENT_ITEM = ${vItem_Intl})
+					AND ODF_CA_STRATEGIC_ITEM.ITEM_LEVEL = ${vCurrentLevel}
+			AND EXISTS (select 'x' from ODF_CA_STRATEGIC_ITEM C where C.PARENTITEM = ODF_CA_STRATEGIC_ITEM.ID)
+
+		</sql:update>
+		<core:set var="vCurrentLevel" value="${vCurrentLevel-1}"/>
+	</core:while>
+	
+</gel:script>

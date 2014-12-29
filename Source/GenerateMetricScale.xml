@@ -12,6 +12,18 @@
     xmlns:util="jelly:util"
     xmlns:q="http://www.niku.com/xog/Query">
 	
+	<!---------------------------------------------------------------->
+	<!-- Package: Strategic Alignment 4.0 							-->
+	<!-- Process: Strategic Alignment Metric Initialize				-->
+	<!-- Step	: Initialize Metric									-->
+	<!-- Action	: Generate Metric Scale								-->
+	<!---------------------------------------------------------------->
+	<!-- Object : Investment Alignment Metric (strat_align_metric)  -->
+	<!---------------------------------------------------------------->
+	<!-- Initialize the Alignment Metric Scale object with empty    -->
+	<!-- records 													-->
+	<!---------------------------------------------------------------->
+	
 	<core:set var="vMetricID" value="${gel_objectInstanceId}"/>
 	<core:if test="${DebugLevel &gt; 0}">
 		<gel:log level="debug" message="Start Script"/>

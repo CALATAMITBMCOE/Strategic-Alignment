@@ -7,6 +7,18 @@
     xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
+   	<!---------------------------------------------------------------->
+	<!-- Package: Strategic Alignment 4.0 							-->
+	<!-- Process: Strategic Item - Build Tree Flat					-->
+	<!-- Step	: Update Top Level									-->
+	<!-- Action	: Find Top Level									-->
+	<!---------------------------------------------------------------->
+	<!-- Object : Strategic Item (strategic_item)					-->
+	<!---------------------------------------------------------------->
+	<!-- This process updates the Top Level of the item and creates -->
+	<!-- the flat hierarchy on strat_tree_flat 						-->
+	<!---------------------------------------------------------------->
+	
     <core:set value="${gel_objectInstanceId}" var="vItemID"/>
 
 	<core:if test="${DebugLevel &gt; 0}">
