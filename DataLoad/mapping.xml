@@ -1,0 +1,24 @@
+<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../xog/src/webroot/WEB-INF/xog/xsd/nikuxog_objectMapping.xsd">
+  <Header action="write" externalSource="NIKU" objectType="objectMapping" version="7.5.1"/>
+  <objectMappings>
+    <objectMapping mappingCode="stratItem_to_Portfolio" srcObjectCode="strategic_item" destObjectCode="portfolio" className="">
+      <nls description="Map from Strategic Item to Portfolio" languageCode="de" name="stratItem_to_Portfolio"/>
+      <nls description="Map from Strategic Item to Portfolio" languageCode="en" name="stratItem_to_Portfolio"/>
+      <nls description="Map from Strategic Item to Portfolio" languageCode="pt" name="stratItem_to_Portfolio"/>
+      <nls description="Map from Strategic Item to Portfolio" languageCode="es" name="stratItem_to_Portfolio"/>
+      <nls description="Map from Strategic Item to Portfolio" languageCode="fr" name="stratItem_to_Portfolio"/>
+      <nls description="Map from Strategic Item to Portfolio" languageCode="ja" name="stratItem_to_Portfolio"/>
+      <nls description="Map from Strategic Item to Portfolio" languageCode="nl" name="stratItem_to_Portfolio"/>
+      <attributeMappings>
+		<attributeMapping srcAttributeCode="code" destAttributeCode="UNIQUE_NAME" className=""/>
+		<attributeMapping srcAttributeCode="name" destAttributeCode="NAME" className=""/>
+        <attributeMapping srcAttributeCode="description" destAttributeCode="DESCRIPTION" className=""/>
+        <attributeMapping srcAttributeCode="plan_cost" destAttributeCode="BDGT_CST_TOTAL" className=""/>
+        <attributeMapping srcAttributeCode="plan_ben" destAttributeCode="BDGT_REV_TOTAL" className=""/>
+        <attributeMapping srcAttributeCode="currency_code" destAttributeCode="CURRENCY_CODE" className=""/>
+        <attributeMapping srcAttributeCode="port_manager" destAttributeCode="MANAGER_ID" className=""/>
+		<attributeMapping srcAttributeCode="port_manager" destAttributeCode="LAYOUT" className=""/>
+      </attributeMappings>
+    </objectMapping>
+  </objectMappings>
+</NikuDataBus>

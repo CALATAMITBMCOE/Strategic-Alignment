@@ -1,0 +1,118 @@
+<gel:script 
+ xmlns:core="jelly:core" 
+    xmlns:gel="jelly:com.niku.union.gel.GELTagLibrary"
+    xmlns:soap="jelly:com.niku.union.gel.SOAPTagLibrary"
+    xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/"	    
+    xmlns:sql="jelly:sql"
+    xmlns:xog="http://www.niku.com/xog"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:file="jelly:com.niku.union.gel.FileTagLibrary"
+    xmlns:util="jelly:util"
+    xmlns:q="http://www.niku.com/xog/Query">
+	
+
+	<core:set var="DebugLevel">1</core:set>
+
+	<core:if test="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="Start Script"/>
+	</core:if>
+	
+	<gel:setDataSource dbId="Niku"/>
+
+    <gel:parameter default="xog" var="XOGUsername"/>
+    <gel:parameter default="gox" var="XOGPassword"/>
+
+	<core:invokeStatic var="config" className="com.niku.union.config.ConfigurationManager" method="getInstance"/>
+	<core:set var="vInstallDirInput" value="${config.getProperties().getDirectories().getInstallDir()}"/>
+	<core:if test="${DebugLevel &gt; 1}">
+		<gel:log level="debug" message="vInstallDirInput :  ${vInstallDirInput}"/>
+	</core:if>
+	
+	<core:set var="InputString" value="${vInstallDirInput}"/>
+
+	<core:invoke var="vInputStringCorrect" on="${InputString}" method="replaceAll">
+		<core:arg type="java.lang.String" value="\\\\"/>
+		<core:arg type="java.lang.String" value="\\"/>
+	</core:invoke>
+
+	<core:invoke var="vInstallDir" on="${vInputStringCorrect}" method="replace">
+		<core:arg type="char" value="\"/>
+		<core:arg type="char" value="/"/>
+	</core:invoke>
+	
+	<core:if test="${DebugLevel &gt; 1}">
+		<gel:log level="debug" message="vInstallDir :  ${vInstallDir}"/>
+	</core:if>
+	
+	<core:set var="XOGlogFolder" value="${vInstallDir}/logs"/>
+	<core:if test="${DebugLevel &gt; 1}">
+		<core:set var="XOGwebFolder" value="${vInstallDir}/webroot"/>
+	</core:if>
+	<core:set var="schedulerUrl" value="${config.getProperties().getWebServer().getSchedulerUrl()}"/>
+	
+	<core:if test="${DebugLevel &gt; 1}">
+		<gel:log level="debug" message="schedulerUrl: ${schedulerUrl}"/> 
+	</core:if>
+	
+	<!-- Gets ID from Instance 0-->
+    <core:set var="WebServerid" value="${config.getProperties().getWebServer().getWebServerInstance(0).getId()}"/>
+	<!-- Tests if Instance 0 is app - then gets instance 0 data -->
+	<core:if test="${WebServerid == 'app'}">
+        <core:set var="entryUrl" value="${config.getProperties().getWebServer().getWebServerInstance(0).getEntryUrl()}"/>
+	</core:if>
+	<!-- Tests if Instance 0 is nsa - then gets instance 1 data -->
+	<core:if test="${WebServerid == 'nsa'}">
+        <core:set var="entryUrl" value="${config.getProperties().getWebServer().getWebServerInstance(1).getEntryUrl()}"/>
+	</core:if>
+
+	<core:if test="${DebugLevel &gt; 1}">
+		<gel:log level="debug" message="WebServerid: ${WebServerid}"/> 
+		<gel:log level="debug" message="entryUrl: ${entryUrl}"/> 
+	</core:if>
+
+	<!-- Not sure whether I should use entryUrl -->
+	<core:set var="XOGURL" value="${entryUrl}"/>
+	<core:if test="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="XOGURL: ${XOGURL}"/> 
+		<gel:log level="debug" message="XOGlogFolder: ${XOGlogFolder}"/> 
+	</core:if>
+	
+    <!-- Log in to XOG-->
+    <soap:invoke endpoint="${XOGURL}/niku/xog" var="auth">
+        <soap:message>
+            <soapenv:Envelope
+                xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xog="http://www.niku.com/xog">
+                <soapenv:Header/>
+                <soapenv:Body>
+                    <xog:Login>
+                        <xog:Username>${XOGUsername}</xog:Username>
+                        <xog:Password>${XOGPassword}</xog:Password>
+                    </xog:Login>
+                </soapenv:Body>
+            </soapenv:Envelope>
+        </soap:message>
+    </soap:invoke>
+    <gel:set asString="true"
+        select="$auth/soapenv:Envelope/soapenv:Body/xog:SessionID/text()" var="sessionID"/>
+    <core:choose>
+	<core:if test="${DebugLevel &gt; 0}">
+		<gel:serialize var="${auth}" fileName="${XOGlogFolder}/auth.xml"/>
+	</core:if>
+        <!-- Check XOG sessionID -->
+        <core:when test="${sessionID == null}">
+            <gel:log category="XOG" level="ERROR">Couldn't Log in to XOG. Please verify the username/password.</gel:log>
+        </core:when>
+        <core:otherwise>
+			<core:if test="${DebugLevel &gt; 1}">
+				<gel:log level="debug" message="[XOG] XOG Login Successful. ${sessionID}."/> 
+			</core:if>
+			<gel:persist var="XOGURL" value="${XOGURL}" scope="INSTANCE"/>
+			<gel:persist var="XOGlogFolder" value="${XOGlogFolder}" scope="INSTANCE"/>
+			<gel:persist var="XOGwebFolder" value="${XOGwebFolder}" scope="INSTANCE"/>
+			<gel:persist var="sessionID" value="${sessionID}" scope="INSTANCE"/>
+			<gel:persist var="DebugLevel" value="${DebugLevel}" scope="INSTANCE"/>
+		</core:otherwise>
+    </core:choose>		
+</gel:script>

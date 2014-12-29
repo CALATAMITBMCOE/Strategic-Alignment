@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_read.xsd">
+  <Header version="8.0" action="read" objectType="customObjectInstance" externalSource="NIKU"/>
+  <CustomObjectInstanceQuery>
+    <Filter name="objectCode" criteria="EQUALS">strat_align_metric</Filter>
+    <Filter name="instanceCode" criteria="OR">IAM00016</Filter>
+  </CustomObjectInstanceQuery>
+</NikuDataBus>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
+  <Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="13.0.0.7005"/>
+  <customObjectInstances objectCode="strat_align_metric">
+    <instance instanceCode="IAM00016" objectCode="strat_align_metric">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">IT Cost reduction (Dollars)</ColumnValue>
+        <ColumnValue name="code">IAM00016</ColumnValue>
+        <ColumnValue name="page_layout">odf.strat_align_metricFrame</ColumnValue>
+        <ColumnValue name="odf_period_start"/>
+        <ColumnValue name="odf_period_end"/>
+        <ColumnValue name="active">true</ColumnValue>
+        <ColumnValue name="metric_description">IT cost reduction in dollars</ColumnValue>
+        <ColumnValue name="strat_scope">SS01</ColumnValue>
+        <instance instanceCode="IAM00016-00" objectCode="strat_metric_scale" parentInstanceCode="IAM00016" parentObjectCode="strat_align_metric">
+          <CustomInformation>
+            <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+            <ColumnValue name="name">IAM00016-00</ColumnValue>
+            <ColumnValue name="code">IAM00016-00</ColumnValue>
+            <ColumnValue name="odf_parent_id">5000002</ColumnValue>
+            <ColumnValue name="odf_cncrt_parent_id">5000002</ColumnValue>
+            <ColumnValue name="highvalue">0</ColumnValue>
+            <ColumnValue name="lowvalue">0</ColumnValue>
+            <ColumnValue name="metricvalue">0</ColumnValue>
+          </CustomInformation>
+          <OBSAssocs complete="false"/>
+          <Security>
+            <UserSecurity rightCode="odf_cst_strat_metric_scale_edit" userName="admin"/>
+            <UserSecurity rightCode="odf_cst_strat_metric_scale_edit" userName="xog"/>
+          </Security>
+        </instance>
+        <instance instanceCode="IAM00016-01" objectCode="strat_metric_scale" parentInstanceCode="IAM00016" parentObjectCode="strat_align_metric">
+          <CustomInformation>
+            <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+            <ColumnValue name="name">IAM00016-01</ColumnValue>
+            <ColumnValue name="code">IAM00016-01</ColumnValue>
+            <ColumnValue name="odf_parent_id">5000002</ColumnValue>
+            <ColumnValue name="odf_cncrt_parent_id">5000002</ColumnValue>
+            <ColumnValue name="highvalue">50000</ColumnValue>
+            <ColumnValue name="lowvalue">0.01</ColumnValue>
+            <ColumnValue name="metricvalue">10</ColumnValue>
+          </CustomInformation>
+          <OBSAssocs complete="false"/>
+          <Security>
+            <UserSecurity rightCode="odf_cst_strat_metric_scale_edit" userName="admin"/>
+            <UserSecurity rightCode="odf_cst_strat_metric_scale_edit" userName="xog"/>
+          </Security>
+        </instance>
+        <instance instanceCode="IAM00016-02" objectCode="strat_metric_scale" parentInstanceCode="IAM00016" parentObjectCode="strat_align_metric">
+          <CustomInformation>
+            <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+            <ColumnValue name="name">IAM00016-02</ColumnValue>
+            <ColumnValue name="code">IAM00016-02</ColumnValue>
+            <ColumnValue name="odf_parent_id">5000002</ColumnValue>
+            <ColumnValue name="odf_cncrt_parent_id">5000002</ColumnValue>
+            <ColumnValue name="highvalue">100000</ColumnValue>
+            <ColumnValue name="lowvalue">50000.01</ColumnValue>
+            <ColumnValue name="metricvalue">20</ColumnValue>
+          </CustomInformation>
+          <OBSAssocs complete="false"/>
+          <Security>
+            <UserSecurity rightCode="odf_cst_strat_metric_scale_edit" userName="admin"/>
+            <UserSecurity rightCode="odf_cst_strat_metric_scale_edit" userName="xog"/>
+          </Security>
+        </instance>
+        <instance instanceCode="IAM00016-03" objectCode="strat_metric_scale" parentInstanceCode="IAM00016" parentObjectCode="strat_align_metric">
+          <CustomInformation>
+            <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+            <ColumnValue name="name">IAM00016-03</ColumnValue>
+            <ColumnValue name="code">IAM00016-03</ColumnValue>
+            <ColumnValue name="odf_parent_id">5000002</ColumnValue>
+            <ColumnValue name="odf_cncrt_parent_id">5000002</ColumnValue>
+            <ColumnValue name="highvalue">150000</ColumnValue>
+            <ColumnValue name="lowvalue">100000.01</ColumnValue>
+            <ColumnValue name="metricvalue">30</ColumnValue>
+          </CustomInformation>
+          <OBSAssocs complete="false"/>
+          <Security>
+            <UserSecurity rightCode="odf_cst_strat_metric_scale_edit" userName="admin"/>
+            <UserSecurity rightCode="odf_cst_strat_metric_scale_edit" userName="xog"/>
+          </Security>
+        </instance>
+        <instance instanceCode="IAM00016-04" objectCode="strat_metric_scale" parentInstanceCode="IAM00016" parentObjectCode="strat_align_metric">
+          <CustomInformation>
+            <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+            <ColumnValue name="name">IAM00016-04</ColumnValue>
+            <ColumnValue name="code">IAM00016-04</ColumnValue>
+            <ColumnValue name="odf_parent_id">5000002</ColumnValue>
+            <ColumnValue name="odf_cncrt_parent_id">5000002</ColumnValue>
+            <ColumnValue name="highvalue">200000</ColumnValue>
+            <ColumnValue name="lowvalue">150000.01</ColumnValue>
+            <ColumnValue name="metricvalue">40</ColumnValue>
+          </CustomInformation>
+          <OBSAssocs complete="false"/>
+          <Security>
+            <UserSecurity rightCode="odf_cst_strat_metric_scale_edit" userName="admin"/>
+            <UserSecurity rightCode="odf_cst_strat_metric_scale_edit" userName="xog"/>
+          </Security>
+        </instance>
+        <instance instanceCode="IAM00016-05" objectCode="strat_metric_scale" parentInstanceCode="IAM00016" parentObjectCode="strat_align_metric">
+          <CustomInformation>
+            <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+            <ColumnValue name="name">IAM00016-05</ColumnValue>
+            <ColumnValue name="code">IAM00016-05</ColumnValue>
+            <ColumnValue name="odf_parent_id">5000002</ColumnValue>
+            <ColumnValue name="odf_cncrt_parent_id">5000002</ColumnValue>
+            <ColumnValue name="highvalue">300000</ColumnValue>
+            <ColumnValue name="lowvalue">200000.01</ColumnValue>
+            <ColumnValue name="metricvalue">50</ColumnValue>
+          </CustomInformation>
+          <OBSAssocs complete="false"/>
+          <Security>
+            <UserSecurity rightCode="odf_cst_strat_metric_scale_edit" userName="admin"/>
+            <UserSecurity rightCode="odf_cst_strat_metric_scale_edit" userName="xog"/>
+          </Security>
+        </instance>
+        <instance instanceCode="IAM00016-06" objectCode="strat_metric_scale" parentInstanceCode="IAM00016" parentObjectCode="strat_align_metric">
+          <CustomInformation>
+            <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+            <ColumnValue name="name">IAM00016-06</ColumnValue>
+            <ColumnValue name="code">IAM00016-06</ColumnValue>
+            <ColumnValue name="odf_parent_id">5000002</ColumnValue>
+            <ColumnValue name="odf_cncrt_parent_id">5000002</ColumnValue>
+            <ColumnValue name="highvalue">500000</ColumnValue>
+            <ColumnValue name="lowvalue">300000.01</ColumnValue>
+            <ColumnValue name="metricvalue">60</ColumnValue>
+          </CustomInformation>
+          <OBSAssocs complete="false"/>
+          <Security>
+            <UserSecurity rightCode="odf_cst_strat_metric_scale_edit" userName="admin"/>
+            <UserSecurity rightCode="odf_cst_strat_metric_scale_edit" userName="xog"/>
+          </Security>
+        </instance>
+        <instance instanceCode="IAM00016-07" objectCode="strat_metric_scale" parentInstanceCode="IAM00016" parentObjectCode="strat_align_metric">
+          <CustomInformation>
+            <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+            <ColumnValue name="name">IAM00016-07</ColumnValue>
+            <ColumnValue name="code">IAM00016-07</ColumnValue>
+            <ColumnValue name="odf_parent_id">5000002</ColumnValue>
+            <ColumnValue name="odf_cncrt_parent_id">5000002</ColumnValue>
+            <ColumnValue name="highvalue">650000</ColumnValue>
+            <ColumnValue name="lowvalue">500000.01</ColumnValue>
+            <ColumnValue name="metricvalue">70</ColumnValue>
+          </CustomInformation>
+          <OBSAssocs complete="false"/>
+          <Security>
+            <UserSecurity rightCode="odf_cst_strat_metric_scale_edit" userName="admin"/>
+            <UserSecurity rightCode="odf_cst_strat_metric_scale_edit" userName="xog"/>
+          </Security>
+        </instance>
+        <instance instanceCode="IAM00016-08" objectCode="strat_metric_scale" parentInstanceCode="IAM00016" parentObjectCode="strat_align_metric">
+          <CustomInformation>
+            <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+            <ColumnValue name="name">IAM00016-08</ColumnValue>
+            <ColumnValue name="code">IAM00016-08</ColumnValue>
+            <ColumnValue name="odf_parent_id">5000002</ColumnValue>
+            <ColumnValue name="odf_cncrt_parent_id">5000002</ColumnValue>
+            <ColumnValue name="highvalue">800000</ColumnValue>
+            <ColumnValue name="lowvalue">650000.01</ColumnValue>
+            <ColumnValue name="metricvalue">80</ColumnValue>
+          </CustomInformation>
+          <OBSAssocs complete="false"/>
+          <Security>
+            <UserSecurity rightCode="odf_cst_strat_metric_scale_edit" userName="admin"/>
+            <UserSecurity rightCode="odf_cst_strat_metric_scale_edit" userName="xog"/>
+          </Security>
+        </instance>
+        <instance instanceCode="IAM00016-09" objectCode="strat_metric_scale" parentInstanceCode="IAM00016" parentObjectCode="strat_align_metric">
+          <CustomInformation>
+            <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+            <ColumnValue name="name">IAM00016-09</ColumnValue>
+            <ColumnValue name="code">IAM00016-09</ColumnValue>
+            <ColumnValue name="odf_parent_id">5000002</ColumnValue>
+            <ColumnValue name="odf_cncrt_parent_id">5000002</ColumnValue>
+            <ColumnValue name="highvalue">1000000</ColumnValue>
+            <ColumnValue name="lowvalue">800000.01</ColumnValue>
+            <ColumnValue name="metricvalue">90</ColumnValue>
+          </CustomInformation>
+          <OBSAssocs complete="false"/>
+          <Security>
+            <UserSecurity rightCode="odf_cst_strat_metric_scale_edit" userName="admin"/>
+            <UserSecurity rightCode="odf_cst_strat_metric_scale_edit" userName="xog"/>
+          </Security>
+        </instance>
+        <instance instanceCode="IAM00016-10" objectCode="strat_metric_scale" parentInstanceCode="IAM00016" parentObjectCode="strat_align_metric">
+          <CustomInformation>
+            <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+            <ColumnValue name="name">IAM00016-10</ColumnValue>
+            <ColumnValue name="code">IAM00016-10</ColumnValue>
+            <ColumnValue name="odf_parent_id">5000002</ColumnValue>
+            <ColumnValue name="odf_cncrt_parent_id">5000002</ColumnValue>
+            <ColumnValue name="highvalue">99999999</ColumnValue>
+            <ColumnValue name="lowvalue">1000000.01</ColumnValue>
+            <ColumnValue name="metricvalue">100</ColumnValue>
+          </CustomInformation>
+          <OBSAssocs complete="false"/>
+          <Security>
+            <UserSecurity rightCode="odf_cst_strat_metric_scale_edit" userName="admin"/>
+            <UserSecurity rightCode="odf_cst_strat_metric_scale_edit" userName="xog"/>
+          </Security>
+        </instance>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_align_metric_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_align_metric_edit" userName="xog"/>
+      </Security>
+    </instance>
+  </customObjectInstances>
+  <XOGOutput>
+    <Object type="customObjectInstance"/>
+    <Status state="SUCCESS"/>
+    <Statistics failureRecords="0" insertedRecords="0" totalNumberOfRecords="1" updatedRecords="0"/>
+    <Records/>
+  </XOGOutput>
+</NikuDataBus>
