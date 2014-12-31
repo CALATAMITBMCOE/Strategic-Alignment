@@ -7,16 +7,16 @@
     xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-	<!---------------------------------------------------------------->
+   	<!--============================================================-->
 	<!-- Package: Strategic Alignment 4.0 							-->
 	<!-- Process: Strategic Portfolio Creation 						-->
 	<!-- Step	: Generate Portfolio								-->
 	<!-- Action	: Create Portfolio									-->
-	<!---------------------------------------------------------------->
+   	<!--============================================================-->
 	<!-- Object : Strategic Item (strategic_item)					-->
-	<!---------------------------------------------------------------->
+   	<!--============================================================-->
 	<!-- Generate a Portfolio with the Strategic Item information 	-->
-	<!---------------------------------------------------------------->
+   	<!--============================================================-->
 	
     <core:set value="${gel_objectInstanceId}" var="vItem_Intl"/>
 

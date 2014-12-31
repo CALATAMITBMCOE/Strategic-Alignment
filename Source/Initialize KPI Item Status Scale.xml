@@ -12,16 +12,16 @@
     xmlns:util="jelly:util"
     xmlns:q="http://www.niku.com/xog/Query">
 	
-	<!---------------------------------------------------------------->
+   	<!--============================================================-->
 	<!-- Package: Strategic Alignment 4.0 							-->
 	<!-- Process: Strategic Item Status Initialize					-->
 	<!-- Step	: Initialize KPI Item Status Scale					-->
 	<!-- Action	: Initialize KPI Item Status Scale					-->
-	<!---------------------------------------------------------------->
+   	<!--============================================================-->
 	<!-- Object : Strategic KPI (strat_kpi)  						-->
-	<!---------------------------------------------------------------->
+   	<!--============================================================-->
 	<!-- Initialize the Item Status Scale object with empty records -->
-	<!---------------------------------------------------------------->
+   	<!--============================================================-->
 	
 	<core:set var="vKPIID" value="${gel_objectInstanceId}"/>
 	<core:if test="${DebugLevel &gt; 0}">

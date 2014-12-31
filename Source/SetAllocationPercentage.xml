@@ -7,16 +7,16 @@
     xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	
-   	<!---------------------------------------------------------------->
+   	<!--============================================================-->
 	<!-- Package: Strategic Alignment 4.0 							-->
 	<!-- Process: Strategic Allocation Percentage					-->
 	<!-- Step	: Set Allocation Percentage							-->
 	<!-- Action	: Set Allocation Percentage							-->
-	<!---------------------------------------------------------------->
+   	<!--============================================================-->
 	<!-- Object : Strategic Item (strategic_item)					-->
-	<!---------------------------------------------------------------->
+   	<!--============================================================-->
 	<!-- Initialize Allocation Percentage with the same % as Weight -->
-	<!---------------------------------------------------------------->
+   	<!--============================================================-->
 	
 	<core:set value="${gel_objectInstanceId}" var="vItem_Intl"/>
 	
@@ -45,7 +45,7 @@
     <sql:query escapeText="false" var="vParentItem">
         select SI.ID, SI.CODE, SI.NAME
         FROM ODF_CA_STRATEGIC_ITEM SI
-        where SI.ID == ${vItem_Intl}
+        where SI.ID = ${vItem_Intl}
     </sql:query>
     <core:forEach items="${vParentItem.rowsByIndex}" var="row">
         <core:set var="vParent_Intl">${row[0]}</core:set>
@@ -81,9 +81,12 @@
 					</CustomInformation>
 				</instance>
 			</gel:parse>
+			
 			<!-- Adding the new Item Instance to the Root Document -->
 			<gel:set insert="true" select="$v_xml_root/NikuDataBus/customObjectInstances" value="${vItemInstance}"/>
+			<core:set var="vFoundItems" value="1"/>
 		</core:forEach>
+		
 		<core:if test="${vFoundItems == 1}">
 			<core:if test="${DebugLevel &gt; 1}">
 				<gel:serialize var="${v_xml_root}" fileName="${XOGwebFolder}/XOGWrite_AllocPerc_${vParent_Code}.xml"/>
@@ -103,7 +106,6 @@
 							<soapenv:Body>
 								<gel:include select="$v_xml_root/NikuDataBus"/>
 							</soapenv:Body>
-				<core:otherwise>
 						</soapenv:Envelope>
 					</soap:message>
 				</soap:invoke>
@@ -112,13 +114,13 @@
 				<core:when test="${v_xog_exception != null}">
 					<gel:log category="XOG" level="ERROR">XOG operation failed: ${v_xog_exception}</gel:log>
 				</core:when>
+				<core:otherwise>
 					<gel:set select="$runresult/soapenv:Envelope/soapenv:Body/XOGOutput" var="writeOutputRoot"/>
 					<gel:set asString="true" select="$writeOutputRoot/Status/@state" var="XOGoutcome"/>
-					<gel:set asString="true" select="$writeOutputRoot/Records/Record" var="XOGoutputrecords"/>
 					<gel:set asString="true" select="$writeOutputRoot/Statistics/@totalNumberOfRecords" var="XOGtotalrecords"/>
 					<gel:set asString="true" select="$writeOutputRoot/Statistics/@insertedRecords" var="XOGinsertedrecords"/>
 					<gel:set asString="true" select="$writeOutputRoot/Statistics/@updatedRecords" var="XOGupdatedrecords"/>
-					<gel:set asString="true" select="$writeOutputRoot/Statistics/@failureRecords" var="XOGfailurerecords"/>
+					<gel:set asString="true" select="$writeOutputRoot/Statistics/@failureRecords" var="XOGfailurerecords"/> 
 					<!-- Check the XOG result -->
 					<gel:log category="XOG" level="INFO">[XOGDocument import for ${vParent_Code} status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
 				</core:otherwise>
@@ -131,7 +133,7 @@
 	
 		</core:if>
 		
-		<!-- Now, we need to correct Items that are linked to other scopes as they will Multiply Percentages --!>
+		<!-- Now, we need to correct Items that are linked to other scopes as they will Multiply Percentages -->
 		<!-- Preparing new XML Message -->    	
 		<gel:parse var="v_xml_correct">
 			<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
@@ -141,7 +143,7 @@
 		</gel:parse>
 
     	<core:set var="vFoundItems" value="0"/>
-		<!-- Find Parents whose children total % is higher than 1 --!>
+		<!-- Find Parents whose children total % is higher than 1 -->
 		<sql:query escapeText="false" var="vParentsToCorrect">
 			select Pr.ID, Pr.CODE, Pr.NAME, sum(Cl.WEIGHTPERCENT)
 			FROM ODF_CA_STRATEGIC_ITEM Cl
@@ -161,7 +163,7 @@
 			</core:if>
 
 			<core:set var="vFoundItems" value="1"/>
-			<!-- Find the Corresponding Children and their WeightPercentages, so we can correct them --!>
+			<!-- Find the Corresponding Children and their WeightPercentages, so we can correct them -->
 			<sql:query escapeText="false" var="vChildrenToCorrect">
 				select Cl.ID, Cl.CODE, Cl.NAME, Cl.WEIGHTPERCENT
 				FROM ODF_CA_STRATEGIC_ITEM Cl
@@ -178,7 +180,7 @@
 				</core:if>
 
 				<gel:parse var="vCorrectInstance">
-					<instance instanceCode="${vChild_Code}" objectCode="strategic_item">
+					<instance instanceCode="${vCCorrect_Code}" objectCode="strategic_item">
 						<CustomInformation>
 							<ColumnValue name="strat_alloc_perc">${vNew_Perc}</ColumnValue>
 						</CustomInformation>
@@ -207,7 +209,6 @@
 							<soapenv:Body>
 								<gel:include select="$v_xml_correct/NikuDataBus"/>
 							</soapenv:Body>
-				<core:otherwise>
 						</soapenv:Envelope>
 					</soap:message>
 				</soap:invoke>
@@ -216,9 +217,9 @@
 				<core:when test="${v_xog_exception != null}">
 					<gel:log category="XOG" level="ERROR">XOG operation failed: ${v_xog_exception}</gel:log>
 				</core:when>
+				<core:otherwise>
 					<gel:set select="$runresult/soapenv:Envelope/soapenv:Body/XOGOutput" var="writeOutputRoot"/>
 					<gel:set asString="true" select="$writeOutputRoot/Status/@state" var="XOGoutcome"/>
-					<gel:set asString="true" select="$writeOutputRoot/Records/Record" var="XOGoutputrecords"/>
 					<gel:set asString="true" select="$writeOutputRoot/Statistics/@totalNumberOfRecords" var="XOGtotalrecords"/>
 					<gel:set asString="true" select="$writeOutputRoot/Statistics/@insertedRecords" var="XOGinsertedrecords"/>
 					<gel:set asString="true" select="$writeOutputRoot/Statistics/@updatedRecords" var="XOGupdatedrecords"/>

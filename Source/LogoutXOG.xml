@@ -12,22 +12,27 @@
     xmlns:util="jelly:util"
     xmlns:q="http://www.niku.com/xog/Query">
 	
-	<!---------------------------------------------------------------->
+   	<!--============================================================-->
 	<!-- Package: Strategic Alignment 4.0 							-->
 	<!-- Process: Strategic KPI Calculation 						-->
 	<!-- 		  Strategic Alignment Metric Initialize				-->
 	<!-- 		  Strategic Portfolio Creation 						-->
 	<!-- 		  Strategic Item Status Initialize 					-->
+	<!--		  Strategic Fund Allocation Initialization			-->
+	<!--		  Strategic Allocation Percentage					-->
+	<!-- 		  Strategic Top Down Planning Calculation			-->
+	<!-- 		  Strategic Rollup Allocated and Commited Funding	-->
 	<!-- 		  Strategic Item - Build Tree Flat					-->
+	<!-- 		  Strategic Item - Rebuild Tree Flat				-->
 	<!-- Step	: Finish											-->
 	<!-- Action	: Logout XOG (or) Logout from XOG (or) Logout		-->
 	<!--															-->
 	<!-- Process: Strategy Control									--> 
 	<!-- Step	: Close Evaluation									-->
 	<!-- Action	: Logout 											-->
-	<!---------------------------------------------------------------->
+   	<!--============================================================-->
 	<!-- Logout from XOG							 				-->
-	<!---------------------------------------------------------------->
+   	<!--============================================================-->
 
 	<core:set var="vFound">0</core:set>
 	

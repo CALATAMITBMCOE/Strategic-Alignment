@@ -9,15 +9,13 @@
 	
    	<!--============================================================-->
 	<!-- Package: Strategic Alignment 4.0 							-->
-	<!-- Process: Strategic Fund Allocation Initialization			-->
-	<!-- Step	: Initialize Allocated Fund							-->
-	<!-- Action	: Initialize Allocated Fund							-->
+	<!-- Process: Strategic Allocation Percentage					-->
+	<!-- Step	: Set Allocation Percentage							-->
+	<!-- Action	: Initialize Allocation								-->
    	<!--============================================================-->
 	<!-- Object : Strategic Item (strategic_item)					-->
    	<!--============================================================-->
-	<!-- Copy Top Down Funding values to Allocated Funding for 		-->
-	<!-- Lower Level Items and Resets Allocated Funding for Parent	-->
-	<!-- Items to zero. 											-->
+	<!-- Set Allocated values to zero						 		-->
    	<!--============================================================-->
 	
     <core:set value="${gel_objectInstanceId}" var="vItem_Intl"/>
@@ -42,7 +40,6 @@
 		</NikuDataBus>
 	</gel:parse>
 
-	
     <!-- Reading Parent Item Data -->
     <sql:query escapeText="false" var="vParentItem">
         select SI.ID, SI.CODE, SI.NAME
@@ -61,19 +58,15 @@
     	
 		<!-- Reading All Lower Level Children from the current Item to Copy Funds, Benefits and FTE Allocation-->
 		<sql:query escapeText="false" var="vChildren">
-			select SI.ID, SI.CODE, SI.NAME, SI.STRAT_TOP_DOWN_FUND, SI.STRAT_TD_BENEFIT, SI.STRAT_TD_FTE
+			select SI.ID, SI.CODE, SI.NAME
 			FROM ODF_CA_STRATEGIC_ITEM SI
 				INNER JOIN ODF_CA_STRAT_TREE_FLAT TF ON TF.CHILD_ITEM = SI.ID
 			where TF.PARENT_ITEM = ${vParent_Intl}
-			AND not exists (select 'x' from ODF_CA_STRATEGIC_ITEM c where c.parentitem = SI.ID )
 		</sql:query>
 		<core:forEach items="${vChildren.rowsByIndex}" var="row">
 			<core:set var="vChild_Intl">${row[0]}</core:set>
 			<core:set var="vChild_Code">${row[1]}</core:set>
 			<core:set var="vChild_Name">${row[2]}</core:set>
-			<core:set var="vChild_Fund">${row[3]}</core:set>
-			<core:set var="vChild_Benf">${row[4]}</core:set>
-			<core:set var="vChild_FTEs">${row[5]}</core:set>
 	    	<core:set var="vFoundItems" value="1"/>
 			<core:if test="${DebugLevel &gt; 0}">
 				<gel:log level="debug" message="-- Lower Level Child Item Found: ${vChild_Intl}-${vChild_Code}-${vChild_Name}."/>
@@ -82,39 +75,15 @@
 			<gel:parse var="vItemInstance">
 				<instance instanceCode="${vChild_Code}" objectCode="strategic_item">
 					<CustomInformation>
-						<ColumnValue name="strat_alloc_funding">${vChild_Fund}</ColumnValue>
-						<ColumnValue name="strat_alloc_benefit">${vChild_Benf}</ColumnValue>
-						<ColumnValue name="strat_alloc_fte">${vChild_FTEs}</ColumnValue>
-					</CustomInformation>
-				</instance>
-			</gel:parse>
-			<!-- Adding the new Item Instance to the Root Document -->
-			<gel:set insert="true" select="$v_xml_root/NikuDataBus/customObjectInstances" value="${vItemInstance}"/>
-		</core:forEach>
-
-		<!-- Reading All Intermediate Children from the current Item to ZERO Funds, Benefits and FTE Allocation-->
-		<sql:query escapeText="false" var="vChildren">
-			select SI.ID, SI.CODE, SI.NAME
-			FROM ODF_CA_STRATEGIC_ITEM SI
-				INNER JOIN ODF_CA_STRAT_TREE_FLAT TF ON TF.CHILD_ITEM = SI.ID
-			where TF.PARENT_ITEM = ${vParent_Intl}
-			AND exists (select 'x' from ODF_CA_STRATEGIC_ITEM c where c.parentitem = SI.ID )
-		</sql:query>
-		<core:forEach items="${vChildren.rowsByIndex}" var="row">
-			<core:set var="vChild_Intl">${row[0]}</core:set>
-			<core:set var="vChild_Code">${row[1]}</core:set>
-			<core:set var="vChild_Name">${row[2]}</core:set>
-	    	<core:set var="vFoundItems" value="1"/>
-			<core:if test="${DebugLevel &gt; 0}">
-				<gel:log level="debug" message="-- Intermediate Child Item Found: ${vChild_Intl}-${vChild_Code}-${vChild_Name}."/>
-			</core:if>
-		
-			<gel:parse var="vItemInstance">
-				<instance instanceCode="${vChild_Code}" objectCode="strategic_item">
-					<CustomInformation>
 						<ColumnValue name="strat_alloc_funding">0</ColumnValue>
 						<ColumnValue name="strat_alloc_benefit">0</ColumnValue>
 						<ColumnValue name="strat_alloc_fte">0</ColumnValue>
+						<ColumnValue name="strat_td_rec_fund">0</ColumnValue>
+						<ColumnValue name="strat_td_rec_ben">0</ColumnValue>
+						<ColumnValue name="strat_td_rec_fte">0</ColumnValue>
+						<ColumnValue name="strat_td_rec_fund">0</ColumnValue>
+						<ColumnValue name="strat_td_rec_ben">0</ColumnValue>
+						<ColumnValue name="strat_td_rec_fte">0</ColumnValue>
 					</CustomInformation>
 				</instance>
 			</gel:parse>
@@ -153,7 +122,6 @@
 			<core:otherwise>
 				<gel:set select="$runresult/soapenv:Envelope/soapenv:Body/XOGOutput" var="writeOutputRoot"/>
 				<gel:set asString="true" select="$writeOutputRoot/Status/@state" var="XOGoutcome"/>
-				<gel:set asString="true" select="$writeOutputRoot/Records/Record" var="XOGoutputrecords"/>
 				<gel:set asString="true" select="$writeOutputRoot/Statistics/@totalNumberOfRecords" var="XOGtotalrecords"/>
 				<gel:set asString="true" select="$writeOutputRoot/Statistics/@insertedRecords" var="XOGinsertedrecords"/>
 				<gel:set asString="true" select="$writeOutputRoot/Statistics/@updatedRecords" var="XOGupdatedrecords"/>

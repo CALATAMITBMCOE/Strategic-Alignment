@@ -1,0 +1,207 @@
+<gel:script xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:core="jelly:core"
+    xmlns:file="jelly:com.niku.union.gel.FileTagLibrary"
+    xmlns:gel="jelly:com.niku.union.gel.GELTagLibrary"
+    xmlns:soap="jelly:com.niku.union.gel.SOAPTagLibrary"
+    xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	
+   	<!--============================================================-->
+	<!-- Package: Strategic Alignment 4.0 							-->
+	<!-- Process: Strategic Top Down Planning Calculation			-->
+	<!-- Step	: Distribute Top Down Planning						-->
+	<!-- Action	: Distribute Top Down Planning						-->
+   	<!--============================================================-->
+	<!-- Object : Strategic Item (strategic_item)					-->
+   	<!--============================================================-->
+	<!-- Distributes the received funds to lower level items using 	-->
+	<!-- the defined % Allocation 									-->
+   	<!--============================================================-->
+	
+    <core:set value="${gel_objectInstanceId}" var="vItem_Intl"/>
+	
+	<core:if test="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="Start Script"/>
+		<gel:log level="debug" message=">>Item ID             : ${vItem_Intl}"/> 
+		<gel:log level="debug" message=">>Persisted XOG URL   : ${XOGURL}"/> 
+		<gel:log level="debug" message=">>Persisted LOG Folder: ${XOGlogFolder}"/> 
+		<gel:log level="debug" message=">>Persisted WEB Folder: ${XOGwebFolder}"/> 
+		<gel:log level="debug" message=">>Persisted SessionID : ${sessionID}"/> 
+		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/> 
+	</core:if>
+
+    <gel:setDataSource dbId="niku"/>
+
+    <!-- Preparing XML Message -->    	
+    <gel:parse var="v_xml_root">
+		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
+			<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="13.0.0.6982"/>
+				<customObjectInstances objectCode="strategic_item"/>
+		</NikuDataBus>
+	</gel:parse>
+
+    <!-- Reading Item Data-->
+	<sql:query escapeText="false" var="vMinLevel">
+		SELECT SI.ITEM_LEVEL, SI.NAME, SI.CODE, SI.STRAT_TOP_DOWN_FUND, SI.STRAT_TD_FTE, SI.STRAT_TD_BENEFIT
+		FROM ODF_CA_STRATEGIC_ITEM SI
+		where SI.ID = ${vItem_Intl}
+	</sql:query>
+    <core:forEach items="${vMinLevel.rowsByIndex}" var="row">
+        <core:set var="vTree_MinL">${row[0]}</core:set>
+        <core:set var="vTree_Name">${row[1]}</core:set>
+        <core:set var="vTree_Code">${row[2]}</core:set>
+        <core:set var="vTree_Fund">${row[3]}</core:set>
+        <core:set var="vTree_FTEs">${row[4]}</core:set>
+        <core:set var="vTree_Benf">${row[5]}</core:set>
+		<core:if test="${DebugLevel &gt; 0}">
+			<gel:log level="debug" message="Parent Found: ${vTree_Name}-${vTree_Code}. Min Level: ${vTree_MinL}."/> 
+		</core:if>
+	</core:forEach>
+	
+	<sql:query escapeText="false" var="vMaxLevel">
+		SELECT MAX(TF.CHILD_LEVEL)
+		FROM ODF_CA_STRAT_TREE_FLAT TF
+		where TF.PARENT_ITEM = ${vItem_Intl}
+		and TF.CHILD_ITEM != ${vItem_Intl}
+	</sql:query>
+    <core:forEach items="${vMaxLevel.rowsByIndex}" var="row">
+        <core:set var="vTree_MaxL">${row[0]}</core:set>
+		<core:if test="${DebugLevel &gt; 0}">
+			<gel:log level="debug" message="-- Max Level Found: ${vTree_MaxL}."/> 
+		</core:if>
+	</core:forEach>
+
+	<!-- Initialize Top Down Funds Received (with same value entered) for Top Hierarchy -->
+	<core:if test="${vTree_MinL == 1}">
+		<gel:parse var="vItemInstance">
+			<instance instanceCode="${vTree_Code}" objectCode="strategic_item">
+				<CustomInformation>
+					<ColumnValue name="strat_td_rec_fund">${vTree_Fund}</ColumnValue>
+					<ColumnValue name="strat_td_rec_ben">${vTree_Benf}</ColumnValue>
+					<ColumnValue name="strat_td_rec_fte">${vTree_FTEs}</ColumnValue>
+				</CustomInformation>
+			</instance>
+		</gel:parse>
+		<!-- Adding the new Item Instance to the Root Document -->
+		<gel:set insert="true" select="$v_xml_root/NikuDataBus/customObjectInstances" value="${vItemInstance}"/>
+	</core:if>
+
+	<core:set var="vCurrentLevel" value="${vTree_MinL+1}"/>
+	<core:while test="${vCurrentLevel &lt;= vTree_MaxL}">
+		<core:if test="${DebugLevel &gt; 0}">
+			<gel:log level="debug" message="Processing Level ${vCurrentLevel}."/> 
+		</core:if>
+	
+		<!-- Update Top Down Funds Received from Parent Data -->
+		
+    	<core:set var="vFoundItems" value="0"/>
+		<!-- Find Children to Distribute TD Plan -->
+		<sql:query escapeText="false" var="vChildren">
+			SELECT CL.ID, CL.CODE, CL.NAME, round(CL.STRAT_ALLOC_PERC * NVL(PR.STRAT_TOP_DOWN_FUND,0), 0), 
+											round(CL.STRAT_ALLOC_PERC * NVL(PR.STRAT_TD_BENEFIT,0), 0),
+											round(CL.STRAT_ALLOC_PERC * NVL(PR.STRAT_TD_FTE,0), 0),
+					PR.START_DATE, PR.FINISH_DATE, PR.STRAT_PFM_MANAGER, PR.CURRENCY_CODE
+			FROM ODF_CA_STRATEGIC_ITEM Cl
+				INNER JOIN ODF_CA_STRATEGIC_ITEM Pr on Pr.ID = Cl.ParentItem
+				INNER JOIN ODF_CA_STRAT_TREE_FLAT TF ON TF.CHILD_ITEM = Cl.ID 
+			WHERE TF.CHILD_ITEM != ${vItem_Intl} 
+			AND TF.PARENT_ITEM = ${vItem_Intl}
+			AND Cl.ITEM_LEVEL = ${vCurrentLevel}
+		</sql:query>
+		<core:forEach items="${vChildren.rowsByIndex}" var="row">
+			<core:set var="vChild_Intl">${row[0]}</core:set>
+			<core:set var="vChild_Code">${row[1]}</core:set>
+			<core:set var="vChild_Name">${row[2]}</core:set>
+			<core:set var="vParent_Fund">${row[3]}</core:set>
+			<core:set var="vParent_Benf">${row[4]}</core:set>
+			<core:set var="vParent_FTEs">${row[5]}</core:set>
+			<core:set var="vParent_Strt">${row[6]}</core:set>
+			<core:set var="vParent_Fnsh">${row[7]}</core:set>
+			<core:set var="vParent_Pfmm">${row[8]}</core:set>
+			<core:set var="vParent_Curr">${row[9]}</core:set>
+			<core:if test="${DebugLevel &gt; 0}">
+				<gel:log level="debug" message="-- Child Item Found: ${vChild_Intl}-${vChild_Code}-${vChild_Name}."/>
+				<gel:log level="debug" message="---- Will Distribute from Parent: ${vParent_Fund}-${vParent_Benf}-${vParent_FTEs}."/>
+				<gel:log level="debug" message="---- Will Copy from Parent: ${vParent_Strt}-${vParent_Fnsh}-${vParent_Pfmm}-${vParent_Curr}."/>
+			</core:if>
+		
+			<gel:parse var="vItemInstance">
+				<instance instanceCode="${vChild_Code}" objectCode="strategic_item">
+					<CustomInformation>
+						<ColumnValue name="strat_td_rec_fund">${vParent_Fund}</ColumnValue>
+						<ColumnValue name="strat_top_down_fund">${vParent_Fund}</ColumnValue>
+						<ColumnValue name="strat_td_rec_ben">${vParent_Benf}</ColumnValue>
+						<ColumnValue name="strat_td_benefit">${vParent_Benf}</ColumnValue>
+						<ColumnValue name="strat_td_rec_fte">${vParent_FTEs}</ColumnValue>
+						<ColumnValue name="strat_td_fte">${vParent_FTEs}</ColumnValue>
+						<ColumnValue name="start_date">${vParent_Strt}</ColumnValue>
+						<ColumnValue name="finish_date">${vParent_Fnsh}</ColumnValue>
+						<ColumnValue name="strat_pfm_manager">${vParent_Pfmm}</ColumnValue>
+						<ColumnValue name="currency_code">${vParent_Curr}</ColumnValue>
+					</CustomInformation>
+				</instance>
+			</gel:parse>
+			
+			<!-- Adding the new Item Instance to the Root Document -->
+			<gel:set insert="true" select="$v_xml_root/NikuDataBus/customObjectInstances" value="${vItemInstance}"/>
+			<core:set var="vFoundItems" value="1"/>
+		</core:forEach>
+
+		<core:if test="${vFoundItems == 1}">
+			<core:if test="${DebugLevel &gt; 1}">
+				<gel:serialize var="${v_xml_root}" fileName="${XOGwebFolder}/XOGWrite_TDP_${vCurrentLevel}.xml"/>
+				<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_TDP_${vCurrentLevel}.xml"/> 
+			</core:if>
+
+			<!-- Calling XOG-->
+			<core:catch var="v_xog_exception">
+				<soap:invoke endpoint="${XOGURL}/niku/xog" var="runresult">
+					<soap:message>
+						<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xog="http://www.niku.com/xog">
+							<soapenv:Header>
+								<xog:Auth>
+									<xog:SessionID>${sessionID}</xog:SessionID>
+								</xog:Auth>	
+							</soapenv:Header>
+							<soapenv:Body>
+								<gel:include select="$v_xml_root/NikuDataBus"/>
+							</soapenv:Body>
+						</soapenv:Envelope>
+					</soap:message>
+				</soap:invoke>
+			</core:catch>
+			<core:choose>
+				<core:when test="${v_xog_exception != null}">
+					<gel:log category="XOG" level="ERROR">XOG operation failed: ${v_xog_exception}</gel:log>
+				</core:when>
+				<core:otherwise>
+					<gel:set select="$runresult/soapenv:Envelope/soapenv:Body/XOGOutput" var="writeOutputRoot"/>
+					<gel:set asString="true" select="$writeOutputRoot/Status/@state" var="XOGoutcome"/>
+					<gel:set asString="true" select="$writeOutputRoot/Statistics/@totalNumberOfRecords" var="XOGtotalrecords"/>
+					<gel:set asString="true" select="$writeOutputRoot/Statistics/@insertedRecords" var="XOGinsertedrecords"/>
+					<gel:set asString="true" select="$writeOutputRoot/Statistics/@updatedRecords" var="XOGupdatedrecords"/>
+					<gel:set asString="true" select="$writeOutputRoot/Statistics/@failureRecords" var="XOGfailurerecords"/> 
+					<!-- Check the XOG result -->
+					<gel:log category="XOG" level="INFO">[XOGDocument import for Level ${vCurrentLevel} status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
+				</core:otherwise>
+			</core:choose>
+
+			<core:if test="${DebugLevel &gt; 1}">
+				<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGResults_TDP_${vCurrentLevel}.xml"/>
+				<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_TDP_${vCurrentLevel}.xml"/> 
+			</core:if>
+	
+		</core:if>
+
+	    <!-- Preparing XML Message -->    	
+		<gel:parse var="v_xml_root">
+			<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
+				<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="13.0.0.6982"/>
+					<customObjectInstances objectCode="strategic_item"/>
+			</NikuDataBus>
+		</gel:parse>
+
+		<core:set var="vCurrentLevel" value="${vCurrentLevel+1}"/>	
+	</core:while>		
+</gel:script>
