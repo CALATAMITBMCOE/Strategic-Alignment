@@ -800,7 +800,7 @@
 		</core:choose>
 			
 		<sql:query escapeText="false" var="vItemKPIs">
-			Select ${vAggrFunction}(SK.KPI_STATUS), ${vAggrFunction}(SK.STRAT_ITEM_STATUS)
+			Select ${vAggrFunction}(SK.KPI_STATUS), trunc(${vAggrFunction}(SK.STRAT_ITEM_STATUS))
 			FROM ODF_CA_STRAT_KPI SK 
 				INNER JOIN ODF_MULTI_VALUED_LOOKUPS MVL
 					ON MVL.OBJECT = 'strategic_item'
@@ -956,7 +956,7 @@
 			<core:set var="vChild_KPIStatus">0</core:set>
 			<core:set var="vChild_ItemStatus">0</core:set>
 			<sql:query escapeText="false" var="vItemKPIs2">
-				Select ${vAggrFunction}(${vWeight}SI.KPI_STATUS), ${vAggrFunction}(trunc(${vWeight}SI.ITEMSTATUS,0))
+				Select ${vAggrFunction}(${vWeight}SI.KPI_STATUS), trunc(${vAggrFunction}(${vWeight}SI.ITEMSTATUS),0)
 				FROM ODF_CA_STRATEGIC_ITEM SI
 				WHERE SI.ACTIVE = 1 
 				AND SI.STRAT_SCOPE = ${vItem_Scop}
