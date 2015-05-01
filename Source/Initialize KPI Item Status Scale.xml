@@ -62,7 +62,7 @@
 		</gel:parse>
 
 		<core:set var="vScale" value="1"/>
-		<core:set var="vLow" value="0"/>
+		<core:set var="vLow" value="-9"/>
 		<core:set var="vHigh" value="0.6"/>
 		<core:while test="${vScale &lt; 7}"> 
 			

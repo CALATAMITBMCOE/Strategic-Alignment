@@ -78,7 +78,7 @@
     	<core:set var="vFoundItems" value="0"/>
 		<!-- Find Children to accumulate Commitment -->
 		<sql:query escapeText="false" var="vChildren">
-			SELECT SI.ID, SI.CODE, SI.NAME
+			SELECT SI.ID, SI.CODE, SI.NAME, to_char(SI.START_DATE, 'YYYY-MM-DD'), to_char(SI.FINISH_DATE, 'YYYY-MM-DD')
 			FROM ODF_CA_STRATEGIC_ITEM SI
 				INNER JOIN ODF_CA_STRAT_TREE_FLAT TF ON TF.CHILD_ITEM = SI.ID 
 			WHERE TF.PARENT_ITEM = ${vItem_Intl}
@@ -89,27 +89,48 @@
 			<core:set var="vChild_Intl">${row[0]}</core:set>
 			<core:set var="vChild_Code">${row[1]}</core:set>
 			<core:set var="vChild_Name">${row[2]}</core:set>
+			<core:set var="vChild_Strt">${row[3]}</core:set>
+			<core:set var="vChild_Fnsh">${row[4]}</core:set>
 			<core:if test="${DebugLevel &gt; 0}">
 				<gel:log level="debug" message="-- Child Item Found: ${vChild_Intl}-${vChild_Code}-${vChild_Name}."/>
 			</core:if>
 
 			<!-- Now Find Investments connected to the Child Item -->
 			<core:set var="vChild_Cost">0</core:set>
-			<core:set var="vChild_Benf">0</core:set>
-			<sql:query escapeText="false" var="vChildrenCommit">
-				select round(sum(F.PLANNED_CST_TOTAL),0), round(sum(F.PLANNED_BEN_TOTAL),0)
+			<sql:query escapeText="false" var="vChildrenCommit1">
+				select round(nvl(sum(C.SLICE),0),0)
 					from INV_INVESTMENTS I
 						inner join ODF_CA_INV OI on OI.ID = I.ID
 						inner join ODF_OBJECT_INSTANCE_MAPPING OM on OM.PRIMARY_OBJECT_INSTANCE_ID = I.ID 
 							and OM.PRIMARY_OBJECT_INSTANCE_CODE = 'project' AND OM.SECONDARY_OBJECT_INSTANCE_CODE = 'financials'
 						inner join FIN_FINANCIALS F on F.ID = OM.SECONDARY_OBJECT_INSTANCE_ID
-					WHERE OI.STRAT_FUND_SOURCE = ${vChild_Intl} AND I.STATUS = 1
+						inner join ODF_SL_PLAN_COST C on C.PRJ_OBJECT_ID = F.ID and C.SLICE_REQUEST_ID = (select ID from PRJ_BLB_SLICEREQUESTS WHERE REQUEST_NAME = 'Planned Cost for Top-Down Plan')
+					WHERE OI.STRAT_FUND_SOURCE = ${vChild_Intl} AND I.STATUS = 1 
+					AND to_char(C.SLICE_DATE, 'YYYY-MM-DD') between '${vChild_Strt}' and '${vChild_Fnsh}'
 			</sql:query>
-			<core:forEach items="${vChildrenCommit.rowsByIndex}" var="row">
+			<core:forEach items="${vChildrenCommit1.rowsByIndex}" var="row">
 				<core:set var="vChild_Cost">${row[0]}</core:set>
-				<core:set var="vChild_Benf">${row[1]}</core:set>
 				<core:if test="${DebugLevel &gt; 0}">
-					<gel:log level="debug" message="--- Direct Commitment Found: ${vChild_Cost}-${vChild_Benf}."/>
+					<gel:log level="debug" message="--- Direct Commitment Found: ${vChild_Cost}."/>
+				</core:if>
+			</core:forEach>
+
+			<core:set var="vChild_Benf">0</core:set>
+			<sql:query escapeText="false" var="vChildrenCommit2">
+				select round(nvl(sum(B.SLICE),0),0)
+					from INV_INVESTMENTS I
+						inner join ODF_CA_INV OI on OI.ID = I.ID
+						inner join ODF_OBJECT_INSTANCE_MAPPING OM on OM.PRIMARY_OBJECT_INSTANCE_ID = I.ID 
+							and OM.PRIMARY_OBJECT_INSTANCE_CODE = 'project' AND OM.SECONDARY_OBJECT_INSTANCE_CODE = 'financials'
+						inner join FIN_FINANCIALS F on F.ID = OM.SECONDARY_OBJECT_INSTANCE_ID
+						inner join ODF_SL_PLAN_BENEFIT B on B.PRJ_OBJECT_ID = F.ID and B.SLICE_REQUEST_ID = (select ID from PRJ_BLB_SLICEREQUESTS WHERE REQUEST_NAME = 'Planned Benefit for Top-Down Plan')
+					WHERE OI.STRAT_FUND_SOURCE = ${vChild_Intl} AND I.STATUS = 1 
+					AND to_char(B.SLICE_DATE, 'YYYY-MM-DD') between '${vChild_Strt}' and '${vChild_Fnsh}'
+			</sql:query>
+			<core:forEach items="${vChildrenCommit2.rowsByIndex}" var="row">
+				<core:set var="vChild_Benf">${row[0]}</core:set>
+				<core:if test="${DebugLevel &gt; 0}">
+					<gel:log level="debug" message="--- Direct Commitment Found: ${vChild_Benf}."/>
 				</core:if>
 			</core:forEach>
 					
@@ -129,24 +150,26 @@
 
 		<!-- Find Parents to accumulate Commitment -->
 		<sql:query escapeText="false" var="vParents">
-			SELECT SI.ID, SI.CODE, SI.NAME, 
+			SELECT SI.ID, SI.CODE, SI.NAME, to_char(SI.START_DATE, 'YYYY-MM-DD'), to_char(SI.FINISH_DATE, 'YYYY-MM-DD'),
 					SUM(CL.STRAT_ALLOC_FUNDING), SUM(CL.STRAT_COMMIT_FUNDING), SUM(CL.STRAT_ALLOC_BENEFIT), SUM(CL.STRAT_COMMIT_BENEFIT), SUM(CL.STRAT_ALLOC_FTE)
 			FROM ODF_CA_STRATEGIC_ITEM SI
 				INNER JOIN ODF_CA_STRATEGIC_ITEM CL ON CL.PARENTITEM = SI.ID
 				INNER JOIN ODF_CA_STRAT_TREE_FLAT TF ON TF.CHILD_ITEM = SI.ID 
 			WHERE TF.PARENT_ITEM = ${vItem_Intl}
 			AND SI.ITEM_LEVEL = ${vCurrentLevel}
-			GROUP BY SI.ID, SI.CODE, SI.NAME
+			GROUP BY SI.ID, SI.CODE, SI.NAME, to_char(SI.START_DATE, 'YYYY-MM-DD'), to_char(SI.FINISH_DATE, 'YYYY-MM-DD')
 		</sql:query>
 		<core:forEach items="${vParents.rowsByIndex}" var="row">
 			<core:set var="vParent_Intl">${row[0]}</core:set>
 			<core:set var="vParent_Code">${row[1]}</core:set>
 			<core:set var="vParent_Name">${row[2]}</core:set>
-			<core:set var="vAcc_Alloc_Fund">${row[3]}</core:set>
-			<core:set var="vAcc_Commit_Fund">${row[4]}</core:set>
-			<core:set var="vAcc_Alloc_Benf">${row[5]}</core:set>
-			<core:set var="vAcc_Commit_Benf">${row[6]}</core:set>
-			<core:set var="vAcc_Alloc_FTE">${row[7]}</core:set>
+			<core:set var="vParent_Strt">${row[3]}</core:set>
+			<core:set var="vParent_Fnsh">${row[4]}</core:set>
+			<core:set var="vAcc_Alloc_Fund">${row[5]}</core:set>
+			<core:set var="vAcc_Commit_Fund">${row[6]}</core:set>
+			<core:set var="vAcc_Alloc_Benf">${row[7]}</core:set>
+			<core:set var="vAcc_Commit_Benf">${row[8]}</core:set>
+			<core:set var="vAcc_Alloc_FTE">${row[9]}</core:set>
 			<core:if test="${DebugLevel &gt; 0}">
 				<gel:log level="debug" message="-- Parent Item Found: ${vParent_Intl}-${vParent_Code}-${vParent_Name}."/>
 				<gel:log level="debug" message="--- Accumulating Alloc: ${vAcc_Alloc_Fund}-${vAcc_Alloc_Benf}-${vAcc_Alloc_FTE}."/>
@@ -155,21 +178,39 @@
 
 			<!-- Now Find Investments connected directly to the Parent Item -->
 			<core:set var="vParent_Cost">0</core:set>
-			<core:set var="vParent_Benf">0</core:set>
-			<sql:query escapeText="false" var="vChildrenCommit">
-				select round(sum(F.PLANNED_CST_TOTAL),0), round(sum(F.PLANNED_BEN_TOTAL),0)
+			<sql:query escapeText="false" var="vChildrenCommit1">
+				select round(nvl(sum(C.SLICE),0),0)
 					from INV_INVESTMENTS I
 						inner join ODF_CA_INV OI on OI.ID = I.ID
 						inner join ODF_OBJECT_INSTANCE_MAPPING OM on OM.PRIMARY_OBJECT_INSTANCE_ID = I.ID 
 							and OM.PRIMARY_OBJECT_INSTANCE_CODE = 'project' AND OM.SECONDARY_OBJECT_INSTANCE_CODE = 'financials'
 						inner join FIN_FINANCIALS F on F.ID = OM.SECONDARY_OBJECT_INSTANCE_ID
-					WHERE OI.STRAT_FUND_SOURCE = ${vParent_Intl} AND I.STATUS = 1
+						inner join ODF_SL_PLAN_COST C on C.PRJ_OBJECT_ID = F.ID and C.SLICE_REQUEST_ID = (select ID from PRJ_BLB_SLICEREQUESTS WHERE REQUEST_NAME = 'Planned Cost for Top-Down Plan')
+					WHERE OI.STRAT_FUND_SOURCE = ${vParent_Intl} AND I.STATUS = 1 
+					AND to_char(C.SLICE_DATE, 'YYYY-MM-DD') between '${vParent_Strt}' and '${vParent_Fnsh}'
 			</sql:query>
-			<core:forEach items="${vChildrenCommit.rowsByIndex}" var="row">
+			<core:forEach items="${vChildrenCommit1.rowsByIndex}" var="row">
 				<core:set var="vParent_Cost">${row[0]}</core:set>
-				<core:set var="vParent_Benf">${row[1]}</core:set>
 				<core:if test="${DebugLevel &gt; 0}">
-					<gel:log level="debug" message="--- Direct Commitment Found: ${vParent_Cost}-${vParent_Benf}."/>
+					<gel:log level="debug" message="--- Direct Commitment Found: ${vParent_Cost}."/>
+				</core:if>
+			</core:forEach>
+			<core:set var="vParent_Benf">0</core:set>
+			<sql:query escapeText="false" var="vChildrenCommit2">
+				select round(nvl(sum(B.SLICE),0),0)
+					from INV_INVESTMENTS I
+						inner join ODF_CA_INV OI on OI.ID = I.ID
+						inner join ODF_OBJECT_INSTANCE_MAPPING OM on OM.PRIMARY_OBJECT_INSTANCE_ID = I.ID 
+							and OM.PRIMARY_OBJECT_INSTANCE_CODE = 'project' AND OM.SECONDARY_OBJECT_INSTANCE_CODE = 'financials'
+						inner join FIN_FINANCIALS F on F.ID = OM.SECONDARY_OBJECT_INSTANCE_ID
+						inner join ODF_SL_PLAN_BENEFIT B on B.PRJ_OBJECT_ID = F.ID and B.SLICE_REQUEST_ID = (select ID from PRJ_BLB_SLICEREQUESTS WHERE REQUEST_NAME = 'Planned Benefit for Top-Down Plan')
+					WHERE OI.STRAT_FUND_SOURCE = ${vParent_Intl} AND I.STATUS = 1 
+					AND to_char(B.SLICE_DATE, 'YYYY-MM-DD') between '${vParent_Strt}' and '${vParent_Fnsh}'
+			</sql:query>
+			<core:forEach items="${vChildrenCommit2.rowsByIndex}" var="row">
+				<core:set var="vParent_Benf">${row[0]}</core:set>
+				<core:if test="${DebugLevel &gt; 0}">
+					<gel:log level="debug" message="--- Direct Commitment Found: ${vParent_Benf}."/>
 				</core:if>
 			</core:forEach>
 					

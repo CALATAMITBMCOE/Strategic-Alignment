@@ -43,14 +43,19 @@
 		Select 	SK.NAME, SK.CODE, SK.ID, SK.KPI_SIGN, SKT.CODE, SKT.TARGET_DATE, SKT.TARGET_VALUE, SKM.MEASUREMENT_DATE, SKM.MEASUREMENT_VALUE, 
    			    case when SK.KPI_SIGN = 'LOW' 
 					then
-						Case when (1-((nvl(SKM.MEASUREMENT_VALUE,0)-nvl(SKT.TARGET_VALUE,0))/nvl(SKT.TARGET_VALUE,1))) &gt; 0
+						Case when nvl(SKT.TARGET_VALUE,1) &gt; 0
 							then
 								1-((nvl(SKM.MEASUREMENT_VALUE,0)-nvl(SKT.TARGET_VALUE,0))/nvl(SKT.TARGET_VALUE,1))
 							else	
-								0
+								nvl(SKM.MEASUREMENT_VALUE,0)/nvl(SKT.TARGET_VALUE,1)
 							end
 					else 
-						nvl(SKM.MEASUREMENT_VALUE,0)/nvl(SKT.TARGET_VALUE,1)
+						Case when nvl(SKT.TARGET_VALUE,1) &gt; 0
+							then
+								nvl(SKM.MEASUREMENT_VALUE,0)/nvl(SKT.TARGET_VALUE,1)
+							else
+								1-((nvl(SKM.MEASUREMENT_VALUE,0)-nvl(SKT.TARGET_VALUE,0))/nvl(SKT.TARGET_VALUE,1))
+							end
 					end 
 		FROM ODF_CA_STRAT_KPI SK 
 			INNER JOIN ODF_CA_STRAT_KPI_TARGET SKT 
@@ -163,15 +168,20 @@
 		Select 	SK.NAME, SK.CODE, SK.ID, SK.KPI_SIGN, SKM.CODE, SKT.TARGET_DATE, SKT.TARGET_VALUE, SKM.MEASUREMENT_DATE, SKM.MEASUREMENT_VALUE, 
    			    case when SK.KPI_SIGN = 'LOW' 
 					then
-						Case when (1-((nvl(SKM.MEASUREMENT_VALUE,0)-nvl(SKT.TARGET_VALUE,0))/nvl(SKT.TARGET_VALUE,1))) &gt; 0
+						Case when nvl(SKT.TARGET_VALUE,1) &gt; 0
 							then
 								1-((nvl(SKM.MEASUREMENT_VALUE,0)-nvl(SKT.TARGET_VALUE,0))/nvl(SKT.TARGET_VALUE,1))
 							else	
-								0
+								nvl(SKM.MEASUREMENT_VALUE,0)/nvl(SKT.TARGET_VALUE,1)
 							end
 					else 
-						nvl(SKM.MEASUREMENT_VALUE,0)/nvl(SKT.TARGET_VALUE,1)
-					end 
+						Case when nvl(SKT.TARGET_VALUE,1) &gt; 0
+							then
+								nvl(SKM.MEASUREMENT_VALUE,0)/nvl(SKT.TARGET_VALUE,1)
+							else
+								1-((nvl(SKM.MEASUREMENT_VALUE,0)-nvl(SKT.TARGET_VALUE,0))/nvl(SKT.TARGET_VALUE,1))
+							end
+					end  
 		FROM ODF_CA_STRAT_KPI SK 
 			INNER JOIN ODF_CA_STRAT_KPI_MEASURE SKM	
 				ON  SKM.ODF_PARENT_ID = SK.ID
@@ -285,14 +295,19 @@
 				SKM.MEASUREMENT_DATE, SKM.MEASUREMENT_VALUE,
    			    case when SK.KPI_SIGN = 'LOW' 
 					then
-						Case when (1-((nvl(SKM.MEASUREMENT_VALUE,0)-nvl(SKT.TARGET_VALUE,0))/nvl(SKT.TARGET_VALUE,1))) &gt; 0
+						Case when nvl(SKT.TARGET_VALUE,1) &gt; 0
 							then
 								1-((nvl(SKM.MEASUREMENT_VALUE,0)-nvl(SKT.TARGET_VALUE,0))/nvl(SKT.TARGET_VALUE,1))
 							else	
-								0
+								nvl(SKM.MEASUREMENT_VALUE,0)/nvl(SKT.TARGET_VALUE,1)
 							end
 					else 
-						nvl(SKM.MEASUREMENT_VALUE,0)/nvl(SKT.TARGET_VALUE,1)
+						Case when nvl(SKT.TARGET_VALUE,1) &gt; 0
+							then
+								nvl(SKM.MEASUREMENT_VALUE,0)/nvl(SKT.TARGET_VALUE,1)
+							else
+								1-((nvl(SKM.MEASUREMENT_VALUE,0)-nvl(SKT.TARGET_VALUE,0))/nvl(SKT.TARGET_VALUE,1))
+							end
 					end 
 		FROM ODF_CA_STRAT_KPI SK
 			INNER JOIN ODF_CA_STRAT_KPI_TARGET SKT 
