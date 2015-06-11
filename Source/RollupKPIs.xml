@@ -29,14 +29,238 @@
 
     <gel:setDataSource dbId="niku"/>
 
+	<gel:parse var="v_xml_indicators">
+		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
+			<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="13.0.0.6982"/>
+			<customObjectInstances objectCode="strat_kpi"/>
+		</NikuDataBus>
+	</gel:parse>
+
+    <!-- Next Measurement Control -->
+	<gel:log level="debug" message="Calculating Next Measurement Date"/> 
+	<core:set var="vFound" value="0"/>
+    <sql:query escapeText="false" var="vIndicatorUpdateNextDate">
+		select Ind.Name, Ind.code, Ind.id, Ind.Strat_Meas_Per,
+		to_char(Ind.Next_Measure_Date,'YYYY-MM-DD'), 
+		Case Ind.Strat_Meas_Per
+			When 'W' Then to_char(Ind.Next_Measure_Date+7,'YYYY-MM-DD')
+			When 'BW' Then to_char(Ind.Next_Measure_Date+14,'YYYY-MM-DD')
+			When 'M' Then to_char(add_months(Ind.Next_Measure_Date,1),'YYYY-MM-DD')
+			When 'BM' Then to_char(add_months(Ind.Next_Measure_Date,2),'YYYY-MM-DD')
+			When 'Q' Then to_char(add_months(Ind.Next_Measure_Date,3),'YYYY-MM-DD')
+			When 'H' Then to_char(add_months(Ind.Next_Measure_Date,6),'YYYY-MM-DD')
+			When 'Y' Then to_char(add_months(Ind.Next_Measure_Date,12),'YYYY-MM-DD')
+		End Update_Measure_Date,
+		Case Ind.Strat_Meas_Per
+			When 'W' Then to_char(Ind.Next_Measure_Date+7,'YYYY-MM-DD')
+			When 'BW' Then to_char(Ind.Next_Measure_Date+14,'YYYY-MM-DD')
+			When 'M' Then to_char(add_months(Ind.Next_Measure_Date,1),'YYYY-Mon')
+			When 'BM' Then to_char(add_months(Ind.Next_Measure_Date,2),'YYYY-Mon')
+			When 'Q' Then to_char(add_months(Ind.Next_Measure_Date,3),'YYYY-Q')
+			When 'H' Then 
+			  Case 
+				  When EXTRACT(month FROM add_months(Ind.Next_Measure_Date,6)) &lt; 7 Then to_char(EXTRACT(year FROM add_months(Ind.Next_Measure_Date,6)))||'-1' 
+				  Else to_char(EXTRACT(year FROM add_months(Ind.Next_Measure_Date,6)))||'-2' 
+			  End
+			When 'Y' Then to_char(add_months(Ind.Next_Measure_Date,12),'YYYY')
+			Else ' '
+		End Update_Measure_Name
+		from ODF_CA_STRAT_KPI Ind
+			INNER JOIN ODF_CA_STRAT_KPI_MEASURE SKM	
+				ON  SKM.ODF_PARENT_ID = Ind.ID
+				AND SKM.MEASUREMENT_DATE = (SELECT MAX(SKM2.MEASUREMENT_DATE) 
+                                    FROM ODF_CA_STRAT_KPI_MEASURE SKM2
+                                    WHERE SKM2.ODF_PARENT_ID = Ind.ID
+                                    AND SKM2.MEASUREMENT_DATE &lt;= sysdate)
+		where Ind.Next_measure_date &lt; sysdate
+	</sql:query>
+    <core:forEach items="${vIndicatorUpdateNextDate.rowsByIndex}" var="row">
+		<core:set var="vFoundNextDate" value="1"/>
+        <core:set var="vInd_Name">${row[0]}</core:set>
+        <core:set var="vInd_Code">${row[1]}</core:set>
+        <core:set var="vInd_Intl">${row[2]}</core:set>
+        <core:set var="vInd_MPer">${row[3]}</core:set>
+        <core:set var="vInd_Next_Date">${row[4]}</core:set>
+        <core:set var="vInd_Updt_Date">${row[5]}</core:set>
+        <core:set var="vInd_Updt_Name">${row[6]}</core:set>
+		<core:if test="${DebugLevel &gt; 0}">
+			<gel:log level="debug" message="Updating Next Date: ${vInd_Name}-${vInd_Code}-${vInd_Intl}. Period=${vInd_MPer} NextDate=${vInd_Next_Date}. Will update Next_Measure_Date to ${vInd_Updt_Date} and create empty Measurement ${vInd_Updt_Name}."/>
+		</core:if>
+		<gel:parse var="v_xml_indicator_instance">
+			<instance instanceCode="${vInd_Code}" objectCode="strat_kpi">
+				<CustomInformation>
+					<ColumnValue name="Next_Measure_Date">${vInd_Updt_Date}</ColumnValue>
+					<ColumnValue name="Last_Measure_Status">0</ColumnValue>
+					<instance instanceCode="${vInd_Code}-${vInd_Updt_Name}" objectCode="strat_kpi_measure" parentInstanceCode="${vInd_Code}" parentObjectCode="strat_kpi">
+						<CustomInformation>
+							<ColumnValue name="name">${vInd_Updt_Name}</ColumnValue>
+							<ColumnValue name="code">${vInd_Code}-${vInd_Updt_Name}</ColumnValue>
+							<ColumnValue name="measurement_date">${vInd_Updt_Date}</ColumnValue>
+							<ColumnValue name="measurement_value"/>
+							<ColumnValue name="itemstatus">0</ColumnValue>
+							<ColumnValue name="kpi_status"/>
+						</CustomInformation>
+					</instance>
+				</CustomInformation>
+			</instance>
+		</gel:parse>
+		<gel:set insert="true" select="$v_xml_indicators/NikuDataBus/customObjectInstances" value="${v_xml_indicator_instance}"/>
+	</core:forEach>
+
+	<!-- If Dates to Update were found, run XOG to update -->
+	<core:if test="${vFoundNextDate == 1}">
+		<core:if test="${DebugLevel &gt; 1}">
+			<gel:serialize var="${v_xml_indicators}" fileName="${XOGwebFolder}/XOGWrite_IndDateUpdate.xml"/>
+			<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_IndDateUpdate.xml"/> 
+		</core:if>
+
+		<!-- Calling XOG-->
+		<core:catch var="v_xog_exception">
+			<soap:invoke endpoint="${XOGURL}/niku/xog" var="runresult0">
+				<soap:message>
+					<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xog="http://www.niku.com/xog">
+						<soapenv:Header>
+							<xog:Auth>
+								<xog:SessionID>${sessionID}</xog:SessionID>
+							</xog:Auth>
+						</soapenv:Header>
+						<soapenv:Body>
+							<gel:include select="$v_xml_indicators/NikuDataBus"/>
+						</soapenv:Body>
+					</soapenv:Envelope>
+				</soap:message>
+			</soap:invoke>
+		</core:catch>
+	
+		<core:choose>
+			<core:when test="${v_xog_exception != null}">
+				<gel:log category="XOG" level="ERROR">XOG operation failed: ${v_xog_exception}</gel:log>
+			</core:when>
+			<core:otherwise>
+				<gel:set select="$runresult0/soapenv:Envelope/soapenv:Body/XOGOutput" var="writeOutputRoot0"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Status/@state" var="XOGoutcome"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Records/Record" var="XOGoutputrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Statistics/@totalNumberOfRecords" var="XOGtotalrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Statistics/@insertedRecords" var="XOGinsertedrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Statistics/@updatedRecords" var="XOGupdatedrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Statistics/@failureRecords" var="XOGfailurerecords"/>
+				<!-- Check the XOG result -->
+				<gel:log category="XOG" level="INFO">Document import for KPI Targets status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
+			</core:otherwise>
+		</core:choose>
+		
+		<core:if test="${DebugLevel &gt; 1}">
+			<gel:serialize var="${runresult0}" fileName="${XOGwebFolder}/XOGResults_IndDateUpdate.xml"/>
+			<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_IndDateUpdate.xml"/> 
+		</core:if>
+		
+	</core:if>
+
+
+    <!-- Missing Measurement Control -->
+	<gel:parse var="v_xml_indicators2">
+		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
+			<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="13.0.0.6982"/>
+			<customObjectInstances objectCode="strat_kpi"/>
+		</NikuDataBus>
+	</gel:parse>
+	
+	<gel:log level="debug" message="Generating Pending and Automatic Measurement Data"/> 
+	<core:set var="vFoundPendingMeasure" value="0"/>
+    <sql:query escapeText="false" var="vIndicatorPendingMeasures">
+		select IndM.Name, IndM.code, IndM.id, IndM.measurement_date, Ind.Code, Ind.Strat_Meas_Per, to_char(Ind.Next_Measure_Date,'YYYY-MM-DD')
+		from ODF_CA_STRAT_KPI_MEASURE IndM
+			Inner Join ODF_CA_STRAT_KPI Ind on Ind.ID = IndM.ODF_PARENT_ID
+		where IndM.measurement_date &lt; sysdate and IndM.measurement_value is null
+	</sql:query>
+    <core:forEach items="${vIndicatorPendingMeasures.rowsByIndex}" var="row">
+		<core:set var="vFoundPendingMeasure" value="1"/>
+        <core:set var="vMeas_Name">${row[0]}</core:set>
+        <core:set var="vMeas_Code">${row[1]}</core:set>
+        <core:set var="vMeas_Intl">${row[2]}</core:set>
+        <core:set var="vMeas_Date">${row[3]}</core:set>
+        <core:set var="vInd_Code">${row[4]}</core:set>
+        <core:set var="vInd_MPer">${row[5]}</core:set>
+        <core:set var="vInd_Next_Date">${row[6]}</core:set>
+		<core:if test="${DebugLevel &gt; 0}">
+			<gel:log level="debug" message="Indicator Pending Measurement: ${vMeas_Name}-${vMeas_Code}-${vMeas_Intl} for ${vInd_Code}. Period=${vInd_MPer} NextDate=${vInd_Next_Date}. Will update Last Measure Status to Missing."/>
+		</core:if>
+		
+		<gel:parse var="v_xml_indicator_instance2">
+			<instance instanceCode="${vInd_Code}" objectCode="strat_kpi">
+				<CustomInformation>
+					<ColumnValue name="Last_Measure_Status">-1</ColumnValue>
+					<instance instanceCode="${vMeas_Code}" objectCode="strat_kpi_measure" parentInstanceCode="${vInd_Code}" parentObjectCode="strat_kpi">
+						<CustomInformation>
+							<ColumnValue name="name">${vMeas_Name}</ColumnValue>
+							<ColumnValue name="code">${vMeas_Code}</ColumnValue>
+							<ColumnValue name="itemstatus">-1</ColumnValue>
+							<ColumnValue name="kpi_status">0</ColumnValue>
+						</CustomInformation>
+					</instance>
+				</CustomInformation>
+			</instance>
+		</gel:parse>
+		<gel:set insert="true" select="$v_xml_indicators2/NikuDataBus/customObjectInstances" value="${v_xml_indicator_instance2}"/>
+	</core:forEach>
+
+	<!-- If Pending Measurements were found, run XOG to update -->
+	<core:if test="${vFoundPendingMeasure == 1}">
+		<core:if test="${DebugLevel &gt; 1}">
+			<gel:serialize var="${v_xml_indicators2}" fileName="${XOGwebFolder}/XOGWrite_IndUpdateMeasureDate.xml"/>
+			<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_IndUpdateMeasureDate.xml"/> 
+		</core:if>
+
+		<!-- Calling XOG-->
+		<core:catch var="v_xog_exception">
+			<soap:invoke endpoint="${XOGURL}/niku/xog" var="runresult01">
+				<soap:message>
+					<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xog="http://www.niku.com/xog">
+						<soapenv:Header>
+							<xog:Auth>
+								<xog:SessionID>${sessionID}</xog:SessionID>
+							</xog:Auth>
+						</soapenv:Header>
+						<soapenv:Body>
+							<gel:include select="$v_xml_indicators2/NikuDataBus"/>
+						</soapenv:Body>
+					</soapenv:Envelope>
+				</soap:message>
+			</soap:invoke>
+		</core:catch>
+	
+		<core:choose>
+			<core:when test="${v_xog_exception != null}">
+				<gel:log category="XOG" level="ERROR">XOG operation failed: ${v_xog_exception}</gel:log>
+			</core:when>
+			<core:otherwise>
+				<gel:set select="$runresult01/soapenv:Envelope/soapenv:Body/XOGOutput" var="writeOutputRoot0"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Status/@state" var="XOGoutcome"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Records/Record" var="XOGoutputrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Statistics/@totalNumberOfRecords" var="XOGtotalrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Statistics/@insertedRecords" var="XOGinsertedrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Statistics/@updatedRecords" var="XOGupdatedrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Statistics/@failureRecords" var="XOGfailurerecords"/>
+				<!-- Check the XOG result -->
+				<gel:log category="XOG" level="INFO">Document import for KPI Targets status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
+			</core:otherwise>
+		</core:choose>
+		
+		<core:if test="${DebugLevel &gt; 1}">
+			<gel:serialize var="${runresult01}" fileName="${XOGwebFolder}/XOGResults_IndUpdateMeasureDate.xml"/>
+			<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_IndUpdateMeasureDate.xml"/> 
+		</core:if>
+		
+	</core:if>
+
+    <!-- updating Targets with current status -->
 	<gel:parse var="v_xml_targets">
 		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
 			<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="13.0.0.6982"/>
 			<customObjectInstances objectCode="strat_kpi_target"/>
 		</NikuDataBus>
 	</gel:parse>
-
-    <!-- updating Targets with current status -->
+	
 	<gel:log level="debug" message="Updating KPI Status for all Targets for All Active KPIs"/> 
 	<core:set var="vFoundKPIs" value="0"/>
     <sql:query escapeText="false" var="vKPITargets">
@@ -65,7 +289,8 @@
 				AND SKM.MEASUREMENT_DATE = (SELECT MAX(SKM2.MEASUREMENT_DATE) 
                                     FROM ODF_CA_STRAT_KPI_MEASURE SKM2
                                     WHERE SKM2.ODF_PARENT_ID = SK.ID
-                                    AND SKM2.MEASUREMENT_DATE &lt;= SKT.TARGET_DATE)
+                                    AND SKM2.MEASUREMENT_DATE &lt;= SKT.TARGET_DATE
+									AND SKM2.MEASUREMENT_VALUE is not null)
 		WHERE SK.ACTIVE = 1
 	</sql:query>
     <core:forEach items="${vKPITargets.rowsByIndex}" var="row">
@@ -191,7 +416,7 @@
                                     FROM ODF_CA_STRAT_KPI_TARGET SKT2
                                     WHERE SKT2.ODF_PARENT_ID = SK.ID
                                     AND SKT2.TARGET_DATE &gt;= SKM.MEASUREMENT_DATE)
-		WHERE SK.ACTIVE = 1
+		WHERE SK.ACTIVE = 1 and SKM.MEASUREMENT_VALUE is not null
 	</sql:query>
     <core:forEach items="${vKPIMeasures.rowsByIndex}" var="row">
 		<core:set var="vFoundKPIMeasures" value="1"/>
@@ -292,7 +517,7 @@
     <sql:query escapeText="false" var="vKPIs">
 		Select 	SK.NAME, SK.CODE, SK.ID, SK.KPI_SIGN, 
 				SKT.TARGET_DATE, SKT.TARGET_VALUE, 
-				SKM.MEASUREMENT_DATE, SKM.MEASUREMENT_VALUE,
+				SKM.MEASUREMENT_DATE, SKM.MEASUREMENT_VALUE, SKMN.ITEMSTATUS,
    			    case when SK.KPI_SIGN = 'LOW' 
 					then
 						Case when nvl(SKT.TARGET_VALUE,1) &gt; 0
@@ -321,7 +546,15 @@
 				AND SKM.MEASUREMENT_DATE = (SELECT MAX(SKM2.MEASUREMENT_DATE) 
                                     FROM ODF_CA_STRAT_KPI_MEASURE SKM2
                                     WHERE SKM2.ODF_PARENT_ID = SK.ID
-                                    AND SKM2.MEASUREMENT_DATE &lt;= SKT.TARGET_DATE)
+                                    AND SKM2.MEASUREMENT_DATE &lt;= SKT.TARGET_DATE
+									AND SKM2.MEASUREMENT_VALUE is not null)
+			INNER JOIN ODF_CA_STRAT_KPI_MEASURE SKMN
+				ON  SKMN.ODF_PARENT_ID = SK.ID
+				AND SKMN.MEASUREMENT_DATE = (SELECT MAX(SKM3.MEASUREMENT_DATE) 
+                                    FROM ODF_CA_STRAT_KPI_MEASURE SKM3
+                                    WHERE SKM3.ODF_PARENT_ID = SK.ID
+                                    AND SKM3.MEASUREMENT_DATE &lt;= SKT.TARGET_DATE
+									AND SKM3.MEASUREMENT_DATE &lt; sysdate)
 		WHERE SK.ACTIVE = 1 
 	</sql:query>
     <core:forEach items="${vKPIs.rowsByIndex}" var="row">
@@ -334,7 +567,8 @@
         <core:set var="vKPITarg_Valu">${row[5]}</core:set>
         <core:set var="vKPIMeas_Date">${row[6]}</core:set>
         <core:set var="vKPIMeas_Valu">${row[7]}</core:set>
-        <core:set var="vKPI_Stat">${row[8]}</core:set>
+        <core:set var="vKPICurr_Stat">${row[8]}</core:set>
+		<core:set var="vKPI_Stat">${row[9]}</core:set>
 		
 		<sql:query escapeText="false" var="vItemScale">
 			select itemstatus
@@ -355,6 +589,7 @@
 					<ColumnValue name="current_measurement">${vKPIMeas_Valu}</ColumnValue>
 					<ColumnValue name="current_target">${vKPITarg_Valu}</ColumnValue>
 					<ColumnValue name="kpi_target_measure">${vKPI_Stat}</ColumnValue>
+					<ColumnValue name="last_measure_status">${vKPICurr_Stat}</ColumnValue>
 				</CustomInformation>
 			</instance>
 		</gel:parse>
@@ -405,8 +640,8 @@
 		</core:choose>
 		
 		<core:if test="${DebugLevel &gt; 1}">
-			<gel:serialize var="${runresult2}" fileName="${XOGwebFolder}/XOGResults_KPI_Calc.xml.xml"/>
-			<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_KPI_Calc.xml.xml"/> 
+			<gel:serialize var="${runresult2}" fileName="${XOGwebFolder}/XOGResults_KPI_Calc.xml"/>
+			<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_KPI_Calc.xml"/> 
 		</core:if>
 		
 	</core:if>
