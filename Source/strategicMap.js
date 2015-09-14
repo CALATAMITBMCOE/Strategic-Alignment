@@ -23,10 +23,10 @@
 			if(wsdl + "" != "" && wsdl + "" != "undefined") {
 				if(debugMode==2)
 					window.alert("SOAPClient._loadWsdl wsdl from cache will sendSoapRequest");
-				//return SOAPClient._sendSoapRequest(debugMode, url, xog_url, method, headparameters, parameters, filter, async, callback, wsdl);
+				/*return SOAPClient._sendSoapRequest(debugMode, url, xog_url, method, headparameters, parameters, filter, async, callback, wsdl);*/
 				return 0;
 			}
-			// get wsdl
+			/* get wsdl */
 			if(debugMode==2)
 				window.alert("SOAPClient._loadWsdl will getXmlHttp");
 				
@@ -49,7 +49,7 @@
 			if(debugMode==2)
 				window.alert("SOAPClient._onloadWsdl will sendSoapRequest");
 
-			SOAPClient_cacheWsdl[url] = wsdl;	// save a copy in cache
+			SOAPClient_cacheWsdl[url] = wsdl;	/* save a copy in cache */
 			return SOAPClient._sendSoapRequest(debugMode, url, xog_url, method, headparameters, parameters, filter, async, callback, wsdl);
 		}
 
@@ -131,11 +131,11 @@
 
 		SOAPClient._getElementsByTagName = function(document, tagName) {
 			try	{
-				// trying to get node omitting any namespaces (latest versions of MSXML.XMLDocument)
+				/* trying to get node omitting any namespaces (latest versions of MSXML.XMLDocument) */
 				return document.selectNodes('.//*[local-name()="'+ tagName +'"]');
 			}
 			catch (ex) {}
-			// old XML parser support
+			/* old XML parser support */
 			return document.getElementsByTagName(tagName);
 		}
 
@@ -156,21 +156,17 @@
 		SOAPClient._node2object = function(debugMode, node, wsdl) {
 			if(debugMode==2)
 				window.alert("SOAPClient._node2object  Node="+node+" Type="+node.nodeType+" ChildNodesLeng="+node.childNodes.length);
-			// null node
 			if(node == null)
 				return null;
-			// text node
 			if(node.nodeType == 3 || node.nodeType == 4) {	
 				return SOAPClient._extractValue(debugMode, node, wsdl);
 			}
-			// leaf node
 			if (node.childNodes.length == 1 && (node.childNodes[0].nodeType == 3 || node.childNodes[0].nodeType == 4)) {
 				if(debugMode==2)
 					window.alert("SOAPClient._node2object Leaf="+ node.childNodes[0]);
 				return SOAPClient._node2object(debugMode, node.childNodes[0], wsdl);
 			}
 			var isarray = SOAPClient._getTypeFromWsdl(debugMode, node.nodeName, wsdl).toLowerCase().indexOf("arrayof") != -1;
-			// object node
 			if(!isarray) {
 				var obj = null;
 				if(node.hasChildNodes())
@@ -181,9 +177,7 @@
 				}
 				return obj;
 			}
-			// list node
 			else {
-				// create node ref
 				var l = new Array();
 				for(var i = 0; i < node.childNodes.length; i++)
 					l[l.length] = SOAPClient._node2object(debugMode, node.childNodes[i], wsdl);
@@ -229,13 +223,12 @@
 		SOAPClient._getTypeFromWsdl = function(debugMode, elementname, wsdl) {
 			if(debugMode==2)
 				window.alert("SOAPClient._getTypeFromWsdl ElementName="+elementname);
-			var ell = wsdl.getElementsByTagName("s:element");	// IE
-			//var ell = SOAPClient._getElementsByTagName(wsdl, "element");	// IE
+			var ell = wsdl.getElementsByTagName("s:element");	/* IE */
 			
 			if(debugMode==2)
 				window.alert("SOAPClient._getTypeFromWsdl  Ell len="+ell.length);
 			if(ell.length == 0)	{
-				ell = wsdl.getElementsByTagName("element");	// MOZ
+				ell = wsdl.getElementsByTagName("element");	/* MOZ */
 				if(debugMode==2)
 					window.alert("SOAPClient._getTypeFromWsdl ELL="+ell+" ell len="+ell.length);
 			}
@@ -259,7 +252,7 @@
 			try	{
 				if(window.XMLHttpRequest) {
 					var req = new XMLHttpRequest();
-					// some versions of Moz do not support the readyState property and the onreadystate event so we patch it!
+					/* some versions of Moz do not support the readyState property and the onreadystate event so we patch it! */
 					if(req.readyState == null) {
 						req.readyState = 1;
 						req.addEventListener("load", 
@@ -302,7 +295,7 @@
 			var url = "http://" + ServerName + "/niku/wsdl/Query/" + QueryCode;
 			var xog_url = "http://" + ServerName + "/niku/xog";
 
-			// Get User's SessionID from Cookie
+			/* Get User's SessionID from Cookie */
 			UserSessionID=getCookie('sessionId');
 			
 			if(debugMode==1) {
@@ -310,7 +303,7 @@
 				window.alert("ExecuteClarityQueryAsUser// UserSessionID="+UserSessionID);
 			}
 
-			// Add SessionID and QueryCode to SOAPClientParameters
+			/* Add SessionID and QueryCode to SOAPClientParameters */
 			var pheader = new SOAPClientParameters();
 			var pbody = new SOAPClientParameters();
 			var pbodyfilter = new SOAPClientParameters();
@@ -319,7 +312,7 @@
 			if (QueryFilterField!="")
 				pbodyfilter.add(QueryFilterField, QueryFilterValue);
 			
-			// Invokes SOAPClient to Run Query with current User's Session
+			/* Invokes SOAPClient to Run Query with current User's Session */
 			if(debugMode==2)
 				window.alert("ExecuteClarityQueryAsUser Going to Invoke");
 			var Result=SOAPClient.invoke(debugMode, url, xog_url, "Query", pheader, pbody, pbodyfilter, false, QueryCallback);
@@ -463,128 +456,143 @@
 			var img = new Image(); 
 			img.src = itemurlmap;
 			if(debugMode==1) window.alert("Image SRC:"+img.src);
-			//var img = document.getElementById("strategicmap");
-			ctx.drawImage(img, 10, 10);
-			
-			if(debugMode==3) window.alert("L1 Will draw circle");
-			
-			ctx.beginPath();	
-			ctx.fillStyle=statusColor.fill;
-			ctx.arc(itemxmap,itemymap,25,0,2*Math.PI);
-			ctx.stroke();
-			ctx.fill();
-			ctx.closePath();	
-			ctx.font="16px Calibri";
-			ctx.fillStyle=statusColor.font;
-			ctx.textAlign = "center";
-			ctx.textBaseline="middle";
-			ctx.fillText(itempercent+'%',itemxmap,itemymap);
+			img.onload = function() {
+				/* Parse Query Results AGAIN */
+				xmlobject = crossBrowserXMLLoad(Result.responseText);
+				items = xmlobject.getElementsByTagName("Record");
+				item = items[0];
+				intlid 		 	  	= item.getElementsByTagName("intlid")[0].firstChild.nodeValue;
+				itemcode  	 	  	= item.getElementsByTagName("itemcode")[0].firstChild.nodeValue;
+				itemname	 	  	= item.getElementsByTagName("itemname")[0].firstChild.nodeValue;
+				itemstatus	 	  	= item.getElementsByTagName("itemstatus")[0].firstChild.nodeValue;
+				itempercent  	  	= item.getElementsByTagName("itempercent")[0].firstChild.nodeValue;
+				itemurlmap 		  	= item.getElementsByTagName("mapurl")[0].firstChild.nodeValue;
+				itemxmap 		  	= item.getElementsByTagName("itemxmap")[0].firstChild.nodeValue;
+				itemymap	 	  	= item.getElementsByTagName("itemymap")[0].firstChild.nodeValue;
 
-			if(debugMode==3) window.alert("L1 has drawn circle");
-
-			/* Execute Query for Level 2
-				use this statement to test running the query as admin (remember to set the password accordingly)
-				var Result=ExecuteClarityQueryAsAdmin(debugMode, ServerName, QueryCode, QueryFilterField, QueryFilterValue, "admin", "iluvca", QueryCallback);
-			*/
-			QueryCode="strat_map_wsdl2";
-			if(debugMode==4) window.alert("Query L2 Parameters --Server Name: "+ServerName+"--Query Code: "+QueryCode+"--Filter Field: "+QueryFilterField+"--Filter Value: "+QueryFilterValue+"--Call Back: "+QueryCallback);
-
-			Result=ExecuteClarityQueryAsUser(debugMode, ServerName, QueryCode, QueryFilterField, QueryFilterValue, QueryCallback);
-			
-			if(debugMode==4) window.alert("Back from QueryL2:"+Result.responseText);
-
-			/* Parse Query Results */
-			xmlobject = crossBrowserXMLLoad(Result.responseText);
-			items = xmlobject.getElementsByTagName("Record");
-			var totalitems = items.length;
-			if(debugMode==4) window.alert("Total Items L2="+totalitems);
-			
-			/* Draw L2 Status */
-			for (var i = 0 ; i < totalitems ; i++) {
-				var item = items[i];
-				var intlid 		 	  	= item.getElementsByTagName("intlid")[0].firstChild.nodeValue;
-				var itemcode  	 	  	= item.getElementsByTagName("itemcode")[0].firstChild.nodeValue;
-				var itemname	 	  	= item.getElementsByTagName("itemname")[0].firstChild.nodeValue;
-				var itemstatus	 	  	= item.getElementsByTagName("itemstatus")[0].firstChild.nodeValue;
-				var itempercent  	  	= item.getElementsByTagName("itempercent")[0].firstChild.nodeValue;
-				var itemxmap 		  	= item.getElementsByTagName("itemxmap")[0].firstChild.nodeValue;
-				var itemymap	 	  	= item.getElementsByTagName("itemymap")[0].firstChild.nodeValue;
-
-				if(debugMode==4) window.alert("Query L2 itemcode="+itemcode+" intlid="+intlid+" itemname="+itemname+" itemstatus="+itemstatus+" itempercent="+itempercent+" itemxmap="+itemxmap+" itemymap="+itemymap);
-				statusColor.fill="default";
-				statusColor.font="default";
-				if(debugMode==4) window.alert("Will Define Color for itemstatus="+itemstatus+" fill="+statusColor.fill+" font="+statusColor.font);
-				dummyVar = defineColors(debugMode, itemstatus, statusColor);
-				if(debugMode==4) window.alert("Colors Defined for itemstatus="+itemstatus+" fill="+statusColor.fill+" font="+statusColor.font);
-
-				if(debugMode==4) window.alert("L2 Will draw circle");
+				ctx.drawImage(img, 10, 10);
+				
+				if(debugMode==3) window.alert("L1 Will draw circle");
+				if(debugMode==3) window.alert("Circle L1 is itemcode="+itemcode+" intlid="+intlid+" itemname="+itemname+" itemstatus="+itemstatus+" itempercent="+itempercent+" itemurlmap="+itemurlmap+" itemxmap="+itemxmap+" itemymap="+itemymap);
 				
 				ctx.beginPath();	
 				ctx.fillStyle=statusColor.fill;
-				ctx.arc(itemxmap,itemymap,15,0,2*Math.PI);
+				ctx.arc(itemxmap,itemymap,20,0,2*Math.PI);
 				ctx.stroke();
 				ctx.fill();
 				ctx.closePath();	
-				ctx.font="13px Calibri";
+				ctx.font="16px Calibri";
 				ctx.fillStyle=statusColor.font;
 				ctx.textAlign = "center";
 				ctx.textBaseline="middle";
 				ctx.fillText(itempercent+'%',itemxmap,itemymap);
 
-				if(debugMode==4) window.alert("L2 has drawn circle");
-			}
-			
-			
-			/* Execute Query for Level 3
-				use this statement to test running the query as admin (remember to set the password accordingly)
-				var Result=ExecuteClarityQueryAsAdmin(debugMode, ServerName, QueryCode, QueryFilterField, QueryFilterValue, "admin", "iluvca", QueryCallback);
-			*/
-			QueryCode="strat_map_wsdl3";
-			if(debugMode==5) window.alert("Query L3 Parameters --Server Name: "+ServerName+"--Query Code: "+QueryCode+"--Filter Field: "+QueryFilterField+"--Filter Value: "+QueryFilterValue+"--Call Back: "+QueryCallback);
+				if(debugMode==3) window.alert("L1 has drawn circle");
 
-			Result=ExecuteClarityQueryAsUser(debugMode, ServerName, QueryCode, QueryFilterField, QueryFilterValue, QueryCallback);
-			
-			if(debugMode==5) window.alert("Back from QueryL3:"+Result.responseText);
+				/* Execute Query for Level 2
+					use this statement to test running the query as admin (remember to set the password accordingly)
+					var Result=ExecuteClarityQueryAsAdmin(debugMode, ServerName, QueryCode, QueryFilterField, QueryFilterValue, "admin", "iluvca", QueryCallback);
+				*/
+				QueryCode="strat_map_wsdl2";
+				if(debugMode==4) window.alert("Query L2 Parameters --Server Name: "+ServerName+"--Query Code: "+QueryCode+"--Filter Field: "+QueryFilterField+"--Filter Value: "+QueryFilterValue+"--Call Back: "+QueryCallback);
 
-			/* Parse Query Results */
-			xmlobject = crossBrowserXMLLoad(Result.responseText);
-			items = xmlobject.getElementsByTagName("Record");
-			var totalitems = items.length;
-			if(debugMode==5) window.alert("Total Items L3="+totalitems);
-			
-			/* Draw L3 Status */
-			for (var i = 0 ; i < totalitems ; i++) {
-				var item = items[i];
-				var intlid 		 	  	= item.getElementsByTagName("intlid")[0].firstChild.nodeValue;
-				var itemcode  	 	  	= item.getElementsByTagName("itemcode")[0].firstChild.nodeValue;
-				var itemname	 	  	= item.getElementsByTagName("itemname")[0].firstChild.nodeValue;
-				var itemstatus	 	  	= item.getElementsByTagName("itemstatus")[0].firstChild.nodeValue;
-				var itempercent  	  	= item.getElementsByTagName("itempercent")[0].firstChild.nodeValue;
-				var itemxmap 		  	= item.getElementsByTagName("itemxmap")[0].firstChild.nodeValue;
-				var itemymap	 	  	= item.getElementsByTagName("itemymap")[0].firstChild.nodeValue;
-
-				if(debugMode==5) window.alert("Query L3 itemcode="+itemcode+" intlid="+intlid+" itemname="+itemname+" itemstatus="+itemstatus+" itempercent="+itempercent+" itemxmap="+itemxmap+" itemymap="+itemymap);
-				statusColor.fill="default";
-				statusColor.font="default";
-				if(debugMode==5) window.alert("Will Define Color for itemstatus="+itemstatus+" fill="+statusColor.fill+" font="+statusColor.font);
-				dummyVar = defineColors(debugMode, itemstatus, statusColor);
-				if(debugMode==5) window.alert("Colors Defined for itemstatus="+itemstatus+" fill="+statusColor.fill+" font="+statusColor.font);
-
-				if(debugMode==5) window.alert("L3 Will draw circle");
+				Result=ExecuteClarityQueryAsUser(debugMode, ServerName, QueryCode, QueryFilterField, QueryFilterValue, QueryCallback);
 				
-				ctx.beginPath();	
-				ctx.fillStyle=statusColor.fill;
-				ctx.arc(itemxmap,itemymap,15,0,2*Math.PI);
-				ctx.stroke();
-				ctx.fill();
-				ctx.closePath();	
-				ctx.font="13px Calibri";
-				ctx.fillStyle=statusColor.font;
-				ctx.textAlign = "center";
-				ctx.textBaseline="middle";
-				ctx.fillText(itempercent+'%',itemxmap,itemymap);
+				if(debugMode==4) window.alert("Back from QueryL2:"+Result.responseText);
 
-				if(debugMode==5) window.alert("L3 has drawn circle");
+				/* Parse Query Results */
+				xmlobject = crossBrowserXMLLoad(Result.responseText);
+				items = xmlobject.getElementsByTagName("Record");
+				var totalitems = items.length;
+				if(debugMode==4) window.alert("Total Items L2="+totalitems);
+				
+				/* Draw L2 Status */
+				for (var i = 0 ; i < totalitems ; i++) {
+					var item = items[i];
+					var intlid 		 	  	= item.getElementsByTagName("intlid")[0].firstChild.nodeValue;
+					var itemcode  	 	  	= item.getElementsByTagName("itemcode")[0].firstChild.nodeValue;
+					var itemname	 	  	= item.getElementsByTagName("itemname")[0].firstChild.nodeValue;
+					var itemstatus	 	  	= item.getElementsByTagName("itemstatus")[0].firstChild.nodeValue;
+					var itempercent  	  	= item.getElementsByTagName("itempercent")[0].firstChild.nodeValue;
+					var itemxmap 		  	= item.getElementsByTagName("itemxmap")[0].firstChild.nodeValue;
+					var itemymap	 	  	= item.getElementsByTagName("itemymap")[0].firstChild.nodeValue;
+
+					if(debugMode==4) window.alert("Query L2 itemcode="+itemcode+" intlid="+intlid+" itemname="+itemname+" itemstatus="+itemstatus+" itempercent="+itempercent+" itemxmap="+itemxmap+" itemymap="+itemymap);
+					statusColor.fill="default";
+					statusColor.font="default";
+					if(debugMode==4) window.alert("Will Define Color for itemstatus="+itemstatus+" fill="+statusColor.fill+" font="+statusColor.font);
+					dummyVar = defineColors(debugMode, itemstatus, statusColor);
+					if(debugMode==4) window.alert("Colors Defined for itemstatus="+itemstatus+" fill="+statusColor.fill+" font="+statusColor.font);
+
+					if(debugMode==4) window.alert("L2 Will draw circle");
+					
+					ctx.beginPath();	
+					ctx.fillStyle=statusColor.fill;
+					ctx.arc(itemxmap,itemymap,15,0,2*Math.PI);
+					ctx.stroke();
+					ctx.fill();
+					ctx.closePath();	
+					ctx.font="13px Calibri";
+					ctx.fillStyle=statusColor.font;
+					ctx.textAlign = "center";
+					ctx.textBaseline="middle";
+					ctx.fillText(itempercent+'%',itemxmap,itemymap);
+
+					if(debugMode==4) window.alert("L2 has drawn circle");
+				}
+				
+				
+				/* Execute Query for Level 3
+					use this statement to test running the query as admin (remember to set the password accordingly)
+					var Result=ExecuteClarityQueryAsAdmin(debugMode, ServerName, QueryCode, QueryFilterField, QueryFilterValue, "admin", "iluvca", QueryCallback);
+				*/
+				QueryCode="strat_map_wsdl3";
+				if(debugMode==5) window.alert("Query L3 Parameters --Server Name: "+ServerName+"--Query Code: "+QueryCode+"--Filter Field: "+QueryFilterField+"--Filter Value: "+QueryFilterValue+"--Call Back: "+QueryCallback);
+
+				Result=ExecuteClarityQueryAsUser(debugMode, ServerName, QueryCode, QueryFilterField, QueryFilterValue, QueryCallback);
+				
+				if(debugMode==5) window.alert("Back from QueryL3:"+Result.responseText);
+
+				/* Parse Query Results */
+				xmlobject = crossBrowserXMLLoad(Result.responseText);
+				items = xmlobject.getElementsByTagName("Record");
+				var totalitems = items.length;
+				if(debugMode==5) window.alert("Total Items L3="+totalitems);
+				
+				/* Draw L3 Status */
+				for (var i = 0 ; i < totalitems ; i++) {
+					var item = items[i];
+					var intlid 		 	  	= item.getElementsByTagName("intlid")[0].firstChild.nodeValue;
+					var itemcode  	 	  	= item.getElementsByTagName("itemcode")[0].firstChild.nodeValue;
+					var itemname	 	  	= item.getElementsByTagName("itemname")[0].firstChild.nodeValue;
+					var itemstatus	 	  	= item.getElementsByTagName("itemstatus")[0].firstChild.nodeValue;
+					var itempercent  	  	= item.getElementsByTagName("itempercent")[0].firstChild.nodeValue;
+					var itemxmap 		  	= item.getElementsByTagName("itemxmap")[0].firstChild.nodeValue;
+					var itemymap	 	  	= item.getElementsByTagName("itemymap")[0].firstChild.nodeValue;
+
+					if(debugMode==5) window.alert("Query L3 itemcode="+itemcode+" intlid="+intlid+" itemname="+itemname+" itemstatus="+itemstatus+" itempercent="+itempercent+" itemxmap="+itemxmap+" itemymap="+itemymap);
+					statusColor.fill="default";
+					statusColor.font="default";
+					if(debugMode==5) window.alert("Will Define Color for itemstatus="+itemstatus+" fill="+statusColor.fill+" font="+statusColor.font);
+					dummyVar = defineColors(debugMode, itemstatus, statusColor);
+					if(debugMode==5) window.alert("Colors Defined for itemstatus="+itemstatus+" fill="+statusColor.fill+" font="+statusColor.font);
+
+					if(debugMode==5) window.alert("L3 Will draw circle");
+					
+					ctx.beginPath();	
+					ctx.fillStyle=statusColor.fill;
+					ctx.arc(itemxmap,itemymap,15,0,2*Math.PI);
+					ctx.stroke();
+					ctx.fill();
+					ctx.closePath();	
+					ctx.font="13px Calibri";
+					ctx.fillStyle=statusColor.font;
+					ctx.textAlign = "center";
+					ctx.textBaseline="middle";
+					ctx.fillText(itempercent+'%',itemxmap,itemymap);
+
+					if(debugMode==5) window.alert("L3 has drawn circle");
+				}
 			}
 		</script>
 	</body>

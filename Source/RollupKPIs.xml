@@ -17,7 +17,7 @@
    	<!--============================================================-->
 	<!-- Recalculate all KPIs Status and Strategic Item Status	 	-->
    	<!--============================================================-->
-	
+	 
 	<core:if test="${DebugLevel &gt; 0}">
 		<gel:log level="debug" message="Start Script"/>
 		<gel:log level="debug" message=">>Persisted XOG URL   : ${XOGURL}"/> 
@@ -252,6 +252,17 @@
 		</core:if>
 		
 	</core:if>
+
+	<!-- Auto-measurement Block -->
+	<!-- 1- update levels (bring the block up here?)  -->
+	<!-- 2- for each level, starting from 1, fetch pending measurements that are auto-calc and update  -->
+	<!-- select IM.MEASUREMENT_DATE, sum(CM.MEASUREMENT_VALUE)  -->
+	<!-- 	from odf_Ca_strat_kpi I   -->
+	<!-- 		inner join odf_ca_strat_kpi_measure IM on IM.odf_parent_id = I.ID and IM.ITEMSTATUS <= 0 and IM.MEASUREMENT_DATE <= sysdate -->
+	<!-- 		inner join ODF_MULTI_VALUED_LOOKUPS MVL1 on MVL1. attribute = 'strat_children_kpi' and MVL1.object = 'strat_kpi' and pk_id = I.ID -->
+	<!-- 		inner join ODF_CA_STRAT_KPI_MEASURE CM on CM.ODF_PARENT_ID = MVL1.VALUE AND CM.MEASUREMENT_DATE = IM.MEASUREMENT_DATE -->
+	<!-- 	where I.strat_meas_autocalc = 'CS' -->
+    <!-- Next Measurement Control -->
 
     <!-- updating Targets with current status -->
 	<gel:parse var="v_xml_targets">
