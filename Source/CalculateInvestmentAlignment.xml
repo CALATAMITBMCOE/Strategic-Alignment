@@ -34,7 +34,7 @@
 	
     <!-- Reading Cycle Data-->
     <sql:query escapeText="false" var="vCycleFields">
-		Select A.NAME, A.CODE, A.PARTITION_CODE, A.STRAT_HIERARCHY, A.STRAT_SCOPE, SI.CODE
+		Select A.NAME, A.CODE, A.PARTITION_CODE, A.STRAT_HIERARCHY, SI.CODE
 		FROM ODF_CA_STRAT_EVAL_CYCLE A INNER JOIN ODF_CA_STRATEGIC_ITEM SI ON SI.ID = A.STRAT_HIERARCHY
 		WHERE A.id=${vCycle_Intl}
 	</sql:query>
@@ -43,10 +43,9 @@
         <core:set var="vCycle_Code">${row[1]}</core:set>
         <core:set var="vCycle_Part">${row[2]}</core:set>
         <core:set var="vCycle_Hier">${row[3]}</core:set>
-        <core:set var="vCycle_Scop">${row[4]}</core:set>
-        <core:set var="vHier_Code">${row[5]}</core:set>
+        <core:set var="vHier_Code">${row[4]}</core:set>
 		<core:if test="${DebugLevel &gt; 0}">
-			<gel:log level="debug" message="Found Eval Cycle: ${vCycle_Code}-${vCycle_Name}. Hier=${vCycle_Hier}-${vHier_Code}. Scope=${vCycle_Scop}."/> 
+			<gel:log level="debug" message="Found Eval Cycle: ${vCycle_Code}-${vCycle_Name}. Hier=${vCycle_Hier}-${vHier_Code}."/> 
 		</core:if>
     </core:forEach>
 
@@ -62,7 +61,6 @@
 		Select max(SI.ITEM_LEVEL)
 		FROM ODF_CA_STRATEGIC_ITEM SI 
 		WHERE SI.STRAT_HIERARCHY=${vCycle_Hier}
-		AND SI.STRAT_SCOPE=${vCycle_Scop}
 		AND SI.ACTIVE = 1
 	</sql:query>
 	<core:forEach items="${vLevel.rowsByIndex}" var="row">
@@ -76,15 +74,13 @@
 	<core:set var="vCurrentLevel" value="${vMaxLevel}"/>
 	<!-- Will only call XOG if Items were found -->
 	<core:set var="vFoundItems">0</core:set>
-	<!-- On Bottom Level (max) should filter all Items within Scope; for all upper levels scope is irrelevant and should not be tested-->
-	<core:set var="vScopeStatement" value="AND SI.STRAT_SCOPE = ${vCycle_Scop}"/>
 	
 	<core:while test="${vCurrentLevel &gt; 1}">
 		<core:if test="${DebugLevel &gt; 0}">
-			<gel:log level="debug" message="Processing Level ${vCurrentLevel} with ScopeStatement=${vScopeStatement}."/> 
+			<gel:log level="debug" message="Processing Level ${vCurrentLevel}."/> 
 		</core:if>
 		<sql:query escapeText="false" var="vItemLevel">
-			Select SI.PARENTITEM, SI.ID, SI.CODE, SI.WEIGHT, SI.STRAT_SCOPE, SI.WEIGHTPERCENT, AM.ID, AM.CODE
+			Select SI.PARENTITEM, SI.ID, SI.CODE, SI.WEIGHT, SI.WEIGHTPERCENT, AM.ID, AM.CODE
 			From ODF_CA_STRATEGIC_ITEM SI 
 				Inner Join ODF_MULTI_VALUED_LOOKUPS MVL
 					on MVL.attribute='related_metrics' 
@@ -96,17 +92,15 @@
 			WHERE SI.ITEM_LEVEL = ${vCurrentLevel}
 			AND SI.ACTIVE = 1
 			AND SI.STRAT_HIERARCHY = ${vCycle_Hier}
-			${vScopeStatement}
 		</sql:query>
 		<core:forEach items="${vItemLevel.rowsByIndex}" var="row">
 			<core:set var="vParent">${row[0]}</core:set>
 			<core:set var="vItem_Intl">${row[1]}</core:set>
 			<core:set var="vItem_Code">${row[2]}</core:set>
 			<core:set var="vItem_Wght">${row[3]}</core:set>
-			<core:set var="vItem_Scop">${row[4]}</core:set>
-			<core:set var="vItem_WPer">${row[5]}</core:set>
-			<core:set var="vAMet_Intl">${row[6]}</core:set>
-			<core:set var="vAMet_Code">${row[7]}</core:set>
+			<core:set var="vItem_WPer">${row[4]}</core:set>
+			<core:set var="vAMet_Intl">${row[5]}</core:set>
+			<core:set var="vAMet_Code">${row[6]}</core:set>
 			<core:if test="${DebugLevel &gt; 0}">
 				<gel:log level="debug" message="-- Parent ${vParent} --Item: ${vItem_Code} has weightpercent=${vItem_WPer} --Metric: ${vAMet_Code}."/> 
 			</core:if>
@@ -166,8 +160,6 @@
 		</core:forEach>
 		<!-- Will continue search for metrics on upper level -->
 		<core:set var="vCurrentLevel" value="${vCurrentLevel-1}"/>
-		<!-- On upper levels do not test for scope It doesn't matter the parent's scope -->
-		<core:set var="vScopeStatement" value=""/>
 	</core:while>
 	
 	<core:if test="${DebugLevel &gt; 0}">

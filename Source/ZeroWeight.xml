@@ -34,7 +34,7 @@
 	
     <!-- Reading Cycle Data-->
     <sql:query escapeText="false" var="vCycleFields">
-		Select A.NAME, A.CODE, A.PARTITION_CODE, A.STRAT_HIERARCHY, A.STRAT_SCOPE, SI.CODE
+		Select A.NAME, A.CODE, A.PARTITION_CODE, A.STRAT_HIERARCHY, SI.CODE
 		FROM ODF_CA_STRAT_EVAL_CYCLE A INNER JOIN ODF_CA_STRATEGIC_ITEM SI ON SI.ID = A.STRAT_HIERARCHY
 		WHERE A.id=${vCycle_Intl}
 	</sql:query>
@@ -43,10 +43,9 @@
         <core:set var="vCycle_Code">${row[1]}</core:set>
         <core:set var="vCycle_Part">${row[2]}</core:set>
         <core:set var="vCycle_Hier">${row[3]}</core:set>
-        <core:set var="vCycle_Scop">${row[4]}</core:set>
-        <core:set var="vHier_Code">${row[5]}</core:set>
+        <core:set var="vHier_Code">${row[4]}</core:set>
 		<core:if test="${DebugLevel &gt; 0}">
-			<gel:log level="debug" message="Found Eval Cycle: ${vCycle_Code}-${vCycle_Name}. Hier=${vCycle_Hier}-${vHier_Code}. Scope=${vCycle_Scop}."/> 
+			<gel:log level="debug" message="Found Eval Cycle: ${vCycle_Code}-${vCycle_Name}. Hier=${vCycle_Hier}-${vHier_Code}."/> 
 		</core:if>
     </core:forEach>
 	

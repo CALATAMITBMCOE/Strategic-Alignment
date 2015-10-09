@@ -34,7 +34,7 @@
 	
     <!-- Reading Cycle Data-->
     <sql:query escapeText="false" var="vCycleFields">
-		Select A.NAME, A.CODE, A.PARTITION_CODE, A.STRAT_HIERARCHY, A.STRAT_SCOPE, SI.CODE
+		Select A.NAME, A.CODE, A.PARTITION_CODE, A.STRAT_HIERARCHY, SI.CODE
 		FROM ODF_CA_STRAT_EVAL_CYCLE A INNER JOIN ODF_CA_STRATEGIC_ITEM SI ON SI.ID = A.STRAT_HIERARCHY
 		WHERE A.id=${vCycle_Intl}
 	</sql:query>
@@ -43,10 +43,9 @@
         <core:set var="vCycle_Code">${row[1]}</core:set>
         <core:set var="vCycle_Part">${row[2]}</core:set>
         <core:set var="vCycle_Hier">${row[3]}</core:set>
-        <core:set var="vCycle_Scop">${row[4]}</core:set>
-        <core:set var="vHier_Code">${row[5]}</core:set>
+        <core:set var="vHier_Code">${row[4]}</core:set>
 		<core:if test="${DebugLevel &gt; 0}">
-			<gel:log level="debug" message="Found Eval Cycle: ${vCycle_Code}-${vCycle_Name}. Hier=${vCycle_Hier}-${vHier_Code}. Scope=${vCycle_Scop}."/> 
+			<gel:log level="debug" message="Found Eval Cycle: ${vCycle_Code}-${vCycle_Name}. Hier=${vCycle_Hier}-${vHier_Code}."/> 
 		</core:if>
     </core:forEach>
 	
@@ -58,17 +57,6 @@
 		</NikuDataBus>
 	</gel:parse>
 	
-	<!-- Removed Requirement for a Metric to Exist from the SQL -->
-	<!--
-		Select max(SI.ITEM_LEVEL)
-		FROM ODF_CA_STRATEGIC_ITEM SI 
-		WHERE SI.STRAT_HIERARCHY=${vCycle_Hier}
-		AND SI.ACTIVE = 1
-		AND EXISTS (select 'X' from ODF_MULTI_VALUED_LOOKUPS MVL
-				Where MVL.attribute='related_metrics' 
-				and MVL.object='strategic_item' 
-				and MVL.PK_ID = SI.ID)
-	-->
 	<sql:query escapeText="false" var="vLevel">
 		Select max(SI.ITEM_LEVEL)
 		FROM ODF_CA_STRATEGIC_ITEM SI 
@@ -88,37 +76,15 @@
 		<core:if test="${DebugLevel &gt; 0}">
 			<gel:log level="debug" message="Processing Level ${vCurrentLevel}."/> 
 		</core:if>
-	<!-- Removed Requirement for a Metric to Exist from the SQL -->
-	<!--
-			Select SI.PARENTITEM, SI.ID, SI.CODE, SI.WEIGHT, SI.STRAT_SCOPE, SUM(SISUM.WEIGHT), SI.WEIGHT/NVL(SUM(SISUM.WEIGHT),1)
-			FROM ODF_CA_STRATEGIC_ITEM SI 
-				INNER JOIN ODF_CA_STRATEGIC_ITEM SISUM on SISUM.PARENTITEM = SI.PARENTITEM AND SISUM.STRAT_SCOPE = SI.STRAT_SCOPE
-			WHERE SI.ITEM_LEVEL = ${vCurrentLevel}
-			AND SI.ACTIVE = 1
-			AND (nvl((select count(*) from ODF_MULTI_VALUED_LOOKUPS MVL
-					Where MVL.attribute='related_metrics' 
-					and MVL.object='strategic_item' 
-					and MVL.PK_ID = SI.ID),0) +
-				nvl((select count(*) from ODF_CA_STRATEGIC_ITEM SI2 
-					WHERE SI2.PARENTITEM = SI.ID AND SI2.ACTIVE=1),0)) > 0
-			AND (nvl((select count(*) from ODF_MULTI_VALUED_LOOKUPS MVL
-					Where MVL.attribute='related_metrics' 
-					and MVL.object='strategic_item' 
-					and MVL.PK_ID = SISUM.ID),0) +
-				nvl((select count(*) from ODF_CA_STRATEGIC_ITEM SI2 
-					WHERE SI2.PARENTITEM = SISUM.ID AND SI2.ACTIVE=1),0)) > 0
-			GROUP BY SI.PARENTITEM, SI.ID, SI.CODE, SI.WEIGHT, SI.STRAT_SCOPE
-			ORDER BY SI.STRAT_SCOPE, SI.PARENTITEM, SI.ID
-	-->
 
 		<sql:query escapeText="false" var="vItemLevel">
-			select SI.PARENTITEM, SI.ID, SI.CODE, SI.WEIGHT, SI.STRAT_SCOPE, SUM(SISUM.WEIGHT), SI.WEIGHT/NVL(SUM(SISUM.WEIGHT),1)
+			select SI.PARENTITEM, SI.ID, SI.CODE, SI.WEIGHT, SUM(SISUM.WEIGHT), SI.WEIGHT/NVL(SUM(SISUM.WEIGHT),1)
 			from ODF_CA_STRATEGIC_ITEM SI 
-					INNER JOIN ODF_CA_STRATEGIC_ITEM SISUM on SISUM.PARENTITEM = SI.PARENTITEM AND SISUM.STRAT_SCOPE = SI.STRAT_SCOPE
+					INNER JOIN ODF_CA_STRATEGIC_ITEM SISUM on SISUM.PARENTITEM = SI.PARENTITEM 
 			WHERE SI.STRAT_HIERARCHY = ${vCycle_Hier} 
 			and SI.ITEM_LEVEL = ${vCurrentLevel}
-			GROUP BY SI.PARENTITEM, SI.ID, SI.CODE, SI.WEIGHT, SI.STRAT_SCOPE
-			ORDER BY SI.STRAT_SCOPE, SI.PARENTITEM, SI.ID
+			GROUP BY SI.PARENTITEM, SI.ID, SI.CODE, SI.WEIGHT
+			ORDER BY SI.PARENTITEM, SI.ID
 		</sql:query>
 		<core:forEach items="${vItemLevel.rowsByIndex}" var="row">
 			<core:set var="vFoundItems">1</core:set>
@@ -126,11 +92,10 @@
 			<core:set var="vItem_Intl">${row[1]}</core:set>
 			<core:set var="vItem_Code">${row[2]}</core:set>
 			<core:set var="vItem_Wght">${row[3]}</core:set>
-			<core:set var="vItem_Scop">${row[4]}</core:set>
-			<core:set var="vItem_SumW">${row[5]}</core:set>
-			<core:set var="vItem_CalW">${row[6]}</core:set>
+			<core:set var="vItem_SumW">${row[4]}</core:set>
+			<core:set var="vItem_CalW">${row[5]}</core:set>
 			<core:if test="${DebugLevel &gt; 0}">
-				<gel:log level="debug" message="-- Parent ${vParent} has SumWeight=${vItem_SumW} for Scope ${vItem_Scop} --Item: ${vItem_Code} has weight=${vItem_Wght}, Calculated=${vItem_CalW}."/> 
+				<gel:log level="debug" message="-- Parent ${vParent} has SumWeight=${vItem_SumW} --Item: ${vItem_Code} has weight=${vItem_Wght}, Calculated=${vItem_CalW}."/> 
 			</core:if>
 			<gel:parse var="vItemInstance">
 				<instance instanceCode="${vItem_Code}" objectCode="strategic_item">

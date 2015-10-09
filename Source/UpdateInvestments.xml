@@ -34,11 +34,10 @@
 	
     <!-- Reading Cycle Data-->
     <sql:query escapeText="false" var="vCycleFields">
-		Select A.NAME, A.CODE, A.PARTITION_CODE, A.STRAT_HIERARCHY, A.STRAT_SCOPE, A.STRAT_CYCLE_METHOD, SI.CODE, SD.TARGET_ATTRIBUTE
+		Select A.NAME, A.CODE, A.PARTITION_CODE, A.STRAT_HIERARCHY, A.STRAT_CYCLE_METHOD, SI.CODE, SD.NAME, SD.TARGET_ATTRIBUTE
 		FROM ODF_CA_STRAT_EVAL_CYCLE A 
 			INNER JOIN ODF_CA_STRATEGIC_ITEM SI ON SI.ID = A.STRAT_HIERARCHY
-			INNER JOIN ODF_CA_STRAT_SCOPE SC ON SC.ID = A.STRAT_SCOPE
-			INNER JOIN ODF_CA_STRAT_DIM SD ON SD.ID = SC.STRAT_DIM
+			INNER JOIN ODF_CA_STRAT_DIM SD ON SD.ID = A.STRAT_DIM
 		WHERE A.id=${vCycle_Intl}
 	</sql:query>
     <core:forEach items="${vCycleFields.rowsByIndex}" var="row">
@@ -46,12 +45,12 @@
         <core:set var="vCycle_Code">${row[1]}</core:set>
         <core:set var="vCycle_Part">${row[2]}</core:set>
         <core:set var="vCycle_Hier">${row[3]}</core:set>
-        <core:set var="vCycle_Scop">${row[4]}</core:set>
-        <core:set var="vCycle_Meth">${row[5]}</core:set>
-        <core:set var="vHier_Code">${row[6]}</core:set>
-        <core:set var="vScope_Attr">${row[7]}</core:set>
+        <core:set var="vCycle_Meth">${row[4]}</core:set>
+        <core:set var="vHier_Code">${row[5]}</core:set>
+        <core:set var="vCycle_Dime">${row[6]}</core:set>
+        <core:set var="vCycle_Attr">${row[6]}</core:set>
 		<core:if test="${DebugLevel &gt; 0}">
-			<gel:log level="debug" message="Found Eval Cycle: ${vCycle_Code}-${vCycle_Name}. Method=${vCycle_Meth}. Hier=${vCycle_Hier}-${vHier_Code}. Scope=${vCycle_Scop} will update Attribute ${vScope_Attr}"/> 
+			<gel:log level="debug" message="Found Eval Cycle: ${vCycle_Code}-${vCycle_Name}. Method=${vCycle_Meth}. Hier=${vCycle_Hier}-${vHier_Code}. ${vCycle_Dime} will update Attribute ${vCycle_Attr}"/> 
 		</core:if>
     </core:forEach>
 
@@ -213,7 +212,7 @@
 					<gel:parse var="v_xml_instance">
 						<Application objectID="${vInv_Code}" name="${vInv_Name}" >
 							<CustomInformation>
-								<ColumnValue name="${vScope_Attr}">${vAlignment}</ColumnValue>
+								<ColumnValue name="${vCycle_Attr}">${vAlignment}</ColumnValue>
 							</CustomInformation>
 						</Application>
 					</gel:parse>
@@ -227,7 +226,7 @@
 					<gel:parse var="v_xml_instance">
 						<Asset objectID="${vInv_Code}" name="${vInv_Name}" >
 							<CustomInformation>
-								<ColumnValue name="${vScope_Attr}">${vAlignment}</ColumnValue>
+								<ColumnValue name="${vCycle_Attr}">${vAlignment}</ColumnValue>
 							</CustomInformation>
 						</Asset>
 					</gel:parse>
@@ -241,7 +240,7 @@
 					<gel:parse var="v_xml_instance">
 						<OtherInvestment objectID="${vInv_Code}" name="${vInv_Name}" >
 							<CustomInformation>
-								<ColumnValue name="${vScope_Attr}">${vAlignment}</ColumnValue>
+								<ColumnValue name="${vCycle_Attr}">${vAlignment}</ColumnValue>
 							</CustomInformation>
 						</OtherInvestment>
 					</gel:parse>
@@ -255,7 +254,7 @@
 					<gel:parse var="v_xml_instance">
 						<Product objectID="${vInv_Code}" name="${vInv_Name}" >
 							<CustomInformation>
-								<ColumnValue name="${vScope_Attr}">${vAlignment}</ColumnValue>
+								<ColumnValue name="${vCycle_Attr}">${vAlignment}</ColumnValue>
 							</CustomInformation>
 						</Product>
 					</gel:parse>
@@ -269,7 +268,7 @@
 					<gel:parse var="v_xml_instance">
 						<Service objectID="${vInv_Code}" name="${vInv_Name}" >
 							<CustomInformation>
-								<ColumnValue name="${vScope_Attr}">${vAlignment}</ColumnValue>
+								<ColumnValue name="${vCycle_Attr}">${vAlignment}</ColumnValue>
 							</CustomInformation>
 						</Service>
 					</gel:parse>
@@ -283,7 +282,7 @@
 					<gel:parse var="v_xml_instance">
 						<Idea objectID="${vInv_Code}" name="${vInv_Name}" >
 							<CustomInformation>
-								<ColumnValue name="${vScope_Attr}">${vAlignment}</ColumnValue>
+								<ColumnValue name="${vCycle_Attr}">${vAlignment}</ColumnValue>
 							</CustomInformation>
 						</Idea>
 					</gel:parse>
@@ -297,7 +296,7 @@
 					<gel:parse var="v_xml_instance">
 						<Project projectID="${vInv_Code}" name="${vInv_Name}" >
 							<CustomInformation>
-								<ColumnValue name="${vScope_Attr}">${vAlignment}</ColumnValue>
+								<ColumnValue name="${vCycle_Attr}">${vAlignment}</ColumnValue>
 							</CustomInformation>
 						</Project>
 					</gel:parse>

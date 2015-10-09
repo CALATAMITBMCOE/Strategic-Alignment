@@ -34,7 +34,7 @@
 	
     <!-- Reading Cycle Data-->
     <sql:query escapeText="false" var="vItemFields">
-		Select A.NAME, A.CODE, A.PARTITION_CODE, NVL(A.STRAT_HIERARCHY,A.ID), A.STRAT_SCOPE, SI.CODE
+		Select A.NAME, A.CODE, A.PARTITION_CODE, NVL(A.STRAT_HIERARCHY,A.ID), SI.CODE
 		FROM ODF_CA_STRATEGIC_ITEM A INNER JOIN ODF_CA_STRATEGIC_ITEM SI ON ((SI.ID = A.STRAT_HIERARCHY) OR ((A.STRAT_HIERARCHY is null) and (SI.ID = A.ID)))
 		WHERE A.id=${vInitialItem_Intl}
 	</sql:query>
@@ -43,10 +43,9 @@
         <core:set var="vInitialItem_Code">${row[1]}</core:set>
         <core:set var="vInitialItem_Part">${row[2]}</core:set>
         <core:set var="vInitialItem_Hier">${row[3]}</core:set>
-        <core:set var="vInitialItem_Scop">${row[4]}</core:set>
-        <core:set var="vHier_Code">${row[5]}</core:set>
+        <core:set var="vHier_Code">${row[4]}</core:set>
 		<core:if test="${DebugLevel &gt; 0}">
-			<gel:log level="debug" message="Found Item: ${vInitialItem_Code}-${vInitialItem_Name}. Hier=${vInitialItem_Hier}-${vInitialHier_Code}. Scope=${vInitialItem_Scop}."/> 
+			<gel:log level="debug" message="Found Item: ${vInitialItem_Code}-${vInitialItem_Name}. Hier=${vInitialItem_Hier}-${vInitialHier_Code}."/> 
 		</core:if>
     </core:forEach>
 	
@@ -78,13 +77,13 @@
 			<gel:log level="debug" message="Processing Level ${vCurrentLevel}."/> 
 		</core:if>
 		<sql:query escapeText="false" var="vItemLevel">
-			select SI.PARENTITEM, SI.ID, SI.CODE, SI.WEIGHT, SI.STRAT_SCOPE, SUM(SISUM.WEIGHT), SI.WEIGHT/NVL(SUM(SISUM.WEIGHT),1)
+			select SI.PARENTITEM, SI.ID, SI.CODE, SI.WEIGHT, SUM(SISUM.WEIGHT), SI.WEIGHT/NVL(SUM(SISUM.WEIGHT),1)
 			from ODF_CA_STRATEGIC_ITEM SI 
-					INNER JOIN ODF_CA_STRATEGIC_ITEM SISUM on SISUM.PARENTITEM = SI.PARENTITEM AND SISUM.STRAT_SCOPE = SI.STRAT_SCOPE
+					INNER JOIN ODF_CA_STRATEGIC_ITEM SISUM on SISUM.PARENTITEM = SI.PARENTITEM 
 			WHERE SI.STRAT_HIERARCHY = ${vInitialItem_Hier} 
 			and SI.ITEM_LEVEL = ${vCurrentLevel}
-			GROUP BY SI.PARENTITEM, SI.ID, SI.CODE, SI.WEIGHT, SI.STRAT_SCOPE
-			ORDER BY SI.STRAT_SCOPE, SI.PARENTITEM, SI.ID
+			GROUP BY SI.PARENTITEM, SI.ID, SI.CODE, SI.WEIGHT
+			ORDER BY SI.PARENTITEM, SI.ID
 		</sql:query>
 		<core:forEach items="${vItemLevel.rowsByIndex}" var="row">
 			<core:set var="vFoundItems">1</core:set>
@@ -92,11 +91,10 @@
 			<core:set var="vItem_Intl">${row[1]}</core:set>
 			<core:set var="vItem_Code">${row[2]}</core:set>
 			<core:set var="vItem_Wght">${row[3]}</core:set>
-			<core:set var="vItem_Scop">${row[4]}</core:set>
-			<core:set var="vItem_SumW">${row[5]}</core:set>
-			<core:set var="vItem_CalW">${row[6]}</core:set>
+			<core:set var="vItem_SumW">${row[4]}</core:set>
+			<core:set var="vItem_CalW">${row[5]}</core:set>
 			<core:if test="${DebugLevel &gt; 0}">
-				<gel:log level="debug" message="-- Parent ${vParent} has SumWeight=${vItem_SumW} for Scope ${vItem_Scop} --Item: ${vItem_Code} has weight=${vItem_Wght}, Calculated=${vItem_CalW}."/> 
+				<gel:log level="debug" message="-- Parent ${vParent} has SumWeight=${vItem_SumW} --Item: ${vItem_Code} has weight=${vItem_Wght}, Calculated=${vItem_CalW}."/> 
 			</core:if>
 			<gel:parse var="vItemInstance">
 				<instance instanceCode="${vItem_Code}" objectCode="strategic_item">

@@ -35,7 +35,7 @@
 
     <!-- Reading Cycle Data-->
     <sql:query escapeText="false" var="vCycleFields">
-		Select A.NAME, A.CODE, A.PARTITION_CODE, A.STRAT_HIERARCHY, A.STRAT_SCOPE, A.STRAT_CYCLE_METHOD, A.PORTFOLIO, U.USER_NAME
+		Select A.NAME, A.CODE, A.PARTITION_CODE, A.STRAT_HIERARCHY, A.STRAT_CYCLE_METHOD, A.PORTFOLIO, U.USER_NAME
 		FROM ODF_CA_STRAT_EVAL_CYCLE A
 			INNER JOIN CMN_SEC_USERS U on U.ID = A.CREATED_BY
 		WHERE A.id=${vCycle_Intl}
@@ -46,12 +46,11 @@
         <core:set var="vCycle_Code">${row[1]}</core:set>
         <core:set var="vCycle_Part">${row[2]}</core:set>
         <core:set var="vCycle_Hier">${row[3]}</core:set>
-        <core:set var="vCycle_Scop">${row[4]}</core:set>
-        <core:set var="vCycle_Meth">${row[5]}</core:set>
-        <core:set var="vCycle_Ptfl">${row[6]}</core:set>
-        <core:set var="vCycle_User">${row[7]}</core:set>
+        <core:set var="vCycle_Meth">${row[4]}</core:set>
+        <core:set var="vCycle_Ptfl">${row[5]}</core:set>
+        <core:set var="vCycle_User">${row[6]}</core:set>
 		<core:if test="${DebugLevel &gt; 0}">
-			<gel:log level="debug" message="Found Eval Cycle: ${vCycle_Code}-${vCycle_Name}. Hier=${vCycle_Hier}. Scope=${vCycle_Scop}. Method=${vCycle_Meth}. Portfolio=${vCycle_Ptfl}. Initiated by ${vCycle_User}"/> 
+			<gel:log level="debug" message="Found Eval Cycle: ${vCycle_Code}-${vCycle_Name}. Hier=${vCycle_Hier}. Method=${vCycle_Meth}. Portfolio=${vCycle_Ptfl}. Initiated by ${vCycle_User}"/> 
 		</core:if>
     </core:forEach>
 	
@@ -95,7 +94,6 @@
 					on MVL.OBJECT='strategic_item' AND MVL.ATTRIBUTE = 'related_metrics' AND MVL.PK_ID = SI.ID
 				INNER JOIN 	ODF_CA_STRAT_ALIGN_METRIC SM ON SM.ID = MVL.VALUE AND SM.ACTIVE = 1
 			WHERE SI.ACTIVE = 1 
-			AND SI.STRAT_SCOPE = ${vCycle_Scop}
 			AND SI.STRAT_HIERARCHY = ${vCycle_Hier}
 		</sql:query>
 	
@@ -171,7 +169,6 @@
 					on U.ID = I.MANAGER_ID
 				INNER JOIN SRM_RESOURCES R
 					on R.USER_ID = U.ID			WHERE SI.ACTIVE = 1 
-			AND SI.STRAT_SCOPE = ${vCycle_Scop}
 			AND SI.STRAT_HIERARCHY = ${vCycle_Hier}
 		</sql:query>
 		<core:set var="vFirstTime" value="1"/>
