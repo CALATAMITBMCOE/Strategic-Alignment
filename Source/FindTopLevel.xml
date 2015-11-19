@@ -18,94 +18,96 @@
 	<!-- This process updates the Top Level of the item and creates -->
 	<!-- the flat hierarchy on strat_tree_flat 						-->
    	<!--============================================================-->
-	
+
     <core:set value="${gel_objectInstanceId}" var="vItemID"/>
 
 	<core:if test="${DebugLevel &gt; 0}">
 		<gel:log level="debug" message="Start Script"/>
-		<gel:log level="debug" message=">>Strategic Item ID   : ${vItemID}"/> 
-		<gel:log level="debug" message=">>Persisted XOG URL   : ${XOGURL}"/> 
-		<gel:log level="debug" message=">>Persisted LOG Folder: ${XOGlogFolder}"/> 
-		<gel:log level="debug" message=">>Persisted WEB Folder: ${XOGwebFolder}"/> 
-		<gel:log level="debug" message=">>Persisted SessionID : ${sessionID}"/> 
-		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/> 
+		<gel:log level="debug" message=">>Strategic Item ID   : ${vItemID}"/>
+		<gel:log level="debug" message=">>Persisted XOG URL   : ${XOGURL}"/>
+		<gel:log level="debug" message=">>Persisted LOG Folder: ${XOGlogFolder}"/>
+		<gel:log level="debug" message=">>Persisted WEB Folder: ${XOGwebFolder}"/>
+		<gel:log level="debug" message=">>Persisted SessionID : ${sessionID}"/>
+		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/>
 	</core:if>
 
     <gel:setDataSource dbId="niku"/>
+
+    <core:set var="vEmpty">0</core:set>
+
     <!-- Reading Item Data-->
-	
     <sql:query escapeText="false" var="vItem">
-		Select nvl(I.PARENTITEM,0), I.CODE, I.ITEM_LEVEL, SC.CODE, SC.ID
-		FROM ODF_CA_STRATEGIC_ITEM I inner join ODF_CA_STRAT_SCOPE SC on SC.ID = I.STRAT_SCOPE
-		WHERE I.id=${vItemID}
-	</sql:query>
+  		Select nvl(I.PARENTITEM,0), I.CODE, I.ITEM_LEVEL, nvl(I.STRAT_HIERARCHY,0)
+  		FROM ODF_CA_STRATEGIC_ITEM I
+  		WHERE I.id=${vItemID}
+	  </sql:query>
     <core:forEach items="${vItem.rowsByIndex}" var="row">
         <core:set var="vItem_Parent">${row[0]}</core:set>
         <core:set var="vItem_Code">${row[1]}</core:set>
         <core:set var="vItem_Code_Top">${row[1]}</core:set>
         <core:set var="vItem_Levl">${row[2]}</core:set>
         <core:set var="vItem_Levl_Top">${row[2]}</core:set>
-        <core:set var="vScop_Code">${row[3]}</core:set>
-        <core:set var="vScop_Intl">${row[4]}</core:set>
-		<core:if test="${DebugLevel &gt; 0}">
-			<gel:log level="debug" message="Found Strategic Item: ${vItem_Code} with Parent ${vItem_Parent} on Scope ${vScop_Intl}."/> 
-		</core:if>
-    </core:forEach>
+        <core:set var="vItem_Levl_Top">${row[2]}</core:set>
+        <core:set var="vItem_Hier">${row[3]}</core:set>
+    		<core:if test="${DebugLevel &gt; 0}">
+    			<gel:log level="debug" message="Found Strategic Item: ${vItem_Code} with Parent ${vItem_Parent} for Plan ${vItem_Hier}."/>
+    		</core:if>
 
+        <core:if test="${(vItem_Parent+vItem_Hier) $eq; 0}">
+          <gel:log level="warn" message="Strategic Item ${vItem_Code} has no Parent and is not linked to any Plans."/>
+          <core:set var="vEmpty">1</core:set>
+        </core:if>
+    </core:forEach>
 
 	<!-- Upwards Clean Up of Invalid Records -->
 	<sql:query escapeText="false" var="vItem">
 		Select ST.PARENT_ITEM
 		FROM ODF_CA_STRAT_TREE_FLAT ST
-		Where ST.STRAT_SCOPE = ${vScop_Intl}
-		And ST.CHILD_ITEM = ${vItemID}
+		Where ST.CHILD_ITEM = ${vItemID}
 		And ST.CHILD_ITEM != ST.PARENT_ITEM
 	</sql:query>
 	<core:forEach items="${vItem.rowsByIndex}" var="row">
 		<core:set var="vInvl_Parent">${row[0]}</core:set>
 		<core:if test="${DebugLevel &gt; 0}">
-			<gel:log level="debug" message="Upwards CleanUp ${vInvl_Parent}with ${vItemID} will be deleted."/> 
+			<gel:log level="debug" message="Upwards CleanUp ${vInvl_Parent} with ${vItemID} will be deleted."/>
 		</core:if>
 		<sql:update escapeText="false" var="vCleanUp1">
-			DELETE FROM ODF_CA_STRAT_TREE_FLAT 
-			WHERE STRAT_SCOPE = ${vScop_Intl}
-			AND PARENT_ITEM = ${vInvl_Parent}
+			DELETE FROM ODF_CA_STRAT_TREE_FLAT
+			WHERE PARENT_ITEM = ${vInvl_Parent}
 			AND CHILD_ITEM = ${vItemID}
 		</sql:update>
 		<sql:query escapeText="false" var="vItem">
 			Select ST.CHILD_ITEM
 			FROM ODF_CA_STRAT_TREE_FLAT ST
-			Where ST.STRAT_SCOPE = ${vScop_Intl}
-			And ST.PARENT_ITEM = ${vItemID}
+			Where ST.PARENT_ITEM = ${vItemID}
 			And ST.CHILD_ITEM != ST.PARENT_ITEM
 		</sql:query>
 		<core:forEach items="${vItem.rowsByIndex}" var="row">
 			<core:set var="vInvl_Child">${row[0]}</core:set>
 			<core:if test="${DebugLevel &gt; 0}">
-				<gel:log level="debug" message="-- CleanUp ${vInvl_Parent} with ${vInvl_Child} will be deleted."/> 
+				<gel:log level="debug" message="-- CleanUp ${vInvl_Parent} with ${vInvl_Child} will be deleted."/>
 			</core:if>
 			<sql:update escapeText="false" var="vCleanUp2">
-				DELETE FROM ODF_CA_STRAT_TREE_FLAT 
-				WHERE STRAT_SCOPE = ${vScop_Intl}
-				AND PARENT_ITEM = ${vInvl_Parent}
+				DELETE FROM ODF_CA_STRAT_TREE_FLAT
+				WHERE PARENT_ITEM = ${vInvl_Parent}
 				AND CHILD_ITEM = ${vInvl_Child}
 			</sql:update>
 		</core:forEach>
 	</core:forEach>
 
-	
+
 	<!-- Tree Flat starts with the item itself -->
 	<gel:parse var="v_xml_tree">
 		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
 			<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="13.0.0.6982"/>
 				<customObjectInstances objectCode="strat_tree_flat">
-					<instance instanceCode="${vScop_Code}${vItem_Code_Top}${vItem_Code}" objectCode="strat_tree_flat">
+					<instance instanceCode="${vItem_Code_Top}${vItem_Code}" objectCode="strat_tree_flat">
 						<CustomInformation>
 							<ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
 							<ColumnValue name="page_layout">odf.strat_tree_flatFrame</ColumnValue>
-							<ColumnValue name="code">${vScop_Code}${vItem_Code_Top}${vItem_Code}</ColumnValue>
-							<ColumnValue name="name">${vScop_Code}${vItem_Code_Top}${vItem_Code}</ColumnValue>
-							<ColumnValue name="strat_scope">${vScop_Code}</ColumnValue>
+							<ColumnValue name="code">${vItem_Code_Top}${vItem_Code}</ColumnValue>
+              <ColumnValue name="name">${vItem_Code_Top}${vItem_Code}</ColumnValue>
+              <ColumnValue name="strat_hierarchy">${vSH_Code}</ColumnValue>
 							<ColumnValue name="parent_level">${vItem_Levl_Top}</ColumnValue>
 							<ColumnValue name="child_level">${vItem_Levl}</ColumnValue>
 							<ColumnValue name="parent_item">${vItem_Code_Top}</ColumnValue>
@@ -115,11 +117,11 @@
 				</customObjectInstances>
 		</NikuDataBus>
 	</gel:parse>
-	
+
 	<!-- Find all parents of the item and update tree hierarchy -->
-	<core:while test="${vItem_Parent != 0}"> 
+	<core:while test="${vItem_Parent != 0}">
 		<core:if test="${DebugLevel &gt; 0}">
-			<gel:log level="debug" message="Parent ${vItem_Parent} is not Zero, searching up."/> 
+			<gel:log level="debug" message="Parent ${vItem_Parent} is not Zero, searching up."/>
 		</core:if>
 		<sql:query escapeText="false" var="vItem">
 			Select nvl(I.PARENTITEM,0), I.CODE, I.ITEM_LEVEL
@@ -131,16 +133,15 @@
 			<core:set var="vItem_Code_Top">${row[1]}</core:set>
 			<core:set var="vItem_Levl_Top">${row[2]}</core:set>
 			<core:if test="${DebugLevel &gt; 0}">
-				<gel:log level="debug" message="Found Strategic parent Item: ${vItem_Code_Top} on Level ${vItem_Levl_Top} with Parent ${vItem_Parent}."/> 
+				<gel:log level="debug" message="Found Strategic parent Item: ${vItem_Code_Top} on Level ${vItem_Levl_Top} with Parent ${vItem_Parent}."/>
 			</core:if>
 			<gel:parse var="v_tree_instance">
-				<instance instanceCode="${vScop_Code}${vItem_Code_Top}${vItem_Code}" objectCode="strat_tree_flat">
+				<instance instanceCode="${vItem_Code_Top}${vItem_Code}" objectCode="strat_tree_flat">
 					<CustomInformation>
 						<ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
 						<ColumnValue name="page_layout">odf.strat_tree_flatFrame</ColumnValue>
-						<ColumnValue name="code">${vScop_Code}${vItem_Code_Top}${vItem_Code}</ColumnValue>
-						<ColumnValue name="name">${vScop_Code}${vItem_Code_Top}${vItem_Code}</ColumnValue>
-						<ColumnValue name="strat_scope">${vScop_Code}</ColumnValue>
+						<ColumnValue name="code">${vItem_Code_Top}${vItem_Code}</ColumnValue>
+						<ColumnValue name="name">${vItem_Code_Top}${vItem_Code}</ColumnValue>
 						<ColumnValue name="parent_level">${vItem_Levl_Top}</ColumnValue>
 						<ColumnValue name="child_level">${vItem_Levl}</ColumnValue>
 						<ColumnValue name="parent_item">${vItem_Code_Top}</ColumnValue>
@@ -154,10 +155,9 @@
 			<sql:query escapeText="false" var="vItem">
 				Select SI.CODE, SI.ITEM_LEVEL, SI.ID
 				FROM ODF_CA_STRAT_TREE_FLAT ST
-					INNER JOIN ODF_CA_STRATEGIC_ITEM SI 
+					INNER JOIN ODF_CA_STRATEGIC_ITEM SI
 						ON SI.ID = ST.CHILD_ITEM
-				Where ST.STRAT_SCOPE = ${vScop_Intl}
-				And ST.PARENT_ITEM = ${vItemID}
+				Where ST.PARENT_ITEM = ${vItemID}
 				And ST.CHILD_ITEM != ST.PARENT_ITEM
 			</sql:query>
 			<core:forEach items="${vItem.rowsByIndex}" var="row">
@@ -165,16 +165,15 @@
 				<core:set var="vItem_Levl_Bottom">${row[1]}</core:set>
 				<core:set var="vItem_Intl_Bottom">${row[2]}</core:set>
 				<core:if test="${DebugLevel &gt; 0}">
-					<gel:log level="debug" message="Found child Strategic Item: ${vItem_Code_Bottom} on Level ${vItem_Levl_Bottom}."/> 
+					<gel:log level="debug" message="Found child Strategic Item: ${vItem_Code_Bottom} on Level ${vItem_Levl_Bottom}."/>
 				</core:if>
 				<gel:parse var="v_tree_instance">
-					<instance instanceCode="${vScop_Code}${vItem_Code_Top}${vItem_Code_Bottom}" objectCode="strat_tree_flat">
+					<instance instanceCode="${vItem_Code_Top}${vItem_Code_Bottom}" objectCode="strat_tree_flat">
 						<CustomInformation>
 							<ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
 							<ColumnValue name="page_layout">odf.strat_tree_flatFrame</ColumnValue>
-							<ColumnValue name="code">${vScop_Code}${vItem_Code_Top}${vItem_Code_Bottom}</ColumnValue>
-							<ColumnValue name="name">${vScop_Code}${vItem_Code_Top}${vItem_Code_Bottom}</ColumnValue>
-							<ColumnValue name="strat_scope">${vScop_Code}</ColumnValue>
+							<ColumnValue name="code">${vItem_Code_Top}${vItem_Code_Bottom}</ColumnValue>
+							<ColumnValue name="name">${vItem_Code_Top}${vItem_Code_Bottom}</ColumnValue>
 							<ColumnValue name="parent_level">${vItem_Levl_Top}</ColumnValue>
 							<ColumnValue name="child_level">${vItem_Levl_Bottom}</ColumnValue>
 							<ColumnValue name="parent_item">${vItem_Code_Top}</ColumnValue>
@@ -185,12 +184,12 @@
 				<gel:set insert="true" select="$v_xml_tree/NikuDataBus/customObjectInstances" value="${v_tree_instance}"/>
 			</core:forEach>
 		</core:forEach>
-	</core:while> 
+	</core:while>
 
 	<!-- First Create the Flat Tree-->
 	<core:if test="${DebugLevel &gt; 1}">
 		<gel:serialize var="${v_xml_tree}" fileName="${XOGwebFolder}/XOGWrite_StratItemTree_${vItem_Code}.xml"/>
-		<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_StratItemTree_${vItem_Code}.xml"/> 
+		<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_StratItemTree_${vItem_Code}.xml"/>
 	</core:if>
 
 	<!-- Calling XOG-->
@@ -210,7 +209,7 @@
 			</soap:message>
 		</soap:invoke>
 	</core:catch>
-	
+
 	<core:choose>
 		<core:when test="${v_xog_exception != null}">
 			<gel:log category="XOG" level="ERROR">XOG operation failed: ${v_xog_exception}</gel:log>
@@ -224,22 +223,22 @@
 			<gel:set asString="true" select="$writeOutputRoot/Statistics/@updatedRecords" var="XOGupdatedrecords"/>
 			<gel:set asString="true" select="$writeOutputRoot/Statistics/@failureRecords" var="XOGfailurerecords"/>
 			<!-- Check the XOG result -->
-			<gel:log category="XOG" level="INFO">[XOGDocument import for ${vItemID} status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
+			<gel:log category="XOG" level="INFO">[XOG] Document import for ${vItemID} status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
 		</core:otherwise>
 	</core:choose>
-	
+
 	<core:if test="${DebugLevel &gt; 1}">
 		<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGResults_StratItemTree_${vItem_Code}.xml"/>
-		<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_StratItemTree_${vItem_Code}.xml"/> 
+		<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_StratItemTree_${vItem_Code}.xml"/>
 	</core:if>
-	
-	
-	<!-- Now update the strategic Item with the Top Level Hierarchy code -->
+
+
+	<!-- First update the strategic Item with the Top Level Hierarchy code -->
 	<core:if test="${DebugLevel &gt; 0}">
-		<gel:log level="debug" message="Found Top Level Strategic Item: ${vItem_Code_Top}."/> 
+		<gel:log level="debug" message="Found Top Level Strategic Item: ${vItem_Code_Top}."/>
 	</core:if>
 	<core:set value="${vItem_Code_Top}" var="vItemTopLevel"/>
-	
+
 	<gel:parse var="v_xml_root">
 		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
 			<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="13.0.0.6982"/>
@@ -255,7 +254,7 @@
 
 	<core:if test="${DebugLevel &gt; 1}">
 		<gel:serialize var="${v_xml_root}" fileName="${XOGwebFolder}/XOGWrite_StratItem_${vItem_Code}.xml"/>
-		<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_StratItem_${vItem_Code}.xml"/> 
+		<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_StratItem_${vItem_Code}.xml"/>
 	</core:if>
 
 	<!-- Calling XOG-->
@@ -275,7 +274,7 @@
 			</soap:message>
 		</soap:invoke>
 	</core:catch>
-	
+
 	<core:choose>
 		<core:when test="${v_xog_exception2 != null}">
 			<gel:log category="XOG" level="ERROR">XOG operation failed: ${v_xog_exception2}</gel:log>
@@ -292,10 +291,10 @@
 			<gel:log category="XOG" level="INFO">[XOGDocument import for ${vItemID} status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
 		</core:otherwise>
 	</core:choose>
-	
+
 	<core:if test="${DebugLevel &gt; 1}">
 		<gel:serialize var="${runresult2}" fileName="${XOGwebFolder}/XOGResults_StratItem_${vItem_Code}.xml"/>
-		<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_StratItem_${vItem_Code}.xml"/> 
+		<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_StratItem_${vItem_Code}.xml"/>
 	</core:if>
-	
+
 </gel:script>

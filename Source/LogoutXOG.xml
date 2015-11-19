@@ -1,9 +1,9 @@
-<gel:script 
- xmlns:core="jelly:core" 
+<gel:script
+ xmlns:core="jelly:core"
     xmlns:gel="jelly:com.niku.union.gel.GELTagLibrary"
     xmlns:soap="jelly:com.niku.union.gel.SOAPTagLibrary"
     xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-    xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/"	    
+    xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/"
     xmlns:sql="jelly:sql"
     xmlns:xog="http://www.niku.com/xog"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
@@ -11,7 +11,7 @@
     xmlns:file="jelly:com.niku.union.gel.FileTagLibrary"
     xmlns:util="jelly:util"
     xmlns:q="http://www.niku.com/xog/Query">
-	
+
    	<!--============================================================-->
 	<!-- Package: Strategic Alignment 4.0 							-->
 	<!-- Process: Strategic KPI Calculation 						-->
@@ -27,7 +27,7 @@
 	<!-- Step	: Finish											-->
 	<!-- Action	: Logout XOG (or) Logout from XOG (or) Logout		-->
 	<!--															-->
-	<!-- Process: Strategy Control									--> 
+	<!-- Process: Strategy Control									-->
 	<!-- Step	: Close Evaluation									-->
 	<!-- Action	: Logout 											-->
    	<!--============================================================-->
@@ -35,12 +35,12 @@
    	<!--============================================================-->
 
 	<core:set var="vFound">0</core:set>
-	
+
 	<core:if test="${DebugLevel &gt; 0}">
 		<gel:log level="debug" message="Start Script"/>
-		<gel:log level="debug" message=">>Persisted XOG URL  : ${XOGURL}"/> 
-		<gel:log level="debug" message=">>Persisted SessionID: ${sessionID}"/> 
-		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/> 
+		<gel:log level="debug" message=">>Persisted XOG URL  : ${XOGURL}"/>
+		<gel:log level="debug" message=">>Persisted SessionID: ${sessionID}"/>
+		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/>
 	</core:if>
 
     <gel:setDataSource dbId="Niku"/>

@@ -13,10 +13,13 @@
 	<!-- Step	: Start												-->
 	<!-- Action	: Clean up Tree										-->
    	<!--============================================================-->
-    <!-- Object : n/a					-->
+    <!-- Object : Strategic Item (strategic_item)					-->
    	<!--============================================================-->
 	<!-- This process cleans up the tree on strat_tree_flat			-->
    	<!--============================================================-->
+
+      <core:set value="${gel_objectInstanceId}" var="vItemID"/>
+
 
 	<core:set var="DebugLevel" value="1"/>
 	<core:if test="${DebugLevel &gt; 0}">
@@ -26,11 +29,30 @@
 
     <gel:setDataSource dbId="niku"/>
 
+    <!-- Find Hierarchy -->
+      <sql:query escapeText="false" var="vHier">
+  		Select SH.ID, SH.CODE, SH.NAME, SI.CODE, SI.NAME
+  		FROM ODF_CA_STRATEGIC_ITEM SI
+        INNER JOIN ODF_STRATEGIC_ITEM SH ON SH.ID = SI.STRAT_HIERARCHY
+  		WHERE SI.ID = ${vItemID}
+  	</sql:query>
+      <core:forEach items="${vHier.rowsByIndex}" var="row">
+          <core:set var="vSH_Intl">${row[0]}</core:set>
+          <core:set var="vSH_Code">${row[1]}</core:set>
+          <core:set var="vSH_Name">${row[2]}</core:set>
+          <core:set var="vSI_Code">${row[3]}</core:set>
+          <core:set var="vSI_Name">${row[4]}</core:set>
+      		<core:if test="${DebugLevel &gt; 0}">
+      			<gel:log level="debug" message="Found Plan ${vSH_Name}-${vSH_Code}-${vSH_Intl} for Item ${vSI_Name}-${vSI_Code}."/>
+      		</core:if>
+      </core:forEach>
+
 	<!-- Children that don't exist -->
     <sql:query escapeText="false" var="vInvalidChildren">
 		Select ST.ID, ST.CODE, ST.PARENT_ITEM, ST.CHILD_ITEM
 		FROM ODF_CA_STRAT_TREE_FLAT ST
-		WHERE NOT ST.EXISTS (Select 'x'
+		WHERE ST.STRAT_HIERARCHY = ${vSH_Intl}
+    AND NOT ST.EXISTS (Select 'x'
 							From ODF_CA_STRATEGIC_ITEM SI
 							Where SI.ID=ST.CHILD_ITEM)
 	</sql:query>
@@ -52,7 +74,8 @@
     <sql:query escapeText="false" var="vInvalidParents">
 		Select ST.ID, ST.CODE, ST.PARENT_ITEM, ST.CHILD_ITEM
 		FROM ODF_CA_STRAT_TREE_FLAT ST
-    WHERE NOT EXISTS (Select 'x'
+    WHERE ST.STRAT_HIERARCHY = ${vSH_Intl}
+    AND NOT EXISTS (Select 'x'
 							From ODF_CA_STRATEGIC_ITEM SI
 							Where SI.ID=ST.PARENT_ITEM)
 	</sql:query>
