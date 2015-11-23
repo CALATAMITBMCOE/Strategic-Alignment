@@ -1,0 +1,67 @@
+		<style type="text/css">
+			#parentdiv
+			{
+				position: relative;
+				width: 1000px;
+				height: 660px;
+			}
+			
+			.stratItem    {
+				position: absolute;
+				width: 30px;
+				height: 30px;
+				background-color: #444;
+				border-radius: 60px;
+				cursor: pointer; 
+				cursor: hand;
+			}
+			
+			.stratItemBlack  {
+				background-color: #000;
+			}
+			
+			.stratItemRed  {
+				background-color: red;
+			}
+			
+			.stratItemYellow  {
+				background-color: yellow;
+			}
+			
+			.stratItemGreen  {
+				background-color: green;
+			}
+			
+			.stratItemBlue  {
+				background-color: blue;
+			}
+			
+			.stratItemWhite  {
+				background-color: #fff;
+			}
+			
+			
+			.stratItem > div {
+				color: #fff;
+				font-size: 10px;
+				text-align: center;
+				vertical-align: middle;
+				line-height: 30px;
+			}
+			
+			.stratItemYellow > div  {
+				color: #000!important;
+				font-size: 10px;
+				text-align: center;
+				vertical-align: middle;
+				line-height: 30px;
+			}
+
+			.orgLightLink:link {color:#ffffff;text-decoration:none;}
+			.orgLightLink:visited {color:#ffffff;text-decoration:none;}
+			.orgLightLink:hover {color:#ffffff;text-decoration:underline;}
+			.orgDarkLink:link {color:#000000;text-decoration:none;}
+			.orgDarkLink:visited {color:#000000;text-decoration:none;}
+			.orgDarkLink:hover {color:#000000;text-decoration:underline;}
+			
+		</style>

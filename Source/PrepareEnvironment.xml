@@ -1,9 +1,9 @@
-<gel:script 
- xmlns:core="jelly:core" 
+<gel:script
+ xmlns:core="jelly:core"
     xmlns:gel="jelly:com.niku.union.gel.GELTagLibrary"
     xmlns:soap="jelly:com.niku.union.gel.SOAPTagLibrary"
     xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-    xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/"	    
+    xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/"
     xmlns:sql="jelly:sql"
     xmlns:xog="http://www.niku.com/xog"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
@@ -11,14 +11,35 @@
     xmlns:file="jelly:com.niku.union.gel.FileTagLibrary"
     xmlns:util="jelly:util"
     xmlns:q="http://www.niku.com/xog/Query">
-	
 
-	<core:set var="DebugLevel">1</core:set>
+   	<!--============================================================-->
+	<!-- Package: Strategic Alignment 4.0 							-->
+	<!-- Process: Strategic KPI Calculation 						-->
+	<!-- 		  Strategic Alignment Metric Initialize				-->
+	<!-- 		  Strategic Portfolio Creation 						-->
+	<!-- 		  Strategic Item Status Initialize 					-->
+	<!--		  Strategic Fund Allocation Initialization			-->
+	<!--		  Strategic Allocation Percentage					-->
+	<!-- 		  Strategic Top Down Planning Calculation			-->
+	<!-- 		  Strategic Rollup Allocated and Commited Funding	-->
+	<!-- 		  Strategic Item - Build Tree Flat					-->
+	<!-- 		  Strategic Item - Rebuild Tree Flat				-->
+	<!-- Step	: Start												-->
+	<!-- Action	: Prepare Environment								-->
+	<!--															-->
+	<!-- Process: Strategy Control									-->
+	<!-- Step	: Close Evaluation									-->
+	<!-- Action	: Prepare Environment								-->
+   	<!--============================================================-->
+	<!-- Create environment variables and Login to XOG 				-->
+   	<!--============================================================-->
+
+	<core:set var="DebugLevel">0</core:set>
 
 	<core:if test="${DebugLevel &gt; 0}">
 		<gel:log level="debug" message="Start Script"/>
 	</core:if>
-	
+
 	<gel:setDataSource dbId="Niku"/>
 
     <gel:parameter default="xog" var="XOGUsername"/>
@@ -29,7 +50,7 @@
 	<core:if test="${DebugLevel &gt; 1}">
 		<gel:log level="debug" message="vInstallDirInput :  ${vInstallDirInput}"/>
 	</core:if>
-	
+
 	<core:set var="InputString" value="${vInstallDirInput}"/>
 
 	<core:invoke var="vInputStringCorrect" on="${InputString}" method="replaceAll">
@@ -41,21 +62,21 @@
 		<core:arg type="char" value="\"/>
 		<core:arg type="char" value="/"/>
 	</core:invoke>
-	
+
 	<core:if test="${DebugLevel &gt; 1}">
 		<gel:log level="debug" message="vInstallDir :  ${vInstallDir}"/>
 	</core:if>
-	
+
 	<core:set var="XOGlogFolder" value="${vInstallDir}/logs"/>
 	<core:if test="${DebugLevel &gt; 1}">
 		<core:set var="XOGwebFolder" value="${vInstallDir}/webroot"/>
 	</core:if>
 	<core:set var="schedulerUrl" value="${config.getProperties().getWebServer().getSchedulerUrl()}"/>
-	
+
 	<core:if test="${DebugLevel &gt; 1}">
-		<gel:log level="debug" message="schedulerUrl: ${schedulerUrl}"/> 
+		<gel:log level="debug" message="schedulerUrl: ${schedulerUrl}"/>
 	</core:if>
-	
+
 	<!-- Gets ID from Instance 0-->
     <core:set var="WebServerid" value="${config.getProperties().getWebServer().getWebServerInstance(0).getId()}"/>
 	<!-- Tests if Instance 0 is app - then gets instance 0 data -->
@@ -68,17 +89,17 @@
 	</core:if>
 
 	<core:if test="${DebugLevel &gt; 1}">
-		<gel:log level="debug" message="WebServerid: ${WebServerid}"/> 
-		<gel:log level="debug" message="entryUrl: ${entryUrl}"/> 
+		<gel:log level="debug" message="WebServerid: ${WebServerid}"/>
+		<gel:log level="debug" message="entryUrl: ${entryUrl}"/>
 	</core:if>
 
 	<!-- Not sure whether I should use entryUrl -->
 	<core:set var="XOGURL" value="${entryUrl}"/>
 	<core:if test="${DebugLevel &gt; 0}">
-		<gel:log level="debug" message="XOGURL: ${XOGURL}"/> 
-		<gel:log level="debug" message="XOGlogFolder: ${XOGlogFolder}"/> 
+		<gel:log level="debug" message="XOGURL: ${XOGURL}"/>
+		<gel:log level="debug" message="XOGlogFolder: ${XOGlogFolder}"/>
 	</core:if>
-	
+
     <!-- Log in to XOG-->
     <soap:invoke endpoint="${XOGURL}/niku/xog" var="auth">
         <soap:message>
@@ -106,7 +127,7 @@
         </core:when>
         <core:otherwise>
 			<core:if test="${DebugLevel &gt; 1}">
-				<gel:log level="debug" message="[XOG] XOG Login Successful. ${sessionID}."/> 
+				<gel:log level="debug" message="[XOG] XOG Login Successful. ${sessionID}."/>
 			</core:if>
 			<gel:persist var="XOGURL" value="${XOGURL}" scope="INSTANCE"/>
 			<gel:persist var="XOGlogFolder" value="${XOGlogFolder}" scope="INSTANCE"/>
@@ -114,5 +135,5 @@
 			<gel:persist var="sessionID" value="${sessionID}" scope="INSTANCE"/>
 			<gel:persist var="DebugLevel" value="${DebugLevel}" scope="INSTANCE"/>
 		</core:otherwise>
-    </core:choose>		
+    </core:choose>
 </gel:script>
