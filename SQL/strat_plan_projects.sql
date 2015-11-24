@@ -34,38 +34,39 @@ SELECT
 @SELECT:DIM_PROP:USER_DEF:IMPLIED:ITEM:X.isItem:isItem@,	   
 @SELECT:DIM_PROP:USER_DEF:IMPLIED:ITEM:X.odf_object_code:odf_object_code@,	   
 @SELECT:DIM_PROP:USER_DEF:IMPLIED:ITEM:X.hg_has_children:hg_has_children@   
- FROM (select '1'||SI.ID dim,      SI.ID IntID, SI.NAME, SI.CODE, SI.DESCRIPTION,      SP.ID PerspID, SP.NAME Perspective, SI.ITEM_LEVEL, SI.ITEMSTATUS, SI.WEIGHT, SI.WEIGHTPERCENT,  
+ FROM (select '1' @+@ SI.ID dim,      SI.ID IntID, SI.NAME, SI.CODE, SI.DESCRIPTION,      SP.ID PerspID, SP.NAME Perspective, SI.ITEM_LEVEL, SI.ITEMSTATUS, SI.WEIGHT, SI.WEIGHTPERCENT,  
 	 null stage_id, null stage_name, trunc(avg(odf_proj.stage_number)) stage_number, max(odf_proj.stage_count) stage_count, 
 	 MIN(ODF_PROJ.SCHEDULE_START) SCHEDULE_START, MAX(ODF_PROJ.SCHEDULE_FINISH) SCHEDULE_FINISH, MIN(ODF_PROJ.BASELINE_START) BASELINE_START, MAX(ODF_PROJ.BASELINE_FINISH) BASELINE_FINISH,
 	 avg(odf_proj.obj_alignment) business_alignment,	   avg(odf_inv.STRAT_ALIGN_SCORE) overall_alignment,	   avg(odf_inv.strat_corp_alignment) corporate_alignment,       max(odf_proj.risk) risk_sl,       max(inv_d.days_late) schedule,       max(inv_d.days_late) schedule_sl,       max(inv_d.days_late_pct) schedule_pct,       max(inv_d.days_late_pct) schedule_pct_sl,       max(odf_proj.obj_cost_pct_var) cv_percent_sl,       max(odf_proj.obj_effort_var) effort_sl,       max(issue.issue_sl) issue_sl,       max(change.change_exists) change_sl,      0 isInvestment, 1 isItem, null odf_object_code,	  
 	 CASE WHEN ((SELECT COUNT(*) FROM  ODF_CA_STRATEGIC_ITEM SI2  WHERE   SI2.PARENTITEM = SI.ID)+
 				(select count(*) FROM  odf_multi_Valued_lookups MVL WHERE   MVL.OBJECT = 'project'  AND   MVL.ATTRIBUTE = 'strat_sup_goals' AND   MVL.VALUE=SI.ID)
-				) > 0 THEN '1'||SI.ID ELSE NULL END hg_has_children   
+				) > 0 THEN '1' @+@ SI.ID ELSE NULL END hg_has_children   
 	FROM  odf_ca_Strategic_item SI     
 		LEFT OUTER   join odf_ca_strat_bsc_persp sp on sp.id = si.bscperspective     
-	    INNER JOIN ODF_CA_STRATEGIC_ITEM CSI ON CSI.STRAT_HIERARCHY = SI.ID
-		INNER   join odf_multi_valued_lookups MVL     ON MVL.OBJECT = 'project'        AND   MVL.ATTRIBUTE = 'strat_sup_goals'        AND   MVL.VALUE = CSI.ID     
+		INNER   join ODF_CA_STRAT_TREE_FLAT ST    on st.parent_level=SI.item_level   AND   st.parent_item = SI.ID   
+		INNER   join odf_multi_valued_lookups MVL     ON MVL.OBJECT = 'project'        AND   MVL.ATTRIBUTE = 'strat_sup_goals'        AND   MVL.VALUE = ST.CHILD_ITEM
 		INNER   join ODF_PROJECT_V2 odf_proj 	on odf_proj.odf_pk = MVL.PK_ID 	  
 		INNER   join odf_inv_v2 odf_inv on odf_inv.odf_pk = odf_proj.odf_pk   
 		INNER    JOIN  COP_INV_DAYS_LATE_V inv_d      ON  odf_proj.odf_pk =  inv_d.investment_id 
 		LEFT   OUTER JOIN cop_inv_rim_stoplights_v issue      ON   odf_proj.odf_pk = issue.investment_id 
 		LEFT   OUTER JOIN (SELECT c.pk_id project_id, COUNT(c.odf_pk) change_exists  FROM    odf_change_v2 c  WHERE  c.status_code NOT IN ('CLOSED','RESOLVED') GROUP  BY c.pk_id) change              
 			ON   odf_proj.odf_pk = change.project_id  
-	WHERE   SI.ID = @WHERE:PARAM:USER_DEF:INTEGER:STRAT_HIER@   AND   nvl(@WHERE:PARAM:USER_DEF:INTEGER:hg_row_id@,0) = 0   
+	WHERE   SI.ID = @WHERE:PARAM:USER_DEF:INTEGER:STRAT_HIER@   AND   @NVL@(@WHERE:PARAM:USER_DEF:INTEGER:hg_row_id@,0) = 0   
 	GROUP BY   SI.ID, SI.NAME, SI.CODE, SI.DESCRIPTION,       SP.ID, SP.NAME, SI.ITEM_LEVEL, SI.ITEMSTATUS, SI.WEIGHT, SI.WEIGHTPERCENT
 
 UNION
 
-	select '1'||SI.ID dim,      SI.ID IntID, SI.NAME, SI.CODE, SI.DESCRIPTION,      SP.ID PerspID, SP.NAME Perspective, 	  SI.ITEM_LEVEL, SI.ITEMSTATUS, SI.WEIGHT, SI.WEIGHTPERCENT,    	  
+	select '1' @+@ SI.ID dim,      SI.ID IntID, SI.NAME, SI.CODE, SI.DESCRIPTION,      SP.ID PerspID, SP.NAME Perspective, 	  SI.ITEM_LEVEL, SI.ITEMSTATUS, SI.WEIGHT, SI.WEIGHTPERCENT,    	  
 	null stage_id, null stage_name, trunc(avg(odf_proj.stage_number)) stage_number, max(odf_proj.stage_count) stage_count,
 	MIN(ODF_PROJ.SCHEDULE_START) SCHEDULE_START, MAX(ODF_PROJ.SCHEDULE_FINISH) SCHEDULE_FINISH, MIN(ODF_PROJ.BASELINE_START) BASELINE_START, MAX(ODF_PROJ.BASELINE_FINISH) BASELINE_FINISH,
 	avg(odf_proj.obj_alignment) business_alignment,	   avg(odf_inv.STRAT_ALIGN_SCORE) overall_alignment,	   avg(odf_inv.strat_corp_alignment) corporate_alignment,       max(odf_proj.risk) risk_sl,       max(inv_d.days_late) schedule,       max(inv_d.days_late) schedule_sl,       max(inv_d.days_late_pct) schedule_pct,       max(inv_d.days_late_pct) schedule_pct_sl,       max(odf_proj.obj_cost_pct_var) cv_percent_sl,       max(odf_proj.obj_effort_var) effort_sl,       max(issue.issue_sl) issue_sl,       max(change.change_exists) change_sl,      0 isInvestment, 1 isItem, null odf_object_code,	
 	CASE WHEN ((SELECT COUNT(*) FROM  ODF_CA_STRATEGIC_ITEM SI2 WHERE   SI2.PARENTITEM = SI.ID) +
 		    	(select count(*) FROM  odf_multi_Valued_lookups MVL WHERE   MVL.OBJECT = 'project' AND   MVL.ATTRIBUTE = 'strat_sup_goals' 	AND   MVL.VALUE=SI.ID)
-				) > 0 THEN '1'||SI.ID ELSE NULL END hg_has_children	    
+				) > 0 THEN '1' @+@ SI.ID ELSE NULL END hg_has_children	    
 	FROM  ODF_CA_STRATEGIC_ITEM SI   
+		INNER   join ODF_CA_STRAT_TREE_FLAT ST   on st.parent_level=SI.item_level   AND   st.parent_item = SI.ID
 		LEFT OUTER   join odf_ca_strat_bsc_persp sp on sp.id = si.bscperspective     
-		INNER   join odf_multi_valued_lookups MVL     ON MVL.OBJECT = 'project'        AND   MVL.ATTRIBUTE = 'strat_sup_goals'       AND   MVL.VALUE = SI.ID     
+		INNER   join odf_multi_valued_lookups MVL     ON MVL.OBJECT = 'project'        AND   MVL.ATTRIBUTE = 'strat_sup_goals'       AND   MVL.VALUE = ST.CHILD_ITEM   
 		INNER   join ODF_PROJECT_V2 odf_proj 	on odf_proj.odf_pk = MVL.PK_ID 	  
 		INNER   join odf_inv_v2 odf_inv on odf_inv.odf_pk = odf_proj.odf_pk    
 		INNER    JOIN  COP_INV_DAYS_LATE_V inv_d  ON  odf_proj.odf_pk =  inv_d.investment_id  
@@ -77,7 +78,7 @@ UNION
 
 UNION
 
-  	select '2'||odf_proj.odf_pk dim,      odf_proj.odf_pk IntID, odf_proj.NAME, odf_proj.UNIQUE_CODE Code, odf_proj.OBJ_OBJECTIVE DESCRIPTION,      Null PerspID, Null Perspective, 	  NULL ITEM_LEVEL, null itemstatus, NULL WEIGHT, NULL WEIGHTPERCENT, 	   odf_proj.stage_code stage_id,       L1.NAME stage_name,       odf_proj.stage_number stage_number,       odf_proj.stage_count stage_count,       
+  	select '2' @+@ odf_proj.odf_pk dim,      odf_proj.odf_pk IntID, odf_proj.NAME, odf_proj.UNIQUE_CODE Code, odf_proj.OBJ_OBJECTIVE DESCRIPTION,      Null PerspID, Null Perspective, 	  NULL ITEM_LEVEL, null itemstatus, NULL WEIGHT, NULL WEIGHTPERCENT, 	   odf_proj.stage_code stage_id,       L1.NAME stage_name,       odf_proj.stage_number stage_number,       odf_proj.stage_count stage_count,       
 	ODF_PROJ.SCHEDULE_START, ODF_PROJ.SCHEDULE_FINISH, ODF_PROJ.BASELINE_START, ODF_PROJ.BASELINE_FINISH,
 	odf_proj.obj_alignment business_alignment,	   odf_inv.STRAT_ALIGN_SCORE overall_alignment,	   odf_inv.strat_corp_alignment corporate_alignment,       odf_proj.risk risk_sl,       inv_d.days_late schedule,       inv_d.days_late schedule_sl,       inv_d.days_late_pct schedule_pct,       inv_d.days_late_pct schedule_pct_sl,       odf_proj.obj_cost_pct_var cv_percent_sl,       odf_proj.obj_effort_var effort_sl,       issue.issue_sl issue_sl,       change.change_exists change_sl,	  1 isInvestment, 0 isItem, odf_proj.odf_object_code, null hg_has_children   
 	FROM    ODF_PROJECT_V2 odf_proj 	  
@@ -91,4 +92,4 @@ UNION
 		LEFT   OUTER JOIN (SELECT c.pk_id project_id, COUNT(c.odf_pk) change_exists FROM    odf_change_v2 c  WHERE c.status_code NOT IN ('CLOSED','RESOLVED') GROUP  BY c.pk_id) change  
 			ON   odf_proj.odf_pk = change.project_id  
 	WHERE @WHERE:SECURITY:PROJECT:odf_proj.odf_pk@ ) X 
- WHERE   @FILTER@	
+ WHERE   @FILTER@
