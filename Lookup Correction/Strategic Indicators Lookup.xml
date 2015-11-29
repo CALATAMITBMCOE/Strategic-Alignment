@@ -1,0 +1,203 @@
+<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_contentPack.xsd">
+  <Header action="write" externalSource="NIKU" objectType="contentPack" version="14.3.0.298"/>
+  <contentPack update="true">
+    <lookups update="true">
+      <dynamicLookup autoSuggestEnabled="true" autoSuggestMaxSuggestions="10" code="OBJECT_LOOKUP_STRAT_KPI" displayAttributeName="name"
+        hiddenAttributeName="odf_pk" objectCode="strat_kpi" sortAttributeName="name" sortDirection="asc" source="niku.com" status="active" update="true">
+        <nls description="Strategic Indicator Instàncies" languageCode="ca" name="Strategic Indicator Instàncies"/>
+        <nls description="Strategic KPI - Instance" languageCode="cs" name="Strategic KPI - Instance"/>
+        <nls description="Strategic KPI - Forekomster" languageCode="da" name="Strategic KPI - Forekomster"/>
+        <nls description="Strategic KPI - Instanzen" languageCode="de" name="Strategic KPI - Instanzen"/>
+        <nls description="Strategic Indicator Instances" languageCode="en" name="Strategic Indicator Instances"/>
+        <nls description="Strategic Indicador Instancias" languageCode="es" name="Instancias de los Indicadores Estratégicos"/>
+        <nls description="Strategic KPI Esiintymät" languageCode="fi" name="Strategic KPI Esiintymät"/>
+        <nls description="Strategic KPI - Instances" languageCode="fr" name="Strategic KPI - Instances"/>
+        <nls description="Strategic KPI Példányok" languageCode="hu" name="Strategic KPI Példányok"/>
+        <nls description="Strategic KPI - Istanze" languageCode="it" name="Strategic KPI - Istanze"/>
+        <nls description="Strategic KPI インスタンス" languageCode="ja" name="Strategic KPI インスタンス"/>
+        <nls description="Strategic KPI Instances" languageCode="ko" name="Strategic KPI Instances"/>
+        <nls description="Strategic KPI - Instanties" languageCode="nl" name="Strategic KPI - Instanties"/>
+        <nls description="Strategic KPI Forekomster" languageCode="no" name="Strategic KPI Forekomster"/>
+        <nls description="Strategic KPI — Wystąpienia" languageCode="pl" name="Strategic KPI — Wystąpienia"/>
+        <nls description="Instâncias de Indicadores Estratégicos" languageCode="pt" name="Instâncias de Indicadores Estratégicos"/>
+        <nls description="Strategic KPI: экземпляры" languageCode="ru" name="Strategic KPI: экземпляры"/>
+        <nls description="Strategic KPI Instanser" languageCode="sv" name="Strategic KPI Instanser"/>
+        <nls description="Strategic KPI Örnekler" languageCode="tr" name="Strategic KPI Örnekler"/>
+        <nls description="Strategic KPI Instances" languageCode="zh" name="Strategic KPI Instances"/>
+        <nls description="Strategic KPI Instances" languageCode="zh_TW" name="Strategic KPI Instances"/>
+        <nsql databaseId="Niku" dbVendor="all"><![CDATA[SELECT @SELECT:sk.ID:ODF_PK@, @SELECT:sk.CODE:CODE@, @SELECT:sk.CODE:UNIQUE_CODE@, @SELECT:sk.NAME:NAME@ FROM   ODF_CA_STRAT_KPI sk  WHERE  @FILTER@ @BROWSE-ONLY: AND sk.ACTIVE=1 :BROWSE-ONLY@ AND @WHERE:SECURITY:STRAT_KPI:sk.ID@]]></nsql>
+        <displayedSuggestionAttributes>
+          <displayedSuggestionAttribute value="name"/>
+          <displayedSuggestionAttribute value="code"/>
+        </displayedSuggestionAttributes>
+        <searchedSuggestionAttributes>
+          <searchedSuggestionAttribute value="name"/>
+          <searchedSuggestionAttribute value="code"/>
+        </searchedSuggestionAttributes>
+        <browsePage>
+          <singleSelectPageTitles>
+            <nls description="Strategic Indicator Instàncies" languageCode="ca" name="Strategic Indicator Instàncies"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="cs" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="da" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="de" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="Strategic Indicators" languageCode="en" name="Strategic Indicators"/>
+            <nls description="Indicadores Estratégicos" languageCode="es" name="Indicadores Estratégicos"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="fi" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="fr" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="hu" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="it" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="ja" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="ko" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="nl" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="no" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="pl" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="Indicadores Estratégicos" languageCode="pt" name="Indicadores Estratégicos"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="ru" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="sv" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="tr" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="zh" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="zh_TW" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+          </singleSelectPageTitles>
+          <multiSelectPageTitles>
+            <nls description="Strategic Indicator Instàncies" languageCode="ca" name="Strategic Indicator Instàncies"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="cs" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="da" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="de" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="Strategic Indicators" languageCode="en" name="Strategic Indicators"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="es" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="fi" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="fr" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="hu" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="it" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="ja" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="ko" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="nl" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="no" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="pl" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="pt" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="ru" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="sv" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="tr" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="zh" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+            <nls description="OBJECT_LOOKUP_STRAT_KPI_01" languageCode="zh_TW" name="OBJECT_LOOKUP_STRAT_KPI_01"/>
+          </multiSelectPageTitles>
+          <filter code="code" defaultValue="" order="2" widgetType="text">
+            <nls description="ID" languageCode="ca" name="ID"/>
+            <nls description="" languageCode="cs" name="ID"/>
+            <nls description="" languageCode="da" name="ID"/>
+            <nls description="" languageCode="de" name="ID"/>
+            <nls description="ID" languageCode="en" name="ID"/>
+            <nls description="" languageCode="es" name="ID"/>
+            <nls description="" languageCode="fi" name="ID"/>
+            <nls description="" languageCode="fr" name="ID"/>
+            <nls description="" languageCode="hu" name="ID"/>
+            <nls description="" languageCode="it" name="ID"/>
+            <nls description="" languageCode="ja" name="ID"/>
+            <nls description="" languageCode="ko" name="code"/>
+            <nls description="" languageCode="nl" name="ID"/>
+            <nls description="" languageCode="no" name="ID"/>
+            <nls description="" languageCode="pl" name="ID"/>
+            <nls description="" languageCode="pt" name="ID"/>
+            <nls description="" languageCode="ru" name="ID"/>
+            <nls description="" languageCode="sv" name="ID"/>
+            <nls description="" languageCode="tr" name="ID"/>
+            <nls description="" languageCode="zh" name="ID"/>
+            <nls description="" languageCode="zh_TW" name="ID"/>
+          </filter>
+          <filter code="name" defaultValue="" order="1" widgetType="text">
+            <nls description="Nom" languageCode="ca" name="Nom"/>
+            <nls description="" languageCode="cs" name="name"/>
+            <nls description="" languageCode="da" name="name"/>
+            <nls description="" languageCode="de" name="name"/>
+            <nls description="Indicator" languageCode="en" name="Indicator"/>
+            <nls description="Indicador" languageCode="es" name="Indicador"/>
+            <nls description="" languageCode="fi" name="name"/>
+            <nls description="" languageCode="fr" name="name"/>
+            <nls description="" languageCode="hu" name="name"/>
+            <nls description="" languageCode="it" name="name"/>
+            <nls description="" languageCode="ja" name="name"/>
+            <nls description="" languageCode="ko" name="name"/>
+            <nls description="" languageCode="nl" name="name"/>
+            <nls description="" languageCode="no" name="name"/>
+            <nls description="" languageCode="pl" name="name"/>
+            <nls description="Indicador" languageCode="pt" name="Indicador"/>
+            <nls description="" languageCode="ru" name="name"/>
+            <nls description="" languageCode="sv" name="name"/>
+            <nls description="" languageCode="tr" name="name"/>
+            <nls description="" languageCode="zh" name="name"/>
+            <nls description="" languageCode="zh_TW" name="name"/>
+          </filter>
+          <listColumn code="odf_pk" order="1" widgetType="hidden">
+            <nls description="" languageCode="ca" name="[hidden]: odf_pk"/>
+            <nls description="" languageCode="cs" name="odf_pk"/>
+            <nls description="" languageCode="da" name="odf_pk"/>
+            <nls description="" languageCode="de" name="odf_pk"/>
+            <nls description="odf_pk" languageCode="en" name="odf_pk"/>
+            <nls description="" languageCode="es" name="odf_pk"/>
+            <nls description="" languageCode="fi" name="odf_pk"/>
+            <nls description="" languageCode="fr" name="odf_pk"/>
+            <nls description="" languageCode="hu" name="odf_pk"/>
+            <nls description="" languageCode="it" name="odf_pk"/>
+            <nls description="" languageCode="ja" name="odf_pk"/>
+            <nls description="" languageCode="ko" name="odf_pk"/>
+            <nls description="" languageCode="nl" name="odf_pk"/>
+            <nls description="" languageCode="no" name="odf_pk"/>
+            <nls description="" languageCode="pl" name="odf_pk"/>
+            <nls description="" languageCode="pt" name="odf_pk"/>
+            <nls description="" languageCode="ru" name="odf_pk"/>
+            <nls description="" languageCode="sv" name="odf_pk"/>
+            <nls description="" languageCode="tr" name="odf_pk"/>
+            <nls description="" languageCode="zh" name="odf_pk"/>
+            <nls description="" languageCode="zh_TW" name="odf_pk"/>
+          </listColumn>
+          <listColumn code="code" order="1" widgetType="text">
+            <nls description="ID" languageCode="ca" name="ID"/>
+            <nls description="" languageCode="cs" name="ID"/>
+            <nls description="" languageCode="da" name="ID"/>
+            <nls description="" languageCode="de" name="ID"/>
+            <nls description="ID" languageCode="en" name="ID"/>
+            <nls description="" languageCode="es" name="ID"/>
+            <nls description="" languageCode="fi" name="ID"/>
+            <nls description="" languageCode="fr" name="ID"/>
+            <nls description="" languageCode="hu" name="ID"/>
+            <nls description="" languageCode="it" name="ID"/>
+            <nls description="" languageCode="ja" name="ID"/>
+            <nls description="" languageCode="ko" name="code"/>
+            <nls description="" languageCode="nl" name="ID"/>
+            <nls description="" languageCode="no" name="ID"/>
+            <nls description="" languageCode="pl" name="ID"/>
+            <nls description="" languageCode="pt" name="ID"/>
+            <nls description="" languageCode="ru" name="ID"/>
+            <nls description="" languageCode="sv" name="ID"/>
+            <nls description="" languageCode="tr" name="ID"/>
+            <nls description="" languageCode="zh" name="ID"/>
+            <nls description="" languageCode="zh_TW" name="ID"/>
+          </listColumn>
+          <listColumn code="name" order="2" widgetType="text">
+            <nls description="Nom" languageCode="ca" name="Nom"/>
+            <nls description="" languageCode="cs" name="name"/>
+            <nls description="" languageCode="da" name="name"/>
+            <nls description="" languageCode="de" name="name"/>
+            <nls description="Indicator" languageCode="en" name="Indicator"/>
+            <nls description="Indicador" languageCode="es" name="Indicador"/>
+            <nls description="" languageCode="fi" name="name"/>
+            <nls description="" languageCode="fr" name="name"/>
+            <nls description="" languageCode="hu" name="name"/>
+            <nls description="" languageCode="it" name="name"/>
+            <nls description="" languageCode="ja" name="name"/>
+            <nls description="" languageCode="ko" name="name"/>
+            <nls description="" languageCode="nl" name="name"/>
+            <nls description="" languageCode="no" name="name"/>
+            <nls description="" languageCode="pl" name="name"/>
+            <nls description="Indicador" languageCode="pt" name="Indicador"/>
+            <nls description="" languageCode="ru" name="name"/>
+            <nls description="" languageCode="sv" name="name"/>
+            <nls description="" languageCode="tr" name="name"/>
+            <nls description="" languageCode="zh" name="name"/>
+            <nls description="" languageCode="zh_TW" name="name"/>
+          </listColumn>
+        </browsePage>
+      </dynamicLookup>
+    </lookups>
+  </contentPack>
+</NikuDataBus>
