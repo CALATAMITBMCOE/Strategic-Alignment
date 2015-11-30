@@ -42,7 +42,7 @@
     <!-- Reading Item Data-->
     <sql:query escapeText="false" var="vHier">
 		Select substr(SI.NAME,1,32), SI.CODE, U.USER_NAME, 
-				SI.STRAT_ALLOC_BENEFIT, SI.STRAT_ALLOC_FUNDING, SI.STRAT_ALLOC_FTE, SI.CURRENCY_CODE, 
+				SI.STRAT_ALLOC_BENEFIT, SI.STRAT_ALLOC_FUNDING, SI.STRAT_ALLOC_FTE, NVL(SI.PTF_OPEXLIM,0), SI.CURRENCY_CODE, 
 				to_char(SI.START_DATE,'YYYY-MM-DD'), to_char(SI.FINISH_DATE, 'YYYY-MM-DD'), U.ID 
 		FROM ODF_CA_STRATEGIC_ITEM SI
 			INNER JOIN SRM_RESOURCES R on R.ID = SI.STRAT_PFM_MANAGER
@@ -56,10 +56,11 @@
         <core:set var="vItem_Benf">${row[3]}</core:set>
         <core:set var="vItem_Cost">${row[4]}</core:set>
         <core:set var="vItem_FTEs">${row[5]}</core:set>
-        <core:set var="vItem_Curr">${row[6]}</core:set>
-        <core:set var="vItem_sDat">${row[7]}</core:set>
-        <core:set var="vItem_fDat">${row[8]}</core:set>
-        <core:set var="vItem_UsID">${row[9]}</core:set>
+        <core:set var="vItem_OPEX">${row[6]}</core:set>
+        <core:set var="vItem_Curr">${row[7]}</core:set>
+        <core:set var="vItem_sDat">${row[8]}</core:set>
+        <core:set var="vItem_fDat">${row[9]}</core:set>
+        <core:set var="vItem_UsID">${row[10]}</core:set>
 		<core:if test="${DebugLevel &gt; 0}">
 			<gel:log level="debug" message="Found Item: ${vItem_Code}-${vItem_Name}. Created on Behalf of ${vItem_User}."/> 
 		</core:if>
@@ -97,7 +98,7 @@
 	<gel:parse var="v_Portfolio_Instance">
 		<pfmPortfolio benefits_target="${vItem_Benf}" cap_unit_type="CAPACITY_UNIT_TYPE_FTE" capital_cost_target="${vItem_Cost}" code="PT-${vItem_Code}" 
   description="${vItem_Name}" finish_date="${vItem_fDat}T00:00:00" is_active="1" 
-  name="${vItem_Name}" operating_cost_target="0" currency_code="${vItem_Curr}" 
+  name="${vItem_Name}" operating_cost_target="${vItem_OPEX}" currency_code="${vItem_Curr}" 
   page_layout="cop.pfmInvDashboard" partition_code="${vPart_Code}" resources_target="${vItem_FTEs}" 
   start_date="${vItem_sDat}T00:00:00">
 			<Content>

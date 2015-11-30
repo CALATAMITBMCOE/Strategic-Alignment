@@ -59,9 +59,7 @@ Select distinct '3' @+@ SI.ID dim, SI.ID IntID, SI.CODE, SI.NAME, SI.DESCRIPTION
 RP.ID RelatedPlanIntl, RP.NAME RelatedPlan, RPPI.ID ParentItemRelPlanIntl, RPPI.NAME ParentItemRelPlan, SI.WEIGHT, SI.WEIGHTPERCENT, 
 SI.ITEMSTATUS, SI.KPI_STATUS_DEFN ITEMSTATUSDEFCODE, L1.NAME ITEMSTATUSDEFINITION, null LAST_MEASURE_STATUS, SI.kpi_status, null CurrentValue, null TargetValue,1 isItem, 0 isKPI,  
 CASE WHEN ((SELECT COUNT(*) FROM  ODF_CA_STRATEGIC_ITEM SI2 WHERE SI2.PARENTITEM = SI.ID)+ 
-           (SELECT COUNT(*) FROM  ODF_CA_STRATEGIC_ITEM SI3 WHERE SI3.PARENTITEM_REL_PLAN = SI.ID)+ 
-           (SELECT COUNT(*) FROM  ODF_MULTI_VALUED_LOOKUPS MVL2 INNER   join odf_ca_strat_kpi sk2		on sk2.id = mvl2.value   AND   sk2.active = 1   AND   mvl2.attribute='related_kpis'   AND   mvl2.object='strategic_item'  
-                            WHERE   mvl2.pk_id = SI.ID)) > 0 THEN '3' @+@ SI.ID ELSE NULL END hg_has_children  
+           (SELECT COUNT(*) FROM  ODF_CA_STRATEGIC_ITEM SI3 WHERE SI3.PARENTITEM_REL_PLAN = SI.ID)) > 0 THEN '3' @+@ SI.ID ELSE NULL END hg_has_children  
  FROM  odf_ca_strategic_item SI    
 	INNER   join CMN_LOOKUPS_V L1 on L1.LANGUAGE_CODE = @WHERE:PARAM:LANGUAGE@ and L1.LOOKUP_TYPE = 'STRAT_ITEM_KPI_STATUS'  and L1.LOOKUP_CODE = SI.KPI_STATUS_DEFN 
     INNER JOIN ODF_CA_STRATEGIC_ITEM RP ON RP.ID = SI.STRAT_HIERARCHY and (@WHERE:PARAM:USER_DEF:INTEGER:RELPLAN@=1)

@@ -100,6 +100,12 @@
 		<gel:log level="debug" message="XOGlogFolder: ${XOGlogFolder}"/>
 	</core:if>
 
+	<!-- Get Database Vendor -->
+    <core:set var="dbVendor" value="${config.getProperties().getDatabaseServer().getVendor().toString()}"/>
+	<core:if test="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="DBVendor: ${dbVendor}"/>
+	</core:if>
+	
     <!-- Log in to XOG-->
     <soap:invoke endpoint="${XOGURL}/niku/xog" var="auth">
         <soap:message>
@@ -134,6 +140,7 @@
 			<gel:persist var="XOGwebFolder" value="${XOGwebFolder}" scope="INSTANCE"/>
 			<gel:persist var="sessionID" value="${sessionID}" scope="INSTANCE"/>
 			<gel:persist var="DebugLevel" value="${DebugLevel}" scope="INSTANCE"/>
+			<gel:persist var="dbVendor" value="${dbVendor}" scope="INSTANCE"/>
 		</core:otherwise>
     </core:choose>
 </gel:script>

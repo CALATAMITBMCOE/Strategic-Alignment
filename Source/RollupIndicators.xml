@@ -1,0 +1,301 @@
+<gel:script xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:core="jelly:core"
+    xmlns:file="jelly:com.niku.union.gel.FileTagLibrary"
+    xmlns:gel="jelly:com.niku.union.gel.GELTagLibrary"
+    xmlns:soap="jelly:com.niku.union.gel.SOAPTagLibrary"
+    xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+   	<!--============================================================-->
+	<!-- Package: Strategic Alignment 4.0 							-->
+	<!-- Process: Strategic Indicator Calculation 					-->
+	<!-- Step	: Indicator Calculation and Rollup					-->
+	<!-- Action	: Rollup Indicators									-->
+   	<!--============================================================-->
+	<!-- Object : n/a												-->
+   	<!--============================================================-->
+	<!-- Recalculate and Rollup all Indicators Status				-->
+   	<!--============================================================-->
+	 
+	<core:if test="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="Start Script"/>
+		<gel:log level="debug" message=">>Persisted XOG URL   : ${XOGURL}"/> 
+		<gel:log level="debug" message=">>Persisted LOG Folder: ${XOGlogFolder}"/> 
+		<gel:log level="debug" message=">>Persisted WEB Folder: ${XOGwebFolder}"/> 
+		<gel:log level="debug" message=">>Persisted SessionID : ${sessionID}"/> 
+		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/> 
+		<gel:log level="debug" message=">>Persisted dbVendor  : ${dbVendor}"/> 
+		<gel:log level="debug" message=">>Persisted vMaxLevel : ${vMaxLevel}"/> 
+	</core:if>
+
+    <gel:setDataSource dbId="niku"/>
+
+	<!-- Rolling up Indicator % Status and Indicator Status -->
+	
+	<!-- For Level 1 Indicators there is no Rollup, apply Target x Measurement always -->
+	<gel:log level="debug" message="Calculating Indicator Status and Item Status for All Active Level 1 Indicators"/> 
+	<!-- Preparing XML Message -->    	
+	<gel:parse var="v_xml_rollupK">
+		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
+			<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="13.0.0.6982"/>
+				<customObjectInstances objectCode="strat_kpi"/>
+		</NikuDataBus>
+	</gel:parse>
+	
+	<core:set var="vFoundItems" value="0"/>
+	<sql:query escapeText="false" var="vIndicatorLevel1">
+		select KPI.ID, KPI.CODE, KPI.NAME, KPI.KPI_TARGET_MEASURE
+		from ODF_CA_STRAT_KPI KPI
+		Where KPI.STRAT_KPI_LEVEL = 1
+		And KPI.ACTIVE = 1
+	</sql:query>
+	<core:forEach items="${vIndicatorLevel1.rowsByIndex}" var="row">
+		<core:set var="vIndicator2U_Intl">${row[0]}</core:set>
+		<core:set var="vIndicator2U_Code">${row[1]}</core:set>
+		<core:set var="vIndicator2U_Name">${row[2]}</core:set>
+		<core:set var="vIndicator2U_TgMs">${row[3]}</core:set>
+
+		<sql:query escapeText="false" var="vItemScale">
+			select itemstatus
+			from ODF_CA_STRAT_ITEM_SCALE
+			where odf_parent_id = ${vIndicator2U_Intl} and ${vIndicator2U_TgMs} between lowvalue and highvalue
+		</sql:query>
+		<core:forEach items="${vItemScale.rowsByIndex}" var="row">
+			<core:set var="vItemScale_ItemStatus">${row[0]}</core:set>
+		</core:forEach>
+
+		<core:if test="${DebugLevel &gt; 0}">
+			<gel:log level="debug" message="-- Updating Level 1 Indicator Status (no rollup): ${vIndicator2U_Intl}-${vIndicator2U_Code}-${vIndicator2U_Name} = ${vIndicator2U_TgMs*100}%. Item Status will be ${vItemScale_ItemStatus}."/>
+		</core:if>
+		
+		<gel:parse var="vIndicatorInstance">
+			<instance instanceCode="${vIndicator2U_Code}" objectCode="strat_kpi">
+				<CustomInformation>
+					<ColumnValue name="kpi_rollup_children">${vIndicator2U_TgMs}</ColumnValue>
+					<ColumnValue name="kpi_status">${vIndicator2U_TgMs}</ColumnValue>
+					<ColumnValue name="strat_item_status">${vItemScale_ItemStatus}</ColumnValue>
+				</CustomInformation>
+			</instance>
+		</gel:parse>
+		<!-- Adding the new Item Instance to the Root Document -->
+		<gel:set insert="true" select="$v_xml_rollupK/NikuDataBus/customObjectInstances" value="${vIndicatorInstance}"/>
+
+		<core:set var="vFoundItems" value="1"/>
+	</core:forEach>
+
+	<core:if test="${vFoundItems == 1}">
+		<core:if test="${DebugLevel &gt; 1}">
+			<gel:serialize var="${v_xml_rollupK}" fileName="${XOGwebFolder}/XOGWrite_IndicatorStatus_1.xml"/>
+			<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_IndicatorStatus_1"/> 
+		</core:if>
+
+		<!-- Calling XOG-->
+		<core:catch var="v_xog_exception">
+			<soap:invoke endpoint="${XOGURL}/niku/xog" var="runresultK">
+				<soap:message>
+					<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xog="http://www.niku.com/xog">
+						<soapenv:Header>
+							<xog:Auth>
+								<xog:SessionID>${sessionID}</xog:SessionID>
+							</xog:Auth>	
+						</soapenv:Header>
+						<soapenv:Body>
+							<gel:include select="$v_xml_rollupK/NikuDataBus"/>
+						</soapenv:Body>
+					</soapenv:Envelope>
+				</soap:message>
+			</soap:invoke>
+		</core:catch>
+		<core:choose>
+			<core:when test="${v_xog_exception != null}">
+				<gel:log category="XOG" level="ERROR">XOG operation failed: ${v_xog_exception}</gel:log>
+			</core:when>
+			<core:otherwise>
+				<gel:set select="$runresultK/soapenv:Envelope/soapenv:Body/XOGOutput" var="writeOutputRoot"/>
+				<gel:set asString="true" select="$writeOutputRoot/Status/@state" var="XOGoutcome"/>
+				<gel:set asString="true" select="$writeOutputRoot/Statistics/@totalNumberOfRecords" var="XOGtotalrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot/Statistics/@insertedRecords" var="XOGinsertedrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot/Statistics/@updatedRecords" var="XOGupdatedrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot/Statistics/@failureRecords" var="XOGfailurerecords"/>
+				<!-- Check the XOG result -->
+				<gel:log category="XOG" level="INFO">Document import for Level ${vCurrentLevel} status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
+			</core:otherwise>
+		</core:choose>
+
+		<core:if test="${DebugLevel &gt; 1}">
+			<gel:serialize var="${runresultK}" fileName="${XOGwebFolder}/XOGResults_IndicatorStatus_1.xml"/>
+			<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_IndicatorStatus_1.xml"/> 
+		</core:if>
+
+	</core:if>
+
+	<!-- Now, start Rolling Up From Level 2 Indicators, and deciding which Indicator Status to set according to KPI_STATUS_DEFN -->
+
+	<!-- Follow the Indicator Tree from the Lowest Parent Level (2) until the maxLevel found -->
+	<gel:log level="debug" message="Calculating Indicator Status and Item Status for All Active Indicators with Children."/> 
+	<core:set var="vCurrentLevel" value="2"/>
+	<core:while test="${vMaxLevel &gt;= vCurrentLevel}">
+	
+		<!-- Preparing XML Message -->    	
+		<gel:parse var="v_xml_rollupK">
+			<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
+				<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="13.0.0.6982"/>
+					<customObjectInstances objectCode="strat_kpi"/>
+			</NikuDataBus>
+		</gel:parse>
+		<core:set var="vFoundItems" value="0"/>
+	
+		<core:if test="${DebugLevel &gt; 0}">
+			<gel:log level="debug" message="-- Rolling UP Level ${vCurrentLevel}."/> 
+		</core:if>	
+	
+		<!-- Calculate KPI_ROLLUP_CHILDREN for all Indicators on this Level -->
+		<sql:query escapeText="false" var="vIndicatorRollup1">
+			select PARENTKPI.ID, PARENTKPI.CODE, PARENTKPI.NAME, PARENTKPI.STRAT_ROLLUP_KPI, NVL(PARENTKPI.ROLLUP_LIMIT_PERCENT,99999999), PARENTKPI.KPI_STATUS_DEFN, PARENTKPI.KPI_TARGET_MEASURE,
+				NVL(AVG(Case When CHILDKPI.KPI_STATUS &gt; NVL(PARENTKPI.ROLLUP_LIMIT_PERCENT,99999999) then PARENTKPI.ROLLUP_LIMIT_PERCENT else CHILDKPI.KPI_STATUS END),0)
+			from ODF_CA_STRAT_KPI CHILDKPI 
+				INNER JOIN ODF_MULTI_VALUED_LOOKUPS MVL
+					ON MVL.ATTRIBUTE = 'strat_children_kpi' and MVL.OBJECT = 'strat_kpi' and MVL.VALUE = CHILDKPI.ID
+				INNER JOIN ODF_CA_STRAT_KPI PARENTKPI ON PARENTKPI.ID = MVL.PK_ID
+			where PARENTKPI.STRAT_ROLLUP_KPI = 'MIN' AND PARENTKPI.STRAT_KPI_LEVEL = ${vCurrentLevel} AND PARENTKPI.ACTIVE = 1 AND CHILDKPI.ACTIVE = 1
+			Group by  PARENTKPI.ID, PARENTKPI.CODE, PARENTKPI.NAME, PARENTKPI.STRAT_ROLLUP_KPI, NVL(PARENTKPI.ROLLUP_LIMIT_PERCENT,99999999), PARENTKPI.KPI_STATUS_DEFN, PARENTKPI.KPI_TARGET_MEASURE
+			UNION
+			select PARENTKPI.ID, PARENTKPI.CODE, PARENTKPI.NAME, PARENTKPI.STRAT_ROLLUP_KPI, NVL(PARENTKPI.ROLLUP_LIMIT_PERCENT,99999999), PARENTKPI.KPI_STATUS_DEFN, PARENTKPI.KPI_TARGET_MEASURE,
+				NVL(AVG(Case When CHILDKPI.KPI_STATUS &gt; NVL(PARENTKPI.ROLLUP_LIMIT_PERCENT,99999999) then PARENTKPI.ROLLUP_LIMIT_PERCENT else CHILDKPI.KPI_STATUS END),0)
+			from ODF_CA_STRAT_KPI CHILDKPI 
+				INNER JOIN ODF_MULTI_VALUED_LOOKUPS MVL
+					ON MVL.ATTRIBUTE = 'strat_children_kpi' and MVL.OBJECT = 'strat_kpi' and MVL.VALUE = CHILDKPI.ID
+				INNER JOIN ODF_CA_STRAT_KPI PARENTKPI ON PARENTKPI.ID = MVL.PK_ID
+			where PARENTKPI.STRAT_ROLLUP_KPI = 'AVG' AND PARENTKPI.STRAT_KPI_LEVEL = ${vCurrentLevel} AND PARENTKPI.ACTIVE = 1 AND CHILDKPI.ACTIVE = 1
+			Group by  PARENTKPI.ID, PARENTKPI.CODE, PARENTKPI.NAME, PARENTKPI.STRAT_ROLLUP_KPI, NVL(PARENTKPI.ROLLUP_LIMIT_PERCENT,99999999), PARENTKPI.KPI_STATUS_DEFN, PARENTKPI.KPI_TARGET_MEASURE
+			UNION
+			select PARENTKPI.ID, PARENTKPI.CODE, PARENTKPI.NAME, PARENTKPI.STRAT_ROLLUP_KPI, NVL(PARENTKPI.ROLLUP_LIMIT_PERCENT,99999999), PARENTKPI.KPI_STATUS_DEFN, PARENTKPI.KPI_TARGET_MEASURE,
+				NVL(MAX(Case When CHILDKPI.KPI_STATUS &gt; NVL(PARENTKPI.ROLLUP_LIMIT_PERCENT,99999999) then PARENTKPI.ROLLUP_LIMIT_PERCENT else CHILDKPI.KPI_STATUS END),0)
+			from ODF_CA_STRAT_KPI CHILDKPI 
+				INNER JOIN ODF_MULTI_VALUED_LOOKUPS MVL
+					ON MVL.ATTRIBUTE = 'strat_children_kpi' and MVL.OBJECT = 'strat_kpi' and MVL.VALUE = CHILDKPI.ID
+				INNER JOIN ODF_CA_STRAT_KPI PARENTKPI ON PARENTKPI.ID = MVL.PK_ID
+			where PARENTKPI.STRAT_ROLLUP_KPI = 'MAX' AND PARENTKPI.STRAT_KPI_LEVEL = ${vCurrentLevel} AND PARENTKPI.ACTIVE = 1 AND CHILDKPI.ACTIVE = 1
+			Group by  PARENTKPI.ID, PARENTKPI.CODE, PARENTKPI.NAME, PARENTKPI.STRAT_ROLLUP_KPI, NVL(PARENTKPI.ROLLUP_LIMIT_PERCENT,99999999), PARENTKPI.KPI_STATUS_DEFN, PARENTKPI.KPI_TARGET_MEASURE
+		</sql:query>
+		<core:forEach items="${vIndicatorRollup1.rowsByIndex}" var="row">
+			<core:set var="vIndicator2U_Intl">${row[0]}</core:set>
+			<core:set var="vIndicator2U_Code">${row[1]}</core:set>
+			<core:set var="vIndicator2U_Name">${row[2]}</core:set>
+			<core:set var="vIndicator2U_Roll">${row[3]}</core:set>
+			<core:set var="vIndicator2U_Limt">${row[4]}</core:set>
+			<core:set var="vIndicator2U_Defn">${row[5]}</core:set>
+			<core:set var="vIndicator2U_TgMs">${row[6]}</core:set>
+			<core:set var="vIndicator2U_ChRl">${row[7]}</core:set>
+			
+			<core:if test="${DebugLevel &gt; 0}">
+				<gel:log level="debug" message="---- Updating Rollup Status for Indicator: ${vIndicator2U_Intl}-${vIndicator2U_Code}-${vIndicator2U_Name} using ${vIndicator2U_Roll} = ${vIndicator2U_ChRl*100}%. Updating Item Status using ${vIndicator2U_Defn}: either ${vIndicator2U_TgMs*100}% or ${vIndicator2U_ChRl*100}% - limit to ${vIndicator2U_Limt*100}%."/>
+			</core:if>
+			
+			<core:choose>
+				<core:when test="${vIndicator2U_Defn == 'A'}">
+					<core:set var="vIndicator2U_Status" value="${(vIndicator2U_TgMs + vIndicator2U_ChRl)/2}"/>
+				</core:when>
+				<core:when test="${vIndicator2U_Defn == 'B'}">
+					<core:set var="vIndicator2U_Status" value="${vIndicator2U_ChRl}"/>
+					<core:if test="${vIndicator2U_TgMs &gt; vIndicator2U_ChRl}">
+						<core:set var="vIndicator2U_Status" value="${vIndicator2U_TgMs}"/>
+					</core:if>
+				</core:when>
+				<core:when test="${vIndicator2U_Defn == 'C'}">
+					<core:set var="vIndicator2U_Status" value="${vIndicator2U_ChRl}"/>
+				</core:when>
+				<core:when test="${vIndicator2U_Defn == 'TM'}">
+					<core:set var="vIndicator2U_Status" value="${vIndicator2U_TgMs}"/>
+				</core:when>
+				<core:when test="${vIndicator2U_Defn == 'W'}">
+					<core:set var="vIndicator2U_Status" value="${vIndicator2U_ChRl}"/>
+					<core:if test="${vIndicator2U_TgMs &lt; vIndicator2U_ChRl}">
+						<core:set var="vIndicator2U_Status" value="${vIndicator2U_TgMs}"/>
+					</core:if>
+				</core:when>
+				<core:otherwise>
+					<core:if test="${DebugLevel &gt; 0}">
+						<gel:log level="debug" message="------ BAD Result - should not be here."/>
+					</core:if>
+				</core:otherwise>
+			</core:choose>
+
+			<sql:query escapeText="false" var="vItemScale">
+				select itemstatus
+				from ODF_CA_STRAT_ITEM_SCALE
+				where odf_parent_id = ${vIndicator2U_Intl} and ${vIndicator2U_Status} between lowvalue and highvalue
+			</sql:query>
+			<core:forEach items="${vItemScale.rowsByIndex}" var="row">
+				<core:set var="vItemScale_ItemStatus">${row[0]}</core:set>
+			</core:forEach>
+	
+			<core:if test="${DebugLevel &gt; 0}">
+				<gel:log level="debug" message="------ Result ${vIndicator2U_Status}. Item Status will be ${vItemScale_ItemStatus}."/>
+			</core:if>
+			<gel:parse var="vIndicatorInstance">
+				<instance instanceCode="${vIndicator2U_Code}" objectCode="strat_kpi">
+					<CustomInformation>
+						<ColumnValue name="kpi_rollup_children">${vIndicator2U_ChRl}</ColumnValue>
+						<ColumnValue name="kpi_status">${vIndicator2U_Status}</ColumnValue>
+						<ColumnValue name="strat_item_status">${vItemScale_ItemStatus}</ColumnValue>
+					</CustomInformation>
+				</instance>
+			</gel:parse>
+			
+			<!-- Adding the new Item Instance to the Root Document -->
+			<gel:set insert="true" select="$v_xml_rollupK/NikuDataBus/customObjectInstances" value="${vIndicatorInstance}"/>
+
+			<core:set var="vFoundItems" value="1"/>
+		</core:forEach>
+		<core:if test="${vFoundItems == 1}">
+			<core:if test="${DebugLevel &gt; 1}">
+				<gel:serialize var="${v_xml_rollupK}" fileName="${XOGwebFolder}/XOGWrite_IndicatorStatus_${vCurrentLevel}.xml"/>
+				<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_IndicatorStatus_${vCurrentLevel}"/> 
+			</core:if>
+
+			<!-- Calling XOG-->
+			<core:catch var="v_xog_exception">
+				<soap:invoke endpoint="${XOGURL}/niku/xog" var="runresultK">
+					<soap:message>
+						<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xog="http://www.niku.com/xog">
+							<soapenv:Header>
+								<xog:Auth>
+									<xog:SessionID>${sessionID}</xog:SessionID>
+								</xog:Auth>	
+							</soapenv:Header>
+							<soapenv:Body>
+								<gel:include select="$v_xml_rollupK/NikuDataBus"/>
+							</soapenv:Body>
+						</soapenv:Envelope>
+					</soap:message>
+				</soap:invoke>
+			</core:catch>
+			<core:choose>
+				<core:when test="${v_xog_exception != null}">
+					<gel:log category="XOG" level="ERROR">XOG operation failed: ${v_xog_exception}</gel:log>
+				</core:when>
+				<core:otherwise>
+					<gel:set select="$runresultK/soapenv:Envelope/soapenv:Body/XOGOutput" var="writeOutputRoot"/>
+					<gel:set asString="true" select="$writeOutputRoot/Status/@state" var="XOGoutcome"/>
+					<gel:set asString="true" select="$writeOutputRoot/Statistics/@totalNumberOfRecords" var="XOGtotalrecords"/>
+					<gel:set asString="true" select="$writeOutputRoot/Statistics/@insertedRecords" var="XOGinsertedrecords"/>
+					<gel:set asString="true" select="$writeOutputRoot/Statistics/@updatedRecords" var="XOGupdatedrecords"/>
+					<gel:set asString="true" select="$writeOutputRoot/Statistics/@failureRecords" var="XOGfailurerecords"/>
+					<!-- Check the XOG result -->
+					<gel:log category="XOG" level="INFO">[XOGDocument import for Level ${vCurrentLevel} status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
+				</core:otherwise>
+			</core:choose>
+
+			<core:if test="${DebugLevel &gt; 1}">
+				<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGResults_IndicatorStatus_${vCurrentLevel}.xml"/>
+				<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_IndicatorStatus_${vCurrentLevel}.xml"/> 
+			</core:if>
+
+		</core:if>
+		
+		<core:set var="vCurrentLevel" value="${vCurrentLevel+1}"/>
+	</core:while>
+
+</gel:script>

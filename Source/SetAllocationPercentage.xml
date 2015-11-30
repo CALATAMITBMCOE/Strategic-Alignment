@@ -122,116 +122,13 @@
 					<gel:set asString="true" select="$writeOutputRoot/Statistics/@updatedRecords" var="XOGupdatedrecords"/>
 					<gel:set asString="true" select="$writeOutputRoot/Statistics/@failureRecords" var="XOGfailurerecords"/> 
 					<!-- Check the XOG result -->
-					<gel:log category="XOG" level="INFO">[XOGDocument import for ${vParent_Code} status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
+					<gel:log category="XOG" level="INFO">Document import for ${vParent_Code} status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
 				</core:otherwise>
 			</core:choose>
 
 			<core:if test="${DebugLevel &gt; 1}">
 				<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGResults_AllocPerc_${vParent_Code}.xml"/>
 				<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_AllocPerc_${vParent_Code}.xml"/> 
-			</core:if>
-	
-		</core:if>
-		
-		<!-- Now, we need to correct Items that are linked to other scopes as they will Multiply Percentages -->
-		<!-- Preparing new XML Message -->    	
-		<gel:parse var="v_xml_correct">
-			<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
-				<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="13.0.0.6982"/>
-					<customObjectInstances objectCode="strategic_item"/>
-			</NikuDataBus>
-		</gel:parse>
-
-    	<core:set var="vFoundItems" value="0"/>
-		<!-- Find Parents whose children total % is higher than 1 -->
-		<sql:query escapeText="false" var="vParentsToCorrect">
-			select Pr.ID, Pr.CODE, Pr.NAME, sum(Cl.WEIGHTPERCENT)
-			FROM ODF_CA_STRATEGIC_ITEM Cl
-				INNER JOIN ODF_CA_STRATEGIC_ITEM Pr on Pr.ID = Cl.ParentItem
-				INNER JOIN ODF_CA_STRAT_TREE_FLAT TF ON TF.CHILD_ITEM = Cl.ID And TF.PARENT_ITEM = ${vParent_Intl}
-			where TF.CHILD_ITEM != ${vParent_Intl} 
-			group by Pr.ID, Pr.CODE, Pr.NAME
-			having sum(Cl.WEIGHTPERCENT) > 1
-		</sql:query>
-		<core:forEach items="${vParentsToCorrect.rowsByIndex}" var="row">
-			<core:set var="vPCorrect_Intl">${row[0]}</core:set>
-			<core:set var="vPCorrect_Code">${row[1]}</core:set>
-			<core:set var="vPCorrect_Name">${row[2]}</core:set>
-			<core:set var="vPCorrect_Perc">${row[3]}</core:set>
-			<core:if test="${DebugLevel &gt; 0}">
-				<gel:log level="debug" message="-- Parent Item Found needing Correction: ${vPCorrect_Intl}-${vPCorrect_Code}-${vPCorrect_Name} Weight=${vPCorrect_Perc}."/>
-			</core:if>
-
-			<core:set var="vFoundItems" value="1"/>
-			<!-- Find the Corresponding Children and their WeightPercentages, so we can correct them -->
-			<sql:query escapeText="false" var="vChildrenToCorrect">
-				select Cl.ID, Cl.CODE, Cl.NAME, Cl.WEIGHTPERCENT
-				FROM ODF_CA_STRATEGIC_ITEM Cl
-				where Cl.ParentItem = ${vPCorrect_Intl}
-			</sql:query>
-			<core:forEach items="${vChildrenToCorrect.rowsByIndex}" var="row">
-				<core:set var="vCCorrect_Intl">${row[0]}</core:set>
-				<core:set var="vCCorrect_Code">${row[1]}</core:set>
-				<core:set var="vCCorrect_Name">${row[2]}</core:set>
-				<core:set var="vCCorrect_Perc">${row[3]}</core:set>
-				<core:set var="vNew_Perc" value="${vCCorrect_Perc / vPCorrect_Perc}"/>
-				<core:if test="${DebugLevel &gt; 0}">
-					<gel:log level="debug" message="---- Child Item Found needing Correction: ${vCCorrect_Intl}-${vCCorrect_Code}-${vCCorrect_Name} Weight=${vCCorrect_Perc}. Allocation will be corrected to ${vNew_Perc}."/>
-				</core:if>
-
-				<gel:parse var="vCorrectInstance">
-					<instance instanceCode="${vCCorrect_Code}" objectCode="strategic_item">
-						<CustomInformation>
-							<ColumnValue name="strat_alloc_perc">${vNew_Perc}</ColumnValue>
-						</CustomInformation>
-					</instance>
-				</gel:parse>
-				<!-- Adding the new Item Instance to the Root Document -->
-				<gel:set insert="true" select="$v_xml_correct/NikuDataBus/customObjectInstances" value="${vCorrectInstance}"/>
-			</core:forEach>
-		</core:forEach>
-		<core:if test="${vFoundItems == 1}">
-			<core:if test="${DebugLevel &gt; 1}">
-				<gel:serialize var="${v_xml_correct}" fileName="${XOGwebFolder}/XOGWrite_AllocPerc_${vParent_Code}_Correct.xml"/>
-				<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_AllocPerc_${vParent_Code}_Correct.xml"/> 
-			</core:if>
-
-			<!-- Calling XOG-->
-			<core:catch var="v_xog_exception">
-				<soap:invoke endpoint="${XOGURL}/niku/xog" var="runresult2">
-					<soap:message>
-						<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xog="http://www.niku.com/xog">
-							<soapenv:Header>
-								<xog:Auth>
-									<xog:SessionID>${sessionID}</xog:SessionID>
-								</xog:Auth>	
-							</soapenv:Header>
-							<soapenv:Body>
-								<gel:include select="$v_xml_correct/NikuDataBus"/>
-							</soapenv:Body>
-						</soapenv:Envelope>
-					</soap:message>
-				</soap:invoke>
-			</core:catch>
-			<core:choose>
-				<core:when test="${v_xog_exception != null}">
-					<gel:log category="XOG" level="ERROR">XOG operation failed: ${v_xog_exception}</gel:log>
-				</core:when>
-				<core:otherwise>
-					<gel:set select="$runresult/soapenv:Envelope/soapenv:Body/XOGOutput" var="writeOutputRoot"/>
-					<gel:set asString="true" select="$writeOutputRoot/Status/@state" var="XOGoutcome"/>
-					<gel:set asString="true" select="$writeOutputRoot/Statistics/@totalNumberOfRecords" var="XOGtotalrecords"/>
-					<gel:set asString="true" select="$writeOutputRoot/Statistics/@insertedRecords" var="XOGinsertedrecords"/>
-					<gel:set asString="true" select="$writeOutputRoot/Statistics/@updatedRecords" var="XOGupdatedrecords"/>
-					<gel:set asString="true" select="$writeOutputRoot/Statistics/@failureRecords" var="XOGfailurerecords"/>
-					<!-- Check the XOG result -->
-					<gel:log category="XOG" level="INFO">[XOGDocument import for ${vParent_Code} status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
-				</core:otherwise>
-			</core:choose>
-
-			<core:if test="${DebugLevel &gt; 1}">
-				<gel:serialize var="${runresult2}" fileName="${XOGwebFolder}/XOGResults_AllocPerc_${vParent_Code}_Correct.xml"/>
-				<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_AllocPerc_${vParent_Code}_Correct.xml"/> 
 			</core:if>
 	
 		</core:if>
