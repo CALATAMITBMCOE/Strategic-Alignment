@@ -8,10 +8,10 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 4.0 							-->
+	<!-- Package: Strategic Alignment 5.0 							-->
 	<!-- Process: Strategic Item - Store Plan ID					-->
-	<!-- Step	: Find And Update Plan								-->
-	<!-- Action	: Find And Update Plan								-->
+	<!-- Step	: Update Hierarchy for Plan							-->
+	<!-- Action	: Update Hierarchy for Plan							-->
    	<!--============================================================-->
 	<!-- Object : Strategic Item (strategic_item)					-->
    	<!--============================================================-->

@@ -5210,6 +5210,7 @@ margin-left: 1px;
 .ppm_flyout_filter {
   background-color: #EEEEEE;
 }
+
 /* Strategic Planning Package */
 			#parentdiv
 			{
@@ -5276,3 +5277,29 @@ margin-left: 1px;
 			.orgDarkLink:visited {color:#000000;text-decoration:none;}
 			.orgDarkLink:hover {color:#000000;text-decoration:underline;}
           
+			.stratTreeMapToolTip  {
+				background-color:#e0e0e0; 
+				position: absolute; 
+				z-index: 100; 
+				padding:10px; 
+				border-style:solid;
+			}
+			
+			.stratTreeMapToolTipText {
+				font-family:'Open Sans', Arial, sans-serif; 
+				font-size:12;
+				font-weight: normal;
+				font-style: normal;
+				color: black;
+			}
+
+			.stratTreeMapToolTipHighlightedText {
+				font-family:'Open Sans', Arial, sans-serif; 
+				font-size:12;
+				font-weight:bold;
+				font-style: normal;
+				color: black;
+			}
+			
+			
+			

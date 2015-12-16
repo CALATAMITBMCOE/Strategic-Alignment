@@ -13,12 +13,12 @@
     xmlns:q="http://www.niku.com/xog/Query">
 	
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 4.0 							-->
+	<!-- Package: Strategic Alignment 5.0 							-->
 	<!-- Process: Strategic Item Status Initialize					-->
-	<!-- Step	: Initialize KPI Item Status Scale					-->
-	<!-- Action	: Initialize KPI Item Status Scale					-->
+	<!-- Step	: Initialize Indicator Item Status Scale			-->
+	<!-- Action	: Initialize Indicator Item Status Scale			-->
    	<!--============================================================-->
-	<!-- Object : Strategic KPI (strat_kpi)  						-->
+	<!-- Object : Strategic Indicator (strat_kpi)  					-->
    	<!--============================================================-->
 	<!-- Initialize the Item Status Scale object with empty records -->
    	<!--============================================================-->

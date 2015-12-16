@@ -8,7 +8,7 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 4.0 							-->
+	<!-- Package: Strategic Alignment 5.0 							-->
 	<!-- Process: Strategic Item Weights Calculation 				-->
 	<!-- Step	: Recalculate Weights								-->
 	<!-- Action	: ReCalculate Hierarchy Weight						-->
@@ -156,7 +156,7 @@
 				<gel:set asString="true" select="$writeOutputRoot/Statistics/@updatedRecords" var="XOGupdatedrecords"/>
 				<gel:set asString="true" select="$writeOutputRoot/Statistics/@failureRecords" var="XOGfailurerecords"/>
 				<!-- Check the XOG result -->
-				<gel:log category="XOG" level="INFO">[XOGDocument import for ${vInitialItem_Intl}-${vParent} status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
+				<gel:log category="XOG" level="INFO">Document import for ${vInitialItem_Intl}-${vParent} status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
 			</core:otherwise>
 		</core:choose>
 

@@ -8,14 +8,14 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 4.0 							-->
+	<!-- Package: Strategic Alignment 5.0 							-->
 	<!-- Process: Strategic Item - Rebuild Tree by Plan				-->
-	<!-- Step	: Rebuild Plan Tree										-->
-	<!-- Action	: Rebuild Tree by Plan										-->
+	<!-- Step	: Rebuild Plan Tree									-->
+	<!-- Action	: Rebuild Tree by Plan								-->
    	<!--============================================================-->
-	<!-- Object : Strategic Item												-->
+	<!-- Object : Strategic Item									-->
    	<!--============================================================-->
-	<!-- This process rebuilds the hierarchy on strat_tree_flat			-->
+	<!-- This process rebuilds the hierarchy on strat_tree_flat		-->
    	<!--============================================================-->
 
     <core:set value="${gel_objectInstanceId}" var="vItemID"/>
