@@ -92,7 +92,7 @@
 			<core:set var="vChild_Strt">${row[3]}</core:set>
 			<core:set var="vChild_Fnsh">${row[4]}</core:set>
 			<core:if test="${DebugLevel &gt; 0}">
-				<gel:log level="debug" message="-- Child Item Found: ${vChild_Intl}-${vChild_Code}-${vChild_Name}."/>
+				<gel:log level="debug" message="-- Child Item Found: ${vChild_Intl}-${vChild_Code}-${vChild_Name} Start ${vChild_Strt} Finish ${vChild_Fnsh}."/>
 			</core:if>
 
 			<!-- Now Find Investments connected to the Child Item -->
@@ -111,7 +111,7 @@
 			<core:forEach items="${vChildrenCommit1.rowsByIndex}" var="row">
 				<core:set var="vChild_Cost">${row[0]}</core:set>
 				<core:if test="${DebugLevel &gt; 0}">
-					<gel:log level="debug" message="--- Direct Commitment Found: ${vChild_Cost}."/>
+					<gel:log level="debug" message="--- Direct Fund Commitment Found: ${vChild_Cost}."/>
 				</core:if>
 			</core:forEach>
 
@@ -130,7 +130,7 @@
 			<core:forEach items="${vChildrenCommit2.rowsByIndex}" var="row">
 				<core:set var="vChild_Benf">${row[0]}</core:set>
 				<core:if test="${DebugLevel &gt; 0}">
-					<gel:log level="debug" message="--- Direct Commitment Found: ${vChild_Benf}."/>
+					<gel:log level="debug" message="--- Direct Benefit Commitment Found: ${vChild_Benf}."/>
 				</core:if>
 			</core:forEach>
 					

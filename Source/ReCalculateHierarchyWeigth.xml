@@ -47,77 +47,77 @@
 		<core:if test="${DebugLevel &gt; 0}">
 			<gel:log level="debug" message="Found Item: ${vInitialItem_Code}-${vInitialItem_Name}. Hier=${vInitialItem_Hier}-${vInitialHier_Code}."/> 
 		</core:if>
-    </core:forEach>
 	
-	<!-- This is the XML Root Document-->
-	<gel:parse var="v_xml_root">
-		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
-			<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="8.1.0.03.4373"/>
-				<customObjectInstances objectCode="strategic_item"/>
-		</NikuDataBus>
-	</gel:parse>
-	
-	<sql:query escapeText="false" var="vLevel">
-		Select max(SI.ITEM_LEVEL)
-		FROM ODF_CA_STRATEGIC_ITEM SI 
-		WHERE SI.STRAT_HIERARCHY=${vInitialItem_Hier}
-		AND SI.ACTIVE = 1
-	</sql:query>
-	<core:forEach items="${vLevel.rowsByIndex}" var="row">
-		<core:set var="vMaxLevel">${row[0]}</core:set>
-		<core:if test="${DebugLevel &gt; 0}">
-			<gel:log level="debug" message="Found Max Level ${vMaxLevel} for Hierarchy ${vInitialItem_Hier}."/> 
-		</core:if>
-	</core:forEach>
+		<!-- This is the XML Root Document-->
+		<gel:parse var="v_xml_root">
+			<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
+				<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="8.1.0.03.4373"/>
+					<customObjectInstances objectCode="strategic_item"/>
+			</NikuDataBus>
+		</gel:parse>
 		
-	<core:set var="vCurrentLevel" value="${vMaxLevel}"/>
-	<core:while test="${vCurrentLevel &gt; 1}">
-		<core:set var="vFoundItems">0</core:set>
-		<core:if test="${DebugLevel &gt; 0}">
-			<gel:log level="debug" message="Processing Level ${vCurrentLevel}."/> 
-		</core:if>
-		<sql:query escapeText="false" var="vItemLevel">
-			select SI.PARENTITEM, SI.ID, SI.CODE, SI.WEIGHT, SUM(SISUM.WEIGHT), SI.WEIGHT/NVL(SUM(SISUM.WEIGHT),1)
-			from ODF_CA_STRATEGIC_ITEM SI 
-					INNER JOIN ODF_CA_STRATEGIC_ITEM SISUM on SISUM.PARENTITEM = SI.PARENTITEM 
-			WHERE SI.STRAT_HIERARCHY = ${vInitialItem_Hier} 
-			and SI.ITEM_LEVEL = ${vCurrentLevel}
-			GROUP BY SI.PARENTITEM, SI.ID, SI.CODE, SI.WEIGHT
-			ORDER BY SI.PARENTITEM, SI.ID
+		<sql:query escapeText="false" var="vLevel">
+			Select max(SI.ITEM_LEVEL)
+			FROM ODF_CA_STRATEGIC_ITEM SI 
+			WHERE SI.STRAT_HIERARCHY=${vInitialItem_Hier}
+			AND SI.ACTIVE = 1
 		</sql:query>
-		<core:forEach items="${vItemLevel.rowsByIndex}" var="row">
-			<core:set var="vFoundItems">1</core:set>
-			<core:set var="vParent">${row[0]}</core:set>
-			<core:set var="vItem_Intl">${row[1]}</core:set>
-			<core:set var="vItem_Code">${row[2]}</core:set>
-			<core:set var="vItem_Wght">${row[3]}</core:set>
-			<core:set var="vItem_SumW">${row[4]}</core:set>
-			<core:set var="vItem_CalW">${row[5]}</core:set>
+		<core:forEach items="${vLevel.rowsByIndex}" var="row">
+			<core:set var="vMaxLevel">${row[0]}</core:set>
 			<core:if test="${DebugLevel &gt; 0}">
-				<gel:log level="debug" message="-- Parent ${vParent} has SumWeight=${vItem_SumW} --Item: ${vItem_Code} has weight=${vItem_Wght}, Calculated=${vItem_CalW}."/> 
+				<gel:log level="debug" message="Found Max Level ${vMaxLevel} for Hierarchy ${vInitialItem_Hier}."/> 
 			</core:if>
+			
+			<core:set var="vCurrentLevel" value="${vMaxLevel}"/>
+			<core:while test="${vCurrentLevel &gt; 1}">
+				<core:set var="vFoundItems">0</core:set>
+				<core:if test="${DebugLevel &gt; 0}">
+					<gel:log level="debug" message="Processing Level ${vCurrentLevel}."/> 
+				</core:if>
+				<sql:query escapeText="false" var="vItemLevel">
+					select SI.PARENTITEM, SI.ID, SI.CODE, SI.WEIGHT, SUM(SISUM.WEIGHT), SI.WEIGHT/NVL(SUM(SISUM.WEIGHT),1)
+					from ODF_CA_STRATEGIC_ITEM SI 
+							INNER JOIN ODF_CA_STRATEGIC_ITEM SISUM on SISUM.PARENTITEM = SI.PARENTITEM 
+					WHERE SI.STRAT_HIERARCHY = ${vInitialItem_Hier} 
+					and SI.ITEM_LEVEL = ${vCurrentLevel}
+					GROUP BY SI.PARENTITEM, SI.ID, SI.CODE, SI.WEIGHT
+					ORDER BY SI.PARENTITEM, SI.ID
+				</sql:query>
+				<core:forEach items="${vItemLevel.rowsByIndex}" var="row">
+					<core:set var="vFoundItems">1</core:set>
+					<core:set var="vParent">${row[0]}</core:set>
+					<core:set var="vItem_Intl">${row[1]}</core:set>
+					<core:set var="vItem_Code">${row[2]}</core:set>
+					<core:set var="vItem_Wght">${row[3]}</core:set>
+					<core:set var="vItem_SumW">${row[4]}</core:set>
+					<core:set var="vItem_CalW">${row[5]}</core:set>
+					<core:if test="${DebugLevel &gt; 0}">
+						<gel:log level="debug" message="-- Parent ${vParent} has SumWeight=${vItem_SumW} --Item: ${vItem_Code} has weight=${vItem_Wght}, Calculated=${vItem_CalW}."/> 
+					</core:if>
+					<gel:parse var="vItemInstance">
+						<instance instanceCode="${vItem_Code}" objectCode="strategic_item">
+							<CustomInformation>
+								<ColumnValue name="weightpercent">${vItem_CalW}</ColumnValue>
+							</CustomInformation>
+						</instance>
+					</gel:parse>
+					<!-- Adding the new Item Instance to the Root Document -->
+					<gel:set insert="true" select="$v_xml_root/NikuDataBus/customObjectInstances" value="${vItemInstance}"/>
+				</core:forEach>
+				<core:set var="vCurrentLevel" value="${vCurrentLevel-1}"/>
+			</core:while>
+			
 			<gel:parse var="vItemInstance">
-				<instance instanceCode="${vItem_Code}" objectCode="strategic_item">
+				<instance instanceCode="${vHier_Code}" objectCode="strategic_item">
 					<CustomInformation>
-						<ColumnValue name="weightpercent">${vItem_CalW}</ColumnValue>
+						<ColumnValue name="weightpercent">1</ColumnValue>
 					</CustomInformation>
 				</instance>
 			</gel:parse>
 			<!-- Adding the new Item Instance to the Root Document -->
 			<gel:set insert="true" select="$v_xml_root/NikuDataBus/customObjectInstances" value="${vItemInstance}"/>
 		</core:forEach>
-		<core:set var="vCurrentLevel" value="${vCurrentLevel-1}"/>
-	</core:while>
-	
-	<gel:parse var="vItemInstance">
-		<instance instanceCode="${vHier_Code}" objectCode="strategic_item">
-			<CustomInformation>
-				<ColumnValue name="weightpercent">1</ColumnValue>
-			</CustomInformation>
-		</instance>
-	</gel:parse>
-	<!-- Adding the new Item Instance to the Root Document -->
-	<gel:set insert="true" select="$v_xml_root/NikuDataBus/customObjectInstances" value="${vItemInstance}"/>
+    </core:forEach>
 
 	<core:if test="${vFoundItems == 1}">
 
