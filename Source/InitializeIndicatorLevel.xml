@@ -15,7 +15,8 @@
    	<!--============================================================-->
 	<!-- Object : n/a												-->
    	<!--============================================================-->
-	<!-- Initialize Indicator Level values to 1 for all Indicators	-->
+	<!-- Initialize Indicator Level values to 1 and Indicator    	-->
+	<!-- Status values to zero and blank for all Indicators         -->
    	<!--============================================================-->
 	
 	<core:if test="${DebugLevel &gt; 0}">
@@ -57,6 +58,10 @@
 			<instance instanceCode="${vIndicator_Code}" objectCode="strat_kpi">
 				<CustomInformation>
 					<ColumnValue name="strat_kpi_level">1</ColumnValue>
+					<ColumnValue name="strat_item_status">0</ColumnValue>
+					<ColumnValue name="kpi_status">0</ColumnValue>
+					<ColumnValue name="kpi_target_measure">0</ColumnValue>
+					<ColumnValue name="kpi_rollup_children">0</ColumnValue>
 				</CustomInformation>
 			</instance>
 		</gel:parse>

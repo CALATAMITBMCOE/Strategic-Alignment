@@ -68,7 +68,7 @@
 		</core:choose>
 			
 		<sql:query escapeText="false" var="vItemIndicators">
-			Select ${vAggrFunction}(SK.KPI_STATUS), trunc(${vAggrFunction}(SK.STRAT_ITEM_STATUS))
+			Select ${vAggrFunction}(SK.KPI_STATUS), round(${vAggrFunction}(SK.STRAT_ITEM_STATUS))
 			FROM ODF_CA_STRAT_KPI SK 
 				INNER JOIN ODF_MULTI_VALUED_LOOKUPS MVL
 					ON MVL.OBJECT = 'strategic_item'
@@ -224,7 +224,7 @@
 			<core:set var="vChild_IndicatorStatus">0</core:set>
 			<core:set var="vChild_ItemStatus">0</core:set>
 			<sql:query escapeText="false" var="vItemIndicators2">
-				Select ${vAggrFunction}(${vWeight} (Case When SI.KPI_STATUS &gt; ${vItem_Limt} Then ${vItem_Limt} Else SI.KPI_STATUS End)), trunc(${vAggrFunction}(${vWeight}SI.ITEMSTATUS),0)
+				Select ${vAggrFunction}(${vWeight} (Case When SI.KPI_STATUS &gt; ${vItem_Limt} Then ${vItem_Limt} Else SI.KPI_STATUS End)), round(${vAggrFunction}(${vWeight}SI.ITEMSTATUS),0)
 				FROM ODF_CA_STRATEGIC_ITEM SI
 				WHERE SI.ACTIVE = 1 
 				AND SI.PARENTITEM = ${vItem_Intl}

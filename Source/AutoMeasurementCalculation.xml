@@ -51,6 +51,7 @@
 					sum(CM.MEASUREMENT_VALUE), max(CM.MEASUREMENT_VALUE), avg(CM.MEASUREMENT_VALUE), min(CM.MEASUREMENT_VALUE)
 			from odf_Ca_strat_kpi I  
 			inner join odf_ca_strat_kpi_measure IM on IM.odf_parent_id = I.ID and IM.ITEMSTATUS &lt;= 0 and IM.MEASUREMENT_DATE &lt;= sysdate
+				and IM.MEASUREMENT_DATE &gt;= I.NEXT_MEASURE_DATE
 			inner join ODF_MULTI_VALUED_LOOKUPS MVL1 on MVL1. attribute = 'strat_children_kpi' and MVL1.object = 'strat_kpi' and pk_id = I.ID 
 			inner join ODF_CA_STRAT_KPI_MEASURE CM on CM.ODF_PARENT_ID = MVL1.VALUE AND CM.MEASUREMENT_DATE = IM.MEASUREMENT_DATE 
 			where I.STRAT_KPI_LEVEL = ${vChildLevel} and I.STRAT_MEAS_AUTOCALC != 'NA'
@@ -96,7 +97,7 @@
 				<sql:query escapeText="false" var="vIndFormula">
 					select CI.ID, CI.CODE, CI.NAME, TO_CHAR(CM.MEASUREMENT_DATE,'YYYY-MM-DD'), CM.MEASUREMENT_VALUE
 					from odf_Ca_strat_kpi I  
-						inner join odf_ca_strat_kpi_measure IM on IM.odf_parent_id = I.ID and IM.ITEMSTATUS &lt;= 0 and IM.MEASUREMENT_DATE &lt;= sysdate
+						inner join odf_ca_strat_kpi_measure IM on IM.odf_parent_id = I.ID and IM.ITEMSTATUS &lt;= 0 and IM.MEASUREMENT_DATE &lt;= sysdate 
 						inner join ODF_MULTI_VALUED_LOOKUPS MVL1 on MVL1. attribute = 'strat_children_kpi' and MVL1.object = 'strat_kpi' and pk_id = I.ID 
 						inner join odf_ca_strat_kpi ci on ci.id = MVL1.VALUE
 						inner join ODF_CA_STRAT_KPI_MEASURE CM on CM.ODF_PARENT_ID = CI.ID AND CM.MEASUREMENT_DATE = IM.MEASUREMENT_DATE 

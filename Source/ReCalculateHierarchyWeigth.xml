@@ -32,7 +32,7 @@
 
     <gel:setDataSource dbId="niku"/>
 	
-    <!-- Reading Cycle Data-->
+    <!-- Reading Item Data-->
     <sql:query escapeText="false" var="vItemFields">
 		Select A.NAME, A.CODE, A.PARTITION_CODE, NVL(A.STRAT_HIERARCHY,A.ID), SI.CODE
 		FROM ODF_CA_STRATEGIC_ITEM A INNER JOIN ODF_CA_STRATEGIC_ITEM SI ON ((SI.ID = A.STRAT_HIERARCHY) OR ((A.STRAT_HIERARCHY is null) and (SI.ID = A.ID)))

@@ -48,7 +48,7 @@
         <core:set var="vCycle_Meth">${row[4]}</core:set>
         <core:set var="vHier_Code">${row[5]}</core:set>
         <core:set var="vCycle_Dime">${row[6]}</core:set>
-        <core:set var="vCycle_Attr">${row[6]}</core:set>
+        <core:set var="vCycle_Attr">${row[7]}</core:set>
 		<core:if test="${DebugLevel &gt; 0}">
 			<gel:log level="debug" message="Found Eval Cycle: ${vCycle_Code}-${vCycle_Name}. Method=${vCycle_Meth}. Hier=${vCycle_Hier}-${vHier_Code}. ${vCycle_Dime} will update Attribute ${vCycle_Attr}"/>
 		</core:if>

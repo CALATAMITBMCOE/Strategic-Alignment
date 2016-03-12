@@ -289,7 +289,7 @@
 			</core:choose>
 
 			<core:if test="${DebugLevel &gt; 1}">
-				<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGResults_IndicatorStatus_${vCurrentLevel}.xml"/>
+				<gel:serialize var="${runresultK}" fileName="${XOGwebFolder}/XOGResults_IndicatorStatus_${vCurrentLevel}.xml"/>
 				<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_IndicatorStatus_${vCurrentLevel}.xml"/> 
 			</core:if>
 
