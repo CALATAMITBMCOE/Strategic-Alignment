@@ -7,28 +7,32 @@
     xmlns:sql="jelly:sql"
     xmlns:xog="http://www.niku.com/xog"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance"
     xmlns:file="jelly:com.niku.union.gel.FileTagLibrary"
     xmlns:util="jelly:util"
     xmlns:q="http://www.niku.com/xog/Query">
 
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 5.0 							-->
-	<!-- Process: Strategic Indicator Calculation 					-->
-	<!-- 		  Strategic Alignment Metric Initialize				-->
-	<!-- 		  Strategic Portfolio Creation 						-->
-	<!-- 		  Strategic Item Status Initialize 					-->
-	<!--		  Strategic Fund Allocation Initialization			-->
-	<!--		  Strategic Allocation Percentage					-->
-	<!-- 		  Strategic Top Down Planning Calculation			-->
-	<!-- 		  Strategic Rollup Allocated and Commited Funding	-->
-	<!-- 		  Strategic Item - Build Tree Flat					-->
-	<!-- 		  Strategic Item - Rebuild Tree Flat				-->
-	<!-- Step	: Start												-->
+	<!-- Package: STrategic Alignment 5.1 							-->
+	<!-- Process: STrategic Indicator Calculation 					-->
+	<!-- 		  STrategic Alignment Metric Initialize				-->
+	<!-- 		  STrategic Portfolio Creation 						-->
+	<!-- 		  STrategic Item STatus Initialize 					-->
+	<!--		  STrategic Fund Allocation Initialization			-->
+	<!--		  STrategic Allocation Percentage					-->
+	<!-- 		  STrategic Top Down Planning Calculation			-->
+	<!-- 		  STrategic Rollup Allocated and Commited Funding	-->
+	<!-- 		  STrategic Item - Build Tree Flat					-->
+	<!-- 		  STrategic Item - Rebuild Tree Flat				-->
+	<!-- 		  STrategic Item - STrategic Item Lock Snapshot		-->
+	<!-- 		  STrategic Item - STrategic Plan Copy				-->
+	<!-- 		  STrategic Item - STrategic Plan Snapshot			-->
+	<!-- 		  STrategic Item - STrategic Plan Activate			-->
+	<!-- STep	: STart												-->
 	<!-- Action	: Prepare Environment								-->
 	<!--															-->
-	<!-- Process: Strategy Control									-->
-	<!-- Step	: Close Evaluation									-->
+	<!-- Process: STrategy Control									-->
+	<!-- STep	: Close Evaluation									-->
 	<!-- Action	: Prepare Environment								-->
    	<!--============================================================-->
 	<!-- Create environment variables and Login to XOG 				-->
@@ -36,8 +40,8 @@
 
 	<core:set var="DebugLevel">0</core:set>
 
-	<core:if test="${DebugLevel &gt; 0}">
-		<gel:log level="debug" message="Start Script"/>
+	<core:if teST="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="STart Script"/>
 	</core:if>
 
 	<gel:setDataSource dbId="Niku"/>
@@ -45,64 +49,73 @@
     <gel:parameter default="xog" var="XOGUsername"/>
     <gel:parameter default="gox" var="XOGPassword"/>
 
-	<core:invokeStatic var="config" className="com.niku.union.config.ConfigurationManager" method="getInstance"/>
-	<core:set var="vInstallDirInput" value="${config.getProperties().getDirectories().getInstallDir()}"/>
-	<core:if test="${DebugLevel &gt; 1}">
-		<gel:log level="debug" message="vInstallDirInput :  ${vInstallDirInput}"/>
+	<core:invokeSTatic var="config" className="com.niku.union.config.ConfigurationManager" method="getInSTance"/>
+	<core:set var="vInSTallDirInput" value="${config.getProperties().getDirectories().getInSTallDir()}"/>
+	<core:if teST="${DebugLevel &gt; 1}">
+		<gel:log level="debug" message="vInSTallDirInput :  ${vInSTallDirInput}"/>
 	</core:if>
 
-	<core:set var="InputString" value="${vInstallDirInput}"/>
+	<core:set var="InputSTring" value="${vInSTallDirInput}"/>
 
-	<core:invoke var="vInputStringCorrect" on="${InputString}" method="replaceAll">
-		<core:arg type="java.lang.String" value="\\\\"/>
-		<core:arg type="java.lang.String" value="\\"/>
+	<core:invoke var="vInputSTringCorrect" on="${InputSTring}" method="replaceAll">
+		<core:arg type="java.lang.STring" value="\\\\"/>
+		<core:arg type="java.lang.STring" value="\\"/>
 	</core:invoke>
 
-	<core:invoke var="vInstallDir" on="${vInputStringCorrect}" method="replace">
+	<core:invoke var="vInSTallDir" on="${vInputSTringCorrect}" method="replace">
 		<core:arg type="char" value="\"/>
 		<core:arg type="char" value="/"/>
 	</core:invoke>
 
-	<core:if test="${DebugLevel &gt; 1}">
-		<gel:log level="debug" message="vInstallDir :  ${vInstallDir}"/>
+	<core:if teST="${DebugLevel &gt; 1}">
+		<gel:log level="debug" message="vInSTallDir :  ${vInSTallDir}"/>
 	</core:if>
 
-	<core:set var="XOGlogFolder" value="${vInstallDir}/logs"/>
-	<core:if test="${DebugLevel &gt; 1}">
-		<core:set var="XOGwebFolder" value="${vInstallDir}/webroot"/>
-	</core:if>
+	<core:set var="XOGlogFolder" value="${vInSTallDir}/logs"/>
+	<core:set var="XOGwebFolder" value="${vInSTallDir}/webroot/STrat_logs"/>
+	<!-- Then create the new folder mkdirs will create all intermediate parent folders  -->
+	<util:file name="${XOGwebFolder}" var="logsfoldervar" />
+	<core:set var="CreateLogsDirDone" value="${logsfoldervar.mkdirs()}" />
+	<core:if teST="${DebugLevel &gt; 1}">
+		<gel:log level="debug" message="CreateLogsDirDone for ${XOGwebFolder}: ${CreateLogsDirDone}"/>
+	</core:if>				
+	
 	<core:set var="schedulerUrl" value="${config.getProperties().getWebServer().getSchedulerUrl()}"/>
 
-	<core:if test="${DebugLevel &gt; 1}">
+	<core:if teST="${DebugLevel &gt; 1}">
 		<gel:log level="debug" message="schedulerUrl: ${schedulerUrl}"/>
 	</core:if>
 
-	<!-- Gets ID from Instance 0-->
-    <core:set var="WebServerid" value="${config.getProperties().getWebServer().getWebServerInstance(0).getId()}"/>
-	<!-- Tests if Instance 0 is app - then gets instance 0 data -->
-	<core:if test="${WebServerid == 'app'}">
-        <core:set var="entryUrl" value="${config.getProperties().getWebServer().getWebServerInstance(0).getEntryUrl()}"/>
+	<!-- Gets ID from InSTance 0-->
+    <core:set var="WebServerid" value="${config.getProperties().getWebServer().getWebServerInSTance(0).getId()}"/>
+	<!-- TeSTs if InSTance 0 is app - then gets inSTance 0 data -->
+	<core:if teST="${WebServerid == 'app'}">
+        <core:set var="entryUrl" value="${config.getProperties().getWebServer().getWebServerInSTance(0).getEntryUrl()}"/>
+        <core:set var="entryUrlPort" value="${config.getProperties().getWebServer().getWebServerInSTance(0).getPort()}"/>
 	</core:if>
-	<!-- Tests if Instance 0 is nsa - then gets instance 1 data -->
-	<core:if test="${WebServerid == 'nsa'}">
-        <core:set var="entryUrl" value="${config.getProperties().getWebServer().getWebServerInstance(1).getEntryUrl()}"/>
+	<!-- TeSTs if InSTance 0 is nsa - then gets inSTance 1 data -->
+	<core:if teST="${WebServerid == 'nsa'}">
+        <core:set var="entryUrl" value="${config.getProperties().getWebServer().getWebServerInSTance(1).getEntryUrl()}"/>
+        <core:set var="entryUrlPort" value="${config.getProperties().getWebServer().getWebServerInSTance(1).getPort()}"/>
 	</core:if>
 
-	<core:if test="${DebugLevel &gt; 1}">
-		<gel:log level="debug" message="WebServerid: ${WebServerid}"/>
-		<gel:log level="debug" message="entryUrl: ${entryUrl}"/>
+	<core:set var="XOGwebPath" value="${entryUrl}/niku/STrat_logs"/>
+	<core:if teST="${DebugLevel &gt; 1}">
+		<gel:log level="debug" message="WebServerid	: ${WebServerid}"/>
+		<gel:log level="debug" message="entryUrl	: ${entryUrl}"/>
+		<gel:log level="debug" message="entryUrlPort: ${entryUrlPort}"/>
 	</core:if>
 
 	<!-- Not sure whether I should use entryUrl -->
-	<core:set var="XOGURL" value="${entryUrl}"/>
-	<core:if test="${DebugLevel &gt; 0}">
+	<core:set var="XOGURL" value="${entryUrl}:${entryUrlPort}"/>
+	<core:if teST="${DebugLevel &gt; 0}">
 		<gel:log level="debug" message="XOGURL: ${XOGURL}"/>
 		<gel:log level="debug" message="XOGlogFolder: ${XOGlogFolder}"/>
 	</core:if>
 
 	<!-- Get Database Vendor -->
-    <core:set var="dbVendor" value="${config.getProperties().getDatabaseServer().getVendor().toString()}"/>
-	<core:if test="${DebugLevel &gt; 0}">
+    <core:set var="dbVendor" value="${config.getProperties().getDatabaseServer().getVendor().toSTring()}"/>
+	<core:if teST="${DebugLevel &gt; 0}">
 		<gel:log level="debug" message="DBVendor: ${dbVendor}"/>
 	</core:if>
 	
@@ -121,26 +134,53 @@
             </soapenv:Envelope>
         </soap:message>
     </soap:invoke>
-    <gel:set asString="true"
+    <gel:set asSTring="true"
         select="$auth/soapenv:Envelope/soapenv:Body/xog:SessionID/text()" var="sessionID"/>
     <core:choose>
-	<core:if test="${DebugLevel &gt; 0}">
+	<core:if teST="${DebugLevel &gt; 0}">
 		<gel:serialize var="${auth}" fileName="${XOGlogFolder}/auth.xml"/>
 	</core:if>
         <!-- Check XOG sessionID -->
-        <core:when test="${sessionID == null}">
+        <core:when teST="${sessionID == null}">
             <gel:log category="XOG" level="ERROR">Couldn't Log in to XOG. Please verify the username/password.</gel:log>
         </core:when>
         <core:otherwise>
-			<core:if test="${DebugLevel &gt; 1}">
+			<core:if teST="${DebugLevel &gt; 1}">
 				<gel:log level="debug" message="[XOG] XOG Login Successful. ${sessionID}."/>
 			</core:if>
-			<gel:persist var="XOGURL" value="${XOGURL}" scope="INSTANCE"/>
-			<gel:persist var="XOGlogFolder" value="${XOGlogFolder}" scope="INSTANCE"/>
-			<gel:persist var="XOGwebFolder" value="${XOGwebFolder}" scope="INSTANCE"/>
-			<gel:persist var="sessionID" value="${sessionID}" scope="INSTANCE"/>
-			<gel:persist var="DebugLevel" value="${DebugLevel}" scope="INSTANCE"/>
-			<gel:persist var="dbVendor" value="${dbVendor}" scope="INSTANCE"/>
+			<gel:persiST var="XOGURL" value="${XOGURL}" scope="INSTANCE"/>
+			<gel:persiST var="XOGlogFolder" value="${XOGlogFolder}" scope="INSTANCE"/>
+			<gel:persiST var="XOGwebFolder" value="${XOGwebFolder}" scope="INSTANCE"/>
+			<gel:persiST var="XOGwebPath" value="${XOGwebPath}" scope="INSTANCE"/>
+			<gel:persiST var="sessionID" value="${sessionID}" scope="INSTANCE"/>
+			<gel:persiST var="DebugLevel" value="${DebugLevel}" scope="INSTANCE"/>
+			<gel:persiST var="dbVendor" value="${dbVendor}" scope="INSTANCE"/>
+
+			<!-- SQL Server Compatibility-->
+			<core:set var="isNullFunction" value="ISNULL"/>
+			<core:if teST="${dbVendor=='oracle'}">
+				<core:set var="isNullFunction" value="NVL"/>
+			</core:if>
+			<gel:persiST var="isNullFunction" value="${isNullFunction}" scope="INSTANCE"/>
+
+			<core:set var="lengthFunction" value="LEN"/>
+			<core:if teST="${dbVendor=='oracle'}">
+				<core:set var="lengthFunction" value="LENGTH"/>
+			</core:if>
+			<gel:persiST var="lengthFunction" value="${lengthFunction}" scope="INSTANCE"/>
+			
+			<core:set var="subSTringFunction" value="SUBSTRING"/>
+			<core:if teST="${dbVendor=='oracle'}">
+				<core:set var="subSTringFunction" value="SUBSTR"/>
+			</core:if>
+			<gel:persiST var="subSTringFunction" value="${subSTringFunction}" scope="INSTANCE"/>
+			
+			<core:set var="currentdateFunction" value="getdate()"/>
+			<core:if teST="${dbVendor=='oracle'}">
+				<core:set var="currentdateFunction" value="sysdate"/>
+			</core:if>
+			<gel:persiST var="currentdateFunction" value="${currentdateFunction}" scope="INSTANCE"/>
+			
 		</core:otherwise>
     </core:choose>
 </gel:script>

@@ -5,12 +5,12 @@
     xmlns:soap="jelly:com.niku.union.gel.SOAPTagLibrary"
     xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
     xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance">
 	
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 5.0 							-->
-	<!-- Process: Strategic Indicators Calculation 					-->
-	<!-- Step	: Indicator Calculation and Rollup					-->
+	<!-- Package: STrategic Alignment 5.0 							-->
+	<!-- Process: STrategic Indicators Calculation 					-->
+	<!-- STep	: Indicator Calculation and Rollup					-->
 	<!-- Action	: Auto Measurement Calculation						-->
    	<!--============================================================-->
 	<!-- Object : n/a												-->
@@ -18,46 +18,53 @@
 	<!-- Calculate Indicator Level values for all Indicators 		-->
    	<!--============================================================-->
 	
-	<core:if test="${DebugLevel &gt; 0}">
-		<gel:log level="debug" message="Start Script"/>
-		<gel:log level="debug" message=">>Persisted XOG URL   : ${XOGURL}"/> 
-		<gel:log level="debug" message=">>Persisted LOG Folder: ${XOGlogFolder}"/> 
-		<gel:log level="debug" message=">>Persisted WEB Folder: ${XOGwebFolder}"/> 
-		<gel:log level="debug" message=">>Persisted SessionID : ${sessionID}"/> 
-		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/> 
-		<gel:log level="debug" message=">>Persisted dbVendor  : ${dbVendor}"/> 
+	<core:if teST="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="STart Script"/>
+		<gel:log level="debug" message=">>PersiSTed XOG URL   : ${XOGURL}"/> 
+		<gel:log level="debug" message=">>PersiSTed LOG Folder: ${XOGlogFolder}"/> 
+		<gel:log level="debug" message=">>PersiSTed WEB Folder: ${XOGwebFolder}"/> 
+		<gel:log level="debug" message=">>PersiSTed SessionID : ${sessionID}"/> 
+		<gel:log level="debug" message=">>PersiSTed DebugLevel: ${DebugLevel}"/> 
+		<gel:log level="debug" message=">>PersiSTed dbVendor  : ${dbVendor}"/> 
 	</core:if>
 
     <gel:setDataSource dbId="niku"/>
 
 	<core:set var="vChildLevel" value="2"/>
 	<core:set var="vFoundChildren" value="1"/>
-	<core:while test="${vFoundChildren &gt; 0}">
-		<core:if test="${DebugLevel &gt; 0}">
+	<core:while teST="${vFoundChildren &gt; 0}">
+		<core:if teST="${DebugLevel &gt; 0}">
 			<gel:log level="debug" message="Searching for Level ${vChildLevel}."/> 
 		</core:if>	
 
 		<!-- Preparing XML Message -->    	
 		<gel:parse var="v_xml_root">
-			<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
-				<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="13.0.0.6982"/>
-					<customObjectInstances objectCode="strat_kpi_measure"/>
+			<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_cuSTomObjectInSTance.xsd">
+				<Header action="write" externalSource="NIKU" objectType="cuSTomObjectInSTance" version="13.0.0.6982"/>
+					<cuSTomObjectInSTances objectCode="STrat_kpi_measure"/>
 			</NikuDataBus>
 		</gel:parse>
 		
 		<core:set var="vFoundChildren" value="0"/>
-		<sql:query escapeText="false" var="vIndicatorsToUpdate">
-			select I.ID, I.CODE, I.NAME, I.STRAT_KPI_LEVEL, I.STRAT_MEAS_AUTOCALC, IM.CODE, TO_CHAR(IM.MEASUREMENT_DATE,'YYYY-MM-DD'), I.MEAS_FORMULA,
+
+		<!--SQL Server Compatibility-->
+		<core:set var="selMeasurementDate" value="SUBSTRING(CONVERT(nvarchar(30), IM.MEASUREMENT_DATE, 20),1,10)"/>
+		<core:if teST="${dbVendor=='oracle'}">
+			<core:set var="selMeasurementDate" value="TO_CHAR(IM.MEASUREMENT_DATE,'YYYY-MM-DD')"/>
+		</core:if>
+		
+		<sql:query escapeText="false" var="vIndicatorSToUpdate">
+			select I.ID, I.CODE, I.NAME, I.STRAT_KPI_LEVEL, I.STRAT_MEAS_AUTOCALC, IM.CODE, ${selMeasurementDate}, I.MEAS_FORMULA,
 					sum(CM.MEASUREMENT_VALUE), max(CM.MEASUREMENT_VALUE), avg(CM.MEASUREMENT_VALUE), min(CM.MEASUREMENT_VALUE)
-			from odf_Ca_strat_kpi I  
-			inner join odf_ca_strat_kpi_measure IM on IM.odf_parent_id = I.ID and IM.ITEMSTATUS &lt;= 0 and IM.MEASUREMENT_DATE &lt;= sysdate
+			from odf_Ca_STrat_kpi I  
+			inner join odf_ca_STrat_kpi_measure IM on IM.odf_parent_id = I.ID and IM.ITEMSTATUS &lt;= 0 and IM.MEASUREMENT_DATE &lt;= ${currentdateFunction}
 				and IM.MEASUREMENT_DATE &gt;= I.NEXT_MEASURE_DATE
-			inner join ODF_MULTI_VALUED_LOOKUPS MVL1 on MVL1. attribute = 'strat_children_kpi' and MVL1.object = 'strat_kpi' and pk_id = I.ID 
+			inner join ODF_MULTI_VALUED_LOOKUPS MVL1 on MVL1. attribute = 'STrat_children_kpi' and MVL1.object = 'STrat_kpi' and pk_id = I.ID 
 			inner join ODF_CA_STRAT_KPI_MEASURE CM on CM.ODF_PARENT_ID = MVL1.VALUE AND CM.MEASUREMENT_DATE = IM.MEASUREMENT_DATE 
 			where I.STRAT_KPI_LEVEL = ${vChildLevel} and I.STRAT_MEAS_AUTOCALC != 'NA'
-			group by I.ID, I.CODE, I.NAME, I.STRAT_KPI_LEVEL, I.strat_meas_autocalc, I.MEAS_FORMULA, IM.CODE, IM.MEASUREMENT_DATE
+			group by I.ID, I.CODE, I.NAME, I.STRAT_KPI_LEVEL, I.STrat_meas_autocalc, I.MEAS_FORMULA, IM.CODE, IM.MEASUREMENT_DATE
 		</sql:query>
-		<core:forEach items="${vIndicatorsToUpdate.rowsByIndex}" var="row">
+		<core:forEach items="${vIndicatorSToUpdate.rowsByIndex}" var="row">
 			<core:set var="vIndicator2U_Intl">${row[0]}</core:set>
 			<core:set var="vIndicator2U_Code">${row[1]}</core:set>
 			<core:set var="vIndicator2U_Name">${row[2]}</core:set>
@@ -68,16 +75,16 @@
 			<core:set var="vIndicator2U_Form">${row[7]}</core:set>
 
 			<core:choose>
-				<core:when test="${vIndicator2U_Auto == 'CS'}">
+				<core:when teST="${vIndicator2U_Auto == 'CS'}">
 					<core:set var="vIndicator2U_MVal">${row[8]}</core:set>
 				</core:when>
-				<core:when test="${vIndicator2U_Auto == 'CMA'}">
+				<core:when teST="${vIndicator2U_Auto == 'CMA'}">
 					<core:set var="vIndicator2U_MVal">${row[9]}</core:set>
 				</core:when>
-				<core:when test="${vIndicator2U_Auto == 'CA'}">
+				<core:when teST="${vIndicator2U_Auto == 'CA'}">
 					<core:set var="vIndicator2U_MVal">${row[10]}</core:set>
 				</core:when>
-				<core:when test="${vIndicator2U_Auto == 'CM'}">
+				<core:when teST="${vIndicator2U_Auto == 'CM'}">
 					<core:set var="vIndicator2U_MVal">${row[11]}</core:set>
 				</core:when>
 				<core:otherwise>
@@ -87,21 +94,29 @@
 			</core:choose>
 			
 			
-			<core:if test="${DebugLevel &gt; 0}">
+			<core:if teST="${DebugLevel &gt; 0}">
 				<gel:log level="debug" message="Indicator ${vIndicator2U_Intl}-${vIndicator2U_Code}-${vIndicator2U_Name} at Level ${vIndicator2U_Levl} will be Auto-Measured using ${vIndicator2U_Auto}: Value=${vIndicator2U_MVal}."/>
 			</core:if>
 			
-			<core:if test="${vIndicator2U_Auto == 'FO'}">
+			<core:if teST="${vIndicator2U_Auto == 'FO'}">
 				<core:set var="vFormula">${vIndicator2U_Form}</core:set>
 				<core:set var="vError">1</core:set>
+				
+				<!--SQL Server Compatibility-->
+				<core:set var="selMeasurementDate" value="SUBSTRING(CONVERT(nvarchar(30), CM.MEASUREMENT_DATE, 20),1,10)"/>
+				<core:if teST="${dbVendor=='oracle'}">
+					<core:set var="selMeasurementDate" value="TO_CHAR(CM.MEASUREMENT_DATE,'YYYY-MM-DD')"/>
+				</core:if>
+				
+				
 				<sql:query escapeText="false" var="vIndFormula">
-					select CI.ID, CI.CODE, CI.NAME, TO_CHAR(CM.MEASUREMENT_DATE,'YYYY-MM-DD'), CM.MEASUREMENT_VALUE
-					from odf_Ca_strat_kpi I  
-						inner join odf_ca_strat_kpi_measure IM on IM.odf_parent_id = I.ID and IM.ITEMSTATUS &lt;= 0 and IM.MEASUREMENT_DATE &lt;= sysdate 
-						inner join ODF_MULTI_VALUED_LOOKUPS MVL1 on MVL1. attribute = 'strat_children_kpi' and MVL1.object = 'strat_kpi' and pk_id = I.ID 
-						inner join odf_ca_strat_kpi ci on ci.id = MVL1.VALUE
+					select CI.ID, CI.CODE, CI.NAME, ${selMeasurementDate}, CM.MEASUREMENT_VALUE
+					from odf_Ca_STrat_kpi I  
+						inner join odf_ca_STrat_kpi_measure IM on IM.odf_parent_id = I.ID and IM.ITEMSTATUS &lt;= 0 and IM.MEASUREMENT_DATE &lt;= ${currentdateFunction} 
+						inner join ODF_MULTI_VALUED_LOOKUPS MVL1 on MVL1. attribute = 'STrat_children_kpi' and MVL1.object = 'STrat_kpi' and pk_id = I.ID 
+						inner join odf_ca_STrat_kpi ci on ci.id = MVL1.VALUE
 						inner join ODF_CA_STRAT_KPI_MEASURE CM on CM.ODF_PARENT_ID = CI.ID AND CM.MEASUREMENT_DATE = IM.MEASUREMENT_DATE 
-					where I.ID=${vIndicator2U_Intl} and TO_CHAR(CM.MEASUREMENT_DATE,'YYYY-MM-DD') = '${vIndicator2U_MDat}'
+					where I.ID=${vIndicator2U_Intl} and ${selMeasurementDate} = '${vIndicator2U_MDat}'
 				</sql:query>
 				<core:forEach items="${vIndFormula.rowsByIndex}" var="row">
 					<core:set var="vError">0</core:set>
@@ -110,55 +125,60 @@
 					<core:set var="vChild_Name">${row[2]}</core:set>
 					<core:set var="vChild_Date">${row[3]}</core:set>
 					<core:set var="vChild_Valu">${row[4]}</core:set>
-					<core:if test="${DebugLevel &gt; 0}">
+					<core:if teST="${DebugLevel &gt; 0}">
 						<gel:log level="debug" message="-- Indicator ${vChild_Intl}-${vChild_Code}-${vChild_Name} Date=${vChild_Date} Value=${vChild_Valu}."/>
 					</core:if>
 					<core:invoke var="vFormula" on="${vFormula}" method="replaceAll">
-						<core:arg type="java.lang.String" value="${vChild_Code}"/>
-						<core:arg type="java.lang.String" value="${vChild_Valu}"/>
+						<core:arg type="java.lang.STring" value="${vChild_Code}"/>
+						<core:arg type="java.lang.STring" value="${vChild_Valu}"/>
 					</core:invoke>
-					<core:if test="${DebugLevel &gt; 1}">
+					<core:if teST="${DebugLevel &gt; 1}">
 						<gel:log level="debug" message="-- Indicator Partial Formula = ${vFormula}."/>
 					</core:if>
 				</core:forEach>
-				<core:if test="${vError==1}">
+				<core:if teST="${vError==1}">
 					<gel:log level="ERROR" message="-- Formula Variables not Found for Indicator ${vIndicator2U_Intl}-${vIndicator2U_Code}-${vIndicator2U_Name}."/>
 				</core:if>
-				<core:if test="${DebugLevel &gt; 0}">
+				<core:if teST="${DebugLevel &gt; 0}">
 					<gel:log level="debug" message="-- Indicator Final Formula = ${vFormula}."/>
 				</core:if>
 				<core:set var="vFinalResult">0</core:set>
-				<core:if test="${vError==0}">
+				<core:if teST="${vError==0}">
+					<!-- SQL Server compatibility-->
+					<core:set var="emptyFrom" value=" "/>
+					<core:if teST="${dbVendor=='oracle'}">
+						<core:set var="emptyFrom" value=" from DUAL"/>
+					</core:if>
 					<sql:query escapeText="false" var="vResult">
-						select ${vFormula}
-						from DUAL
+						select ${vFormula} 
+						${emptyFrom}
 					</sql:query>
 					<core:forEach items="${vResult.rowsByIndex}" var="row">
 						<core:set var="vFinalResult">${row[0]}</core:set>
 					</core:forEach>
-					<core:if test="${DebugLevel &gt; 0}">
+					<core:if teST="${DebugLevel &gt; 0}">
 						<gel:log level="debug" message="-- Final Auto-Measurement Result: ${vFinalResult}"/>
 					</core:if>
 				</core:if>
 				<core:set var="vIndicator2U_MVal">${vFinalResult}</core:set>
 			</core:if>
-			<gel:parse var="vMeasurementInstance">
-				<instance instanceCode="${vIndicator2U_MCod}" objectCode="strat_kpi_measure" parentInstanceCode="${vIndicator2U_Code}" parentObjectCode="strat_kpi">
-					<CustomInformation>
+			<gel:parse var="vMeasurementInSTance">
+				<inSTance inSTanceCode="${vIndicator2U_MCod}" objectCode="STrat_kpi_measure" parentInSTanceCode="${vIndicator2U_Code}" parentObjectCode="STrat_kpi">
+					<CuSTomInformation>
 				        <ColumnValue name="measurement_value">${vIndicator2U_MVal}</ColumnValue>
-						<ColumnValue name="kpi_status">0</ColumnValue>
-						<ColumnValue name="itemstatus">0</ColumnValue>
-					</CustomInformation>
-				</instance>
+						<ColumnValue name="kpi_STatus">0</ColumnValue>
+						<ColumnValue name="itemSTatus">0</ColumnValue>
+					</CuSTomInformation>
+				</inSTance>
 			</gel:parse>
-			<!-- Adding the new Item Instance to the Root Document -->
-			<gel:set insert="true" select="$v_xml_root/NikuDataBus/customObjectInstances" value="${vMeasurementInstance}"/>
+			<!-- Adding the new Item InSTance to the Root Document -->
+			<gel:set insert="true" select="$v_xml_root/NikuDataBus/cuSTomObjectInSTances" value="${vMeasurementInSTance}"/>
 
 			<core:set var="vFoundChildren" value="1"/>
 		</core:forEach>
 		
-		<core:if test="${vFoundChildren == 1}">
-			<core:if test="${DebugLevel &gt; 1}">
+		<core:if teST="${vFoundChildren == 1}">
+			<core:if teST="${DebugLevel &gt; 1}">
 				<gel:serialize var="${v_xml_root}" fileName="${XOGwebFolder}/XOGWrite_IndicatorLevel_${vChildLevel}.xml"/>
 				<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_IndicatorLevel_${vChildLevel}.xml"/> 
 			</core:if>
@@ -181,22 +201,22 @@
 				</soap:invoke>
 			</core:catch>
 			<core:choose>
-				<core:when test="${v_xog_exception != null}">
+				<core:when teST="${v_xog_exception != null}">
 					<gel:log category="XOG" level="ERROR">XOG operation failed: ${v_xog_exception}</gel:log>
 				</core:when>
 				<core:otherwise>
 					<gel:set select="$runresult/soapenv:Envelope/soapenv:Body/XOGOutput" var="writeOutputRoot"/>
-					<gel:set asString="true" select="$writeOutputRoot/Status/@state" var="XOGoutcome"/>
-					<gel:set asString="true" select="$writeOutputRoot/Statistics/@totalNumberOfRecords" var="XOGtotalrecords"/>
-					<gel:set asString="true" select="$writeOutputRoot/Statistics/@insertedRecords" var="XOGinsertedrecords"/>
-					<gel:set asString="true" select="$writeOutputRoot/Statistics/@updatedRecords" var="XOGupdatedrecords"/>
-					<gel:set asString="true" select="$writeOutputRoot/Statistics/@failureRecords" var="XOGfailurerecords"/>
+					<gel:set asSTring="true" select="$writeOutputRoot/STatus/@STate" var="XOGoutcome"/>
+					<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@totalNumberOfRecords" var="XOGtotalrecords"/>
+					<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@insertedRecords" var="XOGinsertedrecords"/>
+					<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@updatedRecords" var="XOGupdatedrecords"/>
+					<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@failureRecords" var="XOGfailurerecords"/>
 					<!-- Check the XOG result -->
-					<gel:log category="XOG" level="INFO">[XOG] Document import for Level ${vChildLevel} status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
+					<gel:log category="XOG" level="INFO">[XOG] Document import for Level ${vChildLevel} STatus:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
 				</core:otherwise>
 			</core:choose>
 
-			<core:if test="${DebugLevel &gt; 1}">
+			<core:if teST="${DebugLevel &gt; 1}">
 				<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGResults_IndicatorLevel_${vChildLevel}.xml"/>
 				<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_IndicatorLevel_${vChildLevel}.xml"/> 
 			</core:if>

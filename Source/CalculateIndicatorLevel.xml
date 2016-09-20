@@ -5,12 +5,12 @@
     xmlns:soap="jelly:com.niku.union.gel.SOAPTagLibrary"
     xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
     xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance">
 	
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 5.0 							-->
-	<!-- Process: Strategic Indicators Calculation 					-->
-	<!-- Step	: Indicator Calculation and Rollup					-->
+	<!-- Package: STrategic Alignment 5.0 							-->
+	<!-- Process: STrategic Indicators Calculation 					-->
+	<!-- STep	: Indicator Calculation and Rollup					-->
 	<!-- Action	: Calculate Indicator Level							-->
    	<!--============================================================-->
 	<!-- Object : n/a												-->
@@ -18,66 +18,66 @@
 	<!-- Calculate Indicator Level values for all Indicators 		-->
    	<!--============================================================-->
 	
-	<core:if test="${DebugLevel &gt; 0}">
-		<gel:log level="debug" message="Start Script"/>
-		<gel:log level="debug" message=">>Persisted XOG URL   : ${XOGURL}"/> 
-		<gel:log level="debug" message=">>Persisted LOG Folder: ${XOGlogFolder}"/> 
-		<gel:log level="debug" message=">>Persisted WEB Folder: ${XOGwebFolder}"/> 
-		<gel:log level="debug" message=">>Persisted SessionID : ${sessionID}"/> 
-		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/> 
-		<gel:log level="debug" message=">>Persisted dbVendor  : ${dbVendor}"/> 
+	<core:if teST="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="STart Script"/>
+		<gel:log level="debug" message=">>PersiSTed XOG URL   : ${XOGURL}"/> 
+		<gel:log level="debug" message=">>PersiSTed LOG Folder: ${XOGlogFolder}"/> 
+		<gel:log level="debug" message=">>PersiSTed WEB Folder: ${XOGwebFolder}"/> 
+		<gel:log level="debug" message=">>PersiSTed SessionID : ${sessionID}"/> 
+		<gel:log level="debug" message=">>PersiSTed DebugLevel: ${DebugLevel}"/> 
+		<gel:log level="debug" message=">>PersiSTed dbVendor  : ${dbVendor}"/> 
 	</core:if>
 
     <gel:setDataSource dbId="niku"/>
 
 	<core:set var="vChildLevel" value="1"/>
 	<core:set var="vFoundChildren" value="1"/>
-	<core:while test="${vFoundChildren &gt; 0}">
-		<core:if test="${DebugLevel &gt; 0}">
+	<core:while teST="${vFoundChildren &gt; 0}">
+		<core:if teST="${DebugLevel &gt; 0}">
 			<gel:log level="debug" message="Searching for Level ${vChildLevel} with Children."/> 
 		</core:if>	
 
 		<!-- Preparing XML Message -->    	
 		<gel:parse var="v_xml_root">
-			<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
-				<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="13.0.0.6982"/>
-					<customObjectInstances objectCode="strat_kpi"/>
+			<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_cuSTomObjectInSTance.xsd">
+				<Header action="write" externalSource="NIKU" objectType="cuSTomObjectInSTance" version="13.0.0.6982"/>
+					<cuSTomObjectInSTances objectCode="STrat_kpi"/>
 			</NikuDataBus>
 		</gel:parse>
 		
 		<core:set var="vFoundChildren" value="0"/>
-		<sql:query escapeText="false" var="vIndicatorsToUpdate">
+		<sql:query escapeText="false" var="vIndicatorSToUpdate">
 			SELECT DISTINCT parentKPI.ID, parentKPI.code, parentKPI.NAME, parentKPI.STRAT_KPI_LEVEL
 				from ODF_CA_STRAT_KPI KPI 
 					INNER JOIN ODF_MULTI_VALUED_LOOKUPS MVL
-					ON MVL.ATTRIBUTE = 'strat_children_kpi' and MVL.OBJECT = 'strat_kpi' and MVL.VALUE = KPI.ID
+					ON MVL.ATTRIBUTE = 'STrat_children_kpi' and MVL.OBJECT = 'STrat_kpi' and MVL.VALUE = KPI.ID
 					INNER JOIN ODF_CA_STRAT_KPI parentKPI ON parentKPI.ID = MVL.PK_ID
 				where KPI.STRAT_KPI_LEVEL = ${vChildLevel}
 				and KPI.ACTIVE = 1
 		</sql:query>
-		<core:forEach items="${vIndicatorsToUpdate.rowsByIndex}" var="row">
+		<core:forEach items="${vIndicatorSToUpdate.rowsByIndex}" var="row">
 			<core:set var="vIndicator2U_Intl">${row[0]}</core:set>
 			<core:set var="vIndicator2U_Code">${row[1]}</core:set>
 			<core:set var="vIndicator2U_Name">${row[2]}</core:set>
 			<core:set var="vIndicator2U_Levl">${row[3]}</core:set>
-			<core:if test="${DebugLevel &gt; 0}">
+			<core:if teST="${DebugLevel &gt; 0}">
 				<gel:log level="debug" message="-- Indicator has children - Adding 1 to Level: ${vIndicator2U_Intl}-${vIndicator2U_Code}-${vIndicator2U_Name} from ${vIndicator2U_Levl} to ${vIndicator2U_Levl+1}."/>
 			</core:if>
-			<gel:parse var="vIndicatorInstance">
-				<instance instanceCode="${vIndicator2U_Code}" objectCode="strat_kpi">
-					<CustomInformation>
-						<ColumnValue name="strat_kpi_level">${vIndicator2U_Levl+1}</ColumnValue>
-					</CustomInformation>
-				</instance>
+			<gel:parse var="vIndicatorInSTance">
+				<inSTance inSTanceCode="${vIndicator2U_Code}" objectCode="STrat_kpi">
+					<CuSTomInformation>
+						<ColumnValue name="STrat_kpi_level">${vIndicator2U_Levl+1}</ColumnValue>
+					</CuSTomInformation>
+				</inSTance>
 			</gel:parse>
-			<!-- Adding the new Item Instance to the Root Document -->
-			<gel:set insert="true" select="$v_xml_root/NikuDataBus/customObjectInstances" value="${vIndicatorInstance}"/>
+			<!-- Adding the new Item InSTance to the Root Document -->
+			<gel:set insert="true" select="$v_xml_root/NikuDataBus/cuSTomObjectInSTances" value="${vIndicatorInSTance}"/>
 
 			<core:set var="vFoundChildren" value="1"/>
 		</core:forEach>
 		
-		<core:if test="${vFoundChildren == 1}">
-			<core:if test="${DebugLevel &gt; 1}">
+		<core:if teST="${vFoundChildren == 1}">
+			<core:if teST="${DebugLevel &gt; 1}">
 				<gel:serialize var="${v_xml_root}" fileName="${XOGwebFolder}/XOGWrite_IndicatorLevel_${vChildLevel}.xml"/>
 				<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_IndicatorLevel_${vChildLevel}.xml"/> 
 			</core:if>
@@ -100,22 +100,22 @@
 				</soap:invoke>
 			</core:catch>
 			<core:choose>
-				<core:when test="${v_xog_exception != null}">
+				<core:when teST="${v_xog_exception != null}">
 					<gel:log category="XOG" level="ERROR">XOG operation failed: ${v_xog_exception}</gel:log>
 				</core:when>
 				<core:otherwise>
 					<gel:set select="$runresult/soapenv:Envelope/soapenv:Body/XOGOutput" var="writeOutputRoot"/>
-					<gel:set asString="true" select="$writeOutputRoot/Status/@state" var="XOGoutcome"/>
-					<gel:set asString="true" select="$writeOutputRoot/Statistics/@totalNumberOfRecords" var="XOGtotalrecords"/>
-					<gel:set asString="true" select="$writeOutputRoot/Statistics/@insertedRecords" var="XOGinsertedrecords"/>
-					<gel:set asString="true" select="$writeOutputRoot/Statistics/@updatedRecords" var="XOGupdatedrecords"/>
-					<gel:set asString="true" select="$writeOutputRoot/Statistics/@failureRecords" var="XOGfailurerecords"/>
+					<gel:set asSTring="true" select="$writeOutputRoot/STatus/@STate" var="XOGoutcome"/>
+					<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@totalNumberOfRecords" var="XOGtotalrecords"/>
+					<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@insertedRecords" var="XOGinsertedrecords"/>
+					<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@updatedRecords" var="XOGupdatedrecords"/>
+					<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@failureRecords" var="XOGfailurerecords"/>
 					<!-- Check the XOG result -->
-					<gel:log category="XOG" level="INFO">[XOG] Document import for Level ${vChildLevel} status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
+					<gel:log category="XOG" level="INFO">[XOG] Document import for Level ${vChildLevel} STatus:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
 				</core:otherwise>
 			</core:choose>
 
-			<core:if test="${DebugLevel &gt; 1}">
+			<core:if teST="${DebugLevel &gt; 1}">
 				<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGResults_IndicatorLevel_${vChildLevel}.xml"/>
 				<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_IndicatorLevel_${vChildLevel}.xml"/> 
 			</core:if>
@@ -125,8 +125,8 @@
 		<core:set var="vChildLevel" value="${vChildLevel + 1}"/>
 	</core:while>
 
-	<core:if test="${DebugLevel &gt; 0}">
+	<core:if teST="${DebugLevel &gt; 0}">
 		<gel:log level="debug" message="-- Max Level Found for KPIs: ${vChildLevel-1}."/> 
 	</core:if>	
-	<gel:persist var="vMaxLevel" value="${vChildLevel-1}" scope="INSTANCE"/>
+	<gel:persiST var="vMaxLevel" value="${vChildLevel-1}" scope="INSTANCE"/>
 </gel:script>

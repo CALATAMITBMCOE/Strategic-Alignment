@@ -1883,7 +1883,7 @@
         <ColumnValue name="name">2013 Target</ColumnValue>
         <ColumnValue name="code">I0011T2013</ColumnValue>
         <ColumnValue name="target_date">2013-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">5</ColumnValue>
+        <ColumnValue name="target_value">6</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -1897,7 +1897,7 @@
         <ColumnValue name="name">2014 Target</ColumnValue>
         <ColumnValue name="code">I0011T2014</ColumnValue>
         <ColumnValue name="target_date">2014-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">4</ColumnValue>
+        <ColumnValue name="target_value">5</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -1911,7 +1911,7 @@
         <ColumnValue name="name">2015 Target</ColumnValue>
         <ColumnValue name="code">I0011T2015</ColumnValue>
         <ColumnValue name="target_date">2015-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">3</ColumnValue>
+        <ColumnValue name="target_value">4</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -1925,7 +1925,7 @@
         <ColumnValue name="name">2016 Target</ColumnValue>
         <ColumnValue name="code">I0011T2016</ColumnValue>
         <ColumnValue name="target_date">2016-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">2</ColumnValue>
+        <ColumnValue name="target_value">4</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -1939,7 +1939,7 @@
         <ColumnValue name="name">2017 Target</ColumnValue>
         <ColumnValue name="code">I0011T2017</ColumnValue>
         <ColumnValue name="target_date">2017-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">2</ColumnValue>
+        <ColumnValue name="target_value">3</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -1953,7 +1953,7 @@
         <ColumnValue name="name">2018 Target</ColumnValue>
         <ColumnValue name="code">I0011T2018</ColumnValue>
         <ColumnValue name="target_date">2018-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">2</ColumnValue>
+        <ColumnValue name="target_value">3</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -2373,7 +2373,7 @@
         <ColumnValue name="name">2009 Target</ColumnValue>
         <ColumnValue name="code">I0014T2009</ColumnValue>
         <ColumnValue name="target_date">2009-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">8</ColumnValue>
+        <ColumnValue name="target_value">7</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -2415,7 +2415,7 @@
         <ColumnValue name="name">2012 Target</ColumnValue>
         <ColumnValue name="code">I0014T2012</ColumnValue>
         <ColumnValue name="target_date">2012-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">10</ColumnValue>
+        <ColumnValue name="target_value">9</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -2429,7 +2429,7 @@
         <ColumnValue name="name">2013 Target</ColumnValue>
         <ColumnValue name="code">I0014T2013</ColumnValue>
         <ColumnValue name="target_date">2013-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">11</ColumnValue>
+        <ColumnValue name="target_value">10</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -2443,7 +2443,7 @@
         <ColumnValue name="name">2014 Target</ColumnValue>
         <ColumnValue name="code">I0014T2014</ColumnValue>
         <ColumnValue name="target_date">2014-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">12</ColumnValue>
+        <ColumnValue name="target_value">10</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -2457,7 +2457,7 @@
         <ColumnValue name="name">2015 Target</ColumnValue>
         <ColumnValue name="code">I0014T2015</ColumnValue>
         <ColumnValue name="target_date">2015-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">13</ColumnValue>
+        <ColumnValue name="target_value">11</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -2471,7 +2471,7 @@
         <ColumnValue name="name">2016 Target</ColumnValue>
         <ColumnValue name="code">I0014T2016</ColumnValue>
         <ColumnValue name="target_date">2016-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">14</ColumnValue>
+        <ColumnValue name="target_value">11</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -2485,7 +2485,7 @@
         <ColumnValue name="name">2017 Target</ColumnValue>
         <ColumnValue name="code">I0014T2017</ColumnValue>
         <ColumnValue name="target_date">2017-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">14</ColumnValue>
+        <ColumnValue name="target_value">12</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -2499,7 +2499,7 @@
         <ColumnValue name="name">2018 Target</ColumnValue>
         <ColumnValue name="code">I0014T2018</ColumnValue>
         <ColumnValue name="target_date">2018-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">14</ColumnValue>
+        <ColumnValue name="target_value">12</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -2513,7 +2513,7 @@
         <ColumnValue name="name">2019 Target</ColumnValue>
         <ColumnValue name="code">I0014T2019</ColumnValue>
         <ColumnValue name="target_date">2019-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">14</ColumnValue>
+        <ColumnValue name="target_value">12</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -2527,7 +2527,7 @@
         <ColumnValue name="name">2020 Target</ColumnValue>
         <ColumnValue name="code">I0014T2020</ColumnValue>
         <ColumnValue name="target_date">2020-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">14</ColumnValue>
+        <ColumnValue name="target_value">13</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -2541,7 +2541,7 @@
         <ColumnValue name="name">2021 Target</ColumnValue>
         <ColumnValue name="code">I0014T2021</ColumnValue>
         <ColumnValue name="target_date">2021-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">14</ColumnValue>
+        <ColumnValue name="target_value">13</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -6726,7 +6726,7 @@
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
         <ColumnValue name="name">2021 Target</ColumnValue>
         <ColumnValue name="code">I0031T2021</ColumnValue>
-        <ColumnValue name="target_date">2021-12-31T00:00:00</ColumnValue>	
+        <ColumnValue name="target_date">2021-12-31T00:00:00</ColumnValue>
         <ColumnValue name="target_value">7</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
@@ -6735,7 +6735,6 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
       </Security>
     </instance> 
-
 
   </customObjectInstances>
 </NikuDataBus>

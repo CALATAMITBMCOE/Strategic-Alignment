@@ -1,0 +1,200 @@
+<gel:script xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:core="jelly:core"
+    xmlns:file="jelly:com.niku.union.gel.FileTagLibrary"
+    xmlns:gel="jelly:com.niku.union.gel.GELTagLibrary"
+    xmlns:soap="jelly:com.niku.union.gel.SOAPTagLibrary"
+    xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance">
+
+   	<!--============================================================-->
+	<!-- Package: STrategic Alignment 5.1 							-->
+	<!-- Process: Propagate Related Plan Change    					-->
+	<!-- STep	: Propagate Related Plan Change    					-->
+	<!-- Action	: Propagate Related Plan Change						-->
+   	<!--============================================================-->
+	<!-- Object : STrategic Item 									-->
+   	<!--============================================================-->
+	<!-- Propagate Related Plan Change								-->
+   	<!--============================================================-->
+	 
+	<core:if teST="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="STart Script"/>
+		<gel:log level="debug" message=">>PersiSTed XOG URL   : ${XOGURL}"/> 
+		<gel:log level="debug" message=">>PersiSTed LOG Folder: ${XOGlogFolder}"/> 
+		<gel:log level="debug" message=">>PersiSTed WEB Folder: ${XOGwebFolder}"/> 
+		<gel:log level="debug" message=">>PersiSTed SessionID : ${sessionID}"/> 
+		<gel:log level="debug" message=">>PersiSTed DebugLevel: ${DebugLevel}"/> 
+		<gel:log level="debug" message=">>PersiSTed dbVendor  : ${dbVendor}"/> 
+		<gel:log level="debug" message=">>Process InSTance	  : ${gel_processInSTanceId}"/>
+	</core:if>
+	
+    <gel:setDataSource dbId="niku"/>
+	<core:set value="${gel_objectInSTanceId}" var="vItemID"/>
+	
+	<gel:parse var="v_xml_new">
+		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_cuSTomObjectInSTance.xsd">
+		  <Header action="write" externalSource="NIKU" objectType="cuSTomObjectInSTance" version="14.4.0.234"/>
+		  <cuSTomObjectInSTances objectCode="STrategic_item"/>
+		</NikuDataBus>
+	</gel:parse>
+	
+	<sql:query escapeText="false" var="vItemtoCopy">
+		Select SI.NAME, SI.CODE, SI.STRAT_HIERARCHY, SI.PLAN_RELATED, SI.RELATED_PLAN_PARENT,SI.STRAT_PLAN_STATUS,
+				SIP.NAME, SIP.CODE, SIP.ID, 
+				SIRP.NAME, SIRP.CODE, SIRP.ID, 
+				SIPRP.NAME, SIPRP.CODE, SIPRP.ID,
+				${subSTringFunction}(SIRP.CODE, ${lengthFunction}(SIRP.CODE)-2,1) IsVer,${subSTringFunction}(SIRP.CODE, ${lengthFunction}(SIRP.CODE)-2,3) VerNum,
+				${lengthFunction}(${subSTringFunction}(SIRP.CODE, 1, ${lengthFunction}(SIRP.CODE)-3)) PlanLength, ${lengthFunction}(${subSTringFunction}(SIPRP.CODE, 1, ${lengthFunction}(SIPRP.CODE)-3)) ParentLength
+		FROM ODF_CA_STRATEGIC_ITEM SI 
+			inner join  ODF_CA_STRATEGIC_ITEM SIP on SIP.ID = SI.STRAT_HIERARCHY 
+			inner join  ODF_CA_STRATEGIC_ITEM SIRP on SIRP.ID = SI.PLAN_RELATED 
+			inner join  ODF_CA_STRATEGIC_ITEM SIPRP on SIPRP.ID = SI.RELATED_PLAN_PARENT 
+		WHERE SI.ID = ${vItemID}
+	</sql:query>
+    <core:forEach items="${vItemtoCopy.rowsByIndex}" var="row">
+        <core:set var="vItem_Name">${row[0]}</core:set>
+        <core:set var="vItem_Code">${row[1]}</core:set>
+        <core:set var="vItem_Hier">${row[2]}</core:set>
+        <core:set var="vItem_RPln">${row[3]}</core:set>
+        <core:set var="vItem_PRPl">${row[4]}</core:set>
+        <core:set var="vItem_STat">${row[5]}</core:set>
+        <core:set var="vPlan_Name">${row[6]}</core:set>
+        <core:set var="vPlan_Code">${row[7]}</core:set>
+        <core:set var="vPlan_Intl">${row[8]}</core:set>
+        <core:set var="vRPln_Name">${row[9]}</core:set>
+        <core:set var="vRPln_Code">${row[10]}</core:set>
+        <core:set var="vRPln_Intl">${row[11]}</core:set>
+        <core:set var="vPRPl_Name">${row[12]}</core:set>
+        <core:set var="vPRPl_Code">${row[13]}</core:set>
+        <core:set var="vPRPl_Intl">${row[14]}</core:set>
+        <core:set var="vIsVersion">${row[15]}</core:set>
+        <core:set var="vVersionNm">${row[16]}</core:set>
+        <core:set var="vPlan_Lent">${row[17]}</core:set>
+        <core:set var="vPrnt_Lent">${row[18]}</core:set>
+		<core:if teST="${DebugLevel &gt; 0}">
+			<gel:log level="debug" message="SI Found: ${vItem_Name}-${vItem_Code}. Plan is ${vPlan_Name}-${vPlan_Code}. STatus=${vItem_STat}."/> 
+			<gel:log level="debug" message="-- Related to: ${vPRPl_Name}-${vPRPl_Code} in plan ${vRPln_Name}-${vRPln_Code}."/> 
+			<gel:log level="debug" message="-- Version: ${vVersionNm}. IsVersion: ${vIsVersion}. Root Size for Parent is ${vPrnt_Lent} and for Plan is ${vPlan_Lent}."/> 
+		</core:if>
+
+		<core:if teST="${vItem_STat!='DRAFT'}">
+			<gel:log level="debug" message="Related Plan Version Propagation is not allowed on a non-Draft STrategic Plan."/> 
+			<core:set var="vIsVersion" value="No"/>
+		</core:if>
+		
+		<core:if teST="${vIsVersion == '-'}">
+			<!-- This is a version (Copy) of a Plan to be propagated --> 
+			<gel:parse var="v_xml_root">
+				<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_cuSTomObjectInSTance.xsd">
+					<Header action="write" externalSource="NIKU" objectType="cuSTomObjectInSTance" version="14.4.0.234"/>
+					<cuSTomObjectInSTances objectCode="STrategic_item"/>
+				</NikuDataBus>
+			</gel:parse>
+			
+			<sql:query escapeText="false" var="vPropagate">
+				select SI.ID, SI.CODE, SI.PLAN_RELATED, SIRP.CODE, ${subSTringFunction}(SIRP.CODE,1,${vPlan_Lent}), SI.RELATED_PLAN_PARENT, SIPRP.CODE, ${subSTringFunction}(SIPRP.CODE,1,${vPrnt_Lent})
+				FROM ODF_CA_STRATEGIC_ITEM SI
+							inner join  ODF_CA_STRATEGIC_ITEM SIRP on SIRP.ID = SI.PLAN_RELATED 
+							left outer join  ODF_CA_STRATEGIC_ITEM SIPRP on SIPRP.ID = SI.RELATED_PLAN_PARENT 
+				WHERE SI.STRAT_HIERARCHY = ${vItem_Hier}
+				AND SI.PLAN_RELATED is not null
+				AND SI.ID != ${vItemID}
+			</sql:query>
+			<core:forEach items="${vPropagate.rowsByIndex}" var="row">
+				<core:set var="vChange_Intl">${row[0]}</core:set>
+				<core:set var="vChange_Code">${row[1]}</core:set>
+				<core:set var="vChange_RPln">${row[2]}</core:set>
+				<core:set var="vChange_RPlnCode">${row[3]}</core:set>
+				<core:set var="vChange_RPlnRoot">${row[4]}</core:set>
+				<core:set var="vChange_PRPl">${row[5]}</core:set>
+				<core:set var="vChange_PRPlCode">${row[6]}</core:set>
+				<core:set var="vChange_PRPlRoot">${row[7]}</core:set>
+				<core:if teST="${DebugLevel &gt; 0}">
+					<gel:log level="debug" message="---- SI Found: ${vChange_Code} Related to ${vChange_PRPlCode}-Root=${vChange_RPlnRoot} in plan ${vChange_RPlnCode}-Root=${vChange_RPlnRoot}."/> 
+				</core:if>					
+				<!-- Update Related Plan Info with new Version -->
+				<gel:parse var="v_xml_inSTance">
+					<inSTance inSTanceCode="${vChange_Code}" objectCode="STrategic_item">
+						<CuSTomInformation>
+							<ColumnValue name="plan_related">${vChange_RPlnRoot}${vVersionNm}</ColumnValue>
+						</CuSTomInformation>
+					</inSTance>
+				</gel:parse>
+
+				<core:if teST="${vChange_PRPl != 0}">
+					<!-- Due to a probable Bug, RELATED_PLAN_PARENT cannot be updated using UNIQUE_CODE. MuST Find INTERNAL_ID. -->
+					<sql:query escapeText="false" var="vRelatedParent">
+						Select SI.ID FROM ODF_CA_STRATEGIC_ITEM SI WHERE SI.CODE = '${vChange_PRPlRoot}${vVersionNm}'  
+					</sql:query>
+					<core:set var="vPrnt_Intl"/>
+					<core:forEach items="${vRelatedParent.rowsByIndex}" var="row">
+						<core:set var="vPrnt_Intl">${row[0]}</core:set>
+						<gel:log level="debug" message="----- Found Internal_ID ${vPrnt_Intl} for Related Parent ${vChange_PRPlRoot}${vVersionNm}."/>
+					</core:forEach>
+					<gel:parse var="v_xml_prpl">
+						<ColumnValue name="related_plan_parent">${vPrnt_Intl}</ColumnValue>
+					</gel:parse>
+					<gel:set insert="true" select="$v_xml_inSTance/inSTance/CuSTomInformation" value="${v_xml_prpl}"/>
+				</core:if>
+				<gel:set insert="true" select="$v_xml_root/NikuDataBus/cuSTomObjectInSTances" value="${v_xml_inSTance}"/>
+			</core:forEach>
+
+			<core:if teST="${DebugLevel &gt; 1}">
+				<gel:serialize var="${v_xml_root}" fileName="${XOGwebFolder}/XOGWRITE_RelSI_${vItem_Code}.xml"/>
+				<gel:log level="debug" message="XOG Output can be found at: ${XOGwebPath}/XOGWRITE_RelSI_${vItem_Code}.xml"/> 
+			</core:if>
+
+			<!-- Calling XOG -->
+			<core:catch var="v_xog_exception">
+				<soap:invoke endpoint="${XOGURL}/niku/xog" var="runresult">
+					<soap:message>
+						<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xog="http://www.niku.com/xog">
+							<soapenv:Header>
+								<xog:Auth>
+									<xog:SessionID>${sessionID}</xog:SessionID>
+								</xog:Auth>
+							</soapenv:Header>
+							<soapenv:Body>
+								<gel:include select="$v_xml_root/NikuDataBus"/>
+							</soapenv:Body>
+						</soapenv:Envelope>
+					</soap:message>
+				</soap:invoke>
+			</core:catch>
+
+			<core:if teST="${v_xog_exception != null}">
+				<gel:log level="warning" message="Caught Exception: ${v_xog_exception}."/>
+				<core:set var="exitClause" value="1"/>
+			</core:if>
+	  
+			<core:if teST="${v_xog_exception == null}">
+				<core:if teST="${DebugLevel &gt; 1}">
+					<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGRESULT_RelSI_${vItem_Code}.xml"/>
+					<gel:log level="debug" message="XOG Output can be found at: ${XOGwebPath}/XOGRESULT_RelSI_${vItem_Code}.xml"/> 
+				</core:if>
+
+				<gel:set asSTring="true" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/STatus/@STate" var="XOGoutcome"/>
+				<core:switch on="${XOGoutcome}">
+					<core:case value="SUCCESS">
+						<gel:set asSTring="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/STatiSTics/@totalNumberOfRecords" var="totalNumberOfRecords"/>
+						<core:if teST="${DebugLevel &gt; 0}">
+							<core:set var="vMessage" value="InSTances XOGed-out this requeST ${totalNumberOfRecords}"/>
+							<gel:log level="debug" message="${vMessage}"/>
+						</core:if>
+					</core:case>
+					<core:case value="FAILURE">
+						<gel:set asSTring="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/STatiSTics" var="STats"/>
+						<gel:set asSTring="false" select="$STats/@totalNumberOfRecords" var="totalNumberOfRecords"/>
+						<gel:set asSTring="false" select="$STats/@failureRecords" var="failureRecords"/>
+						<core:if teST="${DebugLevel &gt; 0}">
+							<core:set var="vMessage" value="XOG failed.  Out of ${totalNumberOfRecords} records, ${failureRecords} failed."/>
+							<gel:log level="debug" message="${vMessage}"/>
+						</core:if>
+					</core:case>
+				</core:switch>
+			</core:if> 
+		</core:if>
+	</core:forEach>
+
+</gel:script>

@@ -5,29 +5,29 @@
     xmlns:soap="jelly:com.niku.union.gel.SOAPTagLibrary"
     xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
     xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance">
 
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 5.0 							-->
-	<!-- Process: Strategy Control									-->
-	<!-- Step	: Close Evaluation									-->
-	<!-- Action	: Update Investments								-->
+	<!-- Package: STrategic Alignment 5.0 							-->
+	<!-- Process: STrategy Control									-->
+	<!-- STep	: Close Evaluation									-->
+	<!-- Action	: Update InveSTments								-->
    	<!--============================================================-->
-	<!-- Object : Evaluation Cycle (strat_eval_cycle)				-->
+	<!-- Object : Evaluation Cycle (STrat_eval_cycle)				-->
    	<!--============================================================-->
-	<!-- Update Investment Alignment Score on the Investment Object	-->
+	<!-- Update InveSTment Alignment Score on the InveSTment Object	-->
    	<!--============================================================-->
 
-    <core:set value="${gel_objectInstanceId}" var="vCycle_Intl"/>
+    <core:set value="${gel_objectInSTanceId}" var="vCycle_Intl"/>
 
-	<core:if test="${DebugLevel &gt; 0}">
-		<gel:log level="debug" message="Start Script"/>
+	<core:if teST="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="STart Script"/>
 		<gel:log level="debug" message=">>Cycle ID            : ${vCycle_Intl}"/>
-		<gel:log level="debug" message=">>Persisted XOG URL   : ${XOGURL}"/>
-		<gel:log level="debug" message=">>Persisted LOG Folder: ${XOGlogFolder}"/>
-		<gel:log level="debug" message=">>Persisted WEB Folder: ${XOGwebFolder}"/>
-		<gel:log level="debug" message=">>Persisted SessionID : ${sessionID}"/>
-		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/>
+		<gel:log level="debug" message=">>PersiSTed XOG URL   : ${XOGURL}"/>
+		<gel:log level="debug" message=">>PersiSTed LOG Folder: ${XOGlogFolder}"/>
+		<gel:log level="debug" message=">>PersiSTed WEB Folder: ${XOGwebFolder}"/>
+		<gel:log level="debug" message=">>PersiSTed SessionID : ${sessionID}"/>
+		<gel:log level="debug" message=">>PersiSTed DebugLevel: ${DebugLevel}"/>
 	</core:if>
 
     <gel:setDataSource dbId="niku"/>
@@ -49,7 +49,7 @@
         <core:set var="vHier_Code">${row[5]}</core:set>
         <core:set var="vCycle_Dime">${row[6]}</core:set>
         <core:set var="vCycle_Attr">${row[7]}</core:set>
-		<core:if test="${DebugLevel &gt; 0}">
+		<core:if teST="${DebugLevel &gt; 0}">
 			<gel:log level="debug" message="Found Eval Cycle: ${vCycle_Code}-${vCycle_Name}. Method=${vCycle_Meth}. Hier=${vCycle_Hier}-${vHier_Code}. ${vCycle_Dime} will update Attribute ${vCycle_Attr}"/>
 		</core:if>
     </core:forEach>
@@ -58,69 +58,69 @@
 		Select DISTINCT I.ODF_OBJECT_CODE
 		FROM INV_INVESTMENTS I
 			INNER JOIN ODF_MULTI_VALUED_LOOKUPS MVL
-				ON MVL.OBJECT = 'strat_eval_cycle'
-				AND MVL.ATTRIBUTE = 'investments'
+				ON MVL.OBJECT = 'STrat_eval_cycle'
+				AND MVL.ATTRIBUTE = 'inveSTments'
 				AND MVL.PK_ID = ${vCycle_Intl}
 				AND I.ID = MVL.VALUE
 	</sql:query>
 	<core:forEach items="${vInvType.rowsByIndex}" var="row">
 		<core:set var="vObjectCode">${row[0]}</core:set>
-		<core:if test="${DebugLevel &gt; 0}">
-			<gel:log level="debug" message="Found Investments of type ${vObjectCode}."/>
+		<core:if teST="${DebugLevel &gt; 0}">
+			<gel:log level="debug" message="Found InveSTments of type ${vObjectCode}."/>
 		</core:if>
 		<!-- Initialize the XML Root Document according to Object Type -->
 		<core:choose>
-			<core:when test="${vObjectCode == 'application'}">
+			<core:when teST="${vObjectCode == 'application'}">
 				<gel:parse var="v_xml_root">
-					<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_application.xsd">
+					<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_application.xsd">
 						<Header action="write" externalSource="NIKU" objectType="application" version="13.0"/>
 						<Applications/>
 					</NikuDataBus>
 				</gel:parse>
 			</core:when>
-			<core:when test="${vObjectCode == 'asset'}">
+			<core:when teST="${vObjectCode == 'asset'}">
 				<gel:parse var="v_xml_root">
-					<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_asset.xsd">
+					<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_asset.xsd">
 						<Header action="write" externalSource="NIKU" objectType="asset" version="13.0"/>
 						<Assets/>
 					</NikuDataBus>
 				</gel:parse>
 			</core:when>
-			<core:when test="${vObjectCode == 'other'}">
+			<core:when teST="${vObjectCode == 'other'}">
 				<gel:parse var="v_xml_root">
-					<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_otherInvestment.xsd">
-						<Header action="write" externalSource="NIKU" objectType="otherInvestment" version="13.0"/>
-						<OtherInvestments/>
+					<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_otherInveSTment.xsd">
+						<Header action="write" externalSource="NIKU" objectType="otherInveSTment" version="13.0"/>
+						<OtherInveSTments/>
 					</NikuDataBus>
 				</gel:parse>
 			</core:when>
-			<core:when test="${vObjectCode == 'product'}">
+			<core:when teST="${vObjectCode == 'product'}">
 				<gel:parse var="v_xml_root">
-					<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_product.xsd">
+					<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_product.xsd">
 						<Header action="write" externalSource="NIKU" objectType="product" version="13.0"/>
 						<Products/>
 					</NikuDataBus>
 				</gel:parse>
 			</core:when>
-			<core:when test="${vObjectCode == 'service'}">
+			<core:when teST="${vObjectCode == 'service'}">
 				<gel:parse var="v_xml_root">
-					<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_service.xsd">
+					<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_service.xsd">
 						<Header action="write" externalSource="NIKU" objectType="service" version="13.0"/>
 						<Services/>
 					</NikuDataBus>
 				</gel:parse>
 			</core:when>
-			<core:when test="${vObjectCode == 'project'}">
+			<core:when teST="${vObjectCode == 'project'}">
 				<gel:parse var="v_xml_root">
-					<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_project.xsd">
+					<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_project.xsd">
 						<Header action="write" externalSource="NIKU" objectType="project" version="13.0"/>
 						<Projects/>
 					</NikuDataBus>
 				</gel:parse>
 			</core:when>
-			<core:when test="${vObjectCode == 'idea'}">
+			<core:when teST="${vObjectCode == 'idea'}">
 				<gel:parse var="v_xml_root">
-					<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_idea.xsd">
+					<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_idea.xsd">
 						<Header action="write" externalSource="NIKU" objectType="idea" version="13.0"/>
 						<Ideas/>
 					</NikuDataBus>
@@ -128,12 +128,12 @@
 			</core:when>
 		</core:choose>
 
-		<sql:query escapeText="false" var="vInvestments">
+		<sql:query escapeText="false" var="vInveSTments">
 			Select I.CODE, I.NAME, I.ID, round(SUM(SE.WEIGHTEDEVAL),0)
 			FROM INV_INVESTMENTS I
 				INNER JOIN ODF_MULTI_VALUED_LOOKUPS MVL
-					ON MVL.OBJECT = 'strat_eval_cycle'
-					AND MVL.ATTRIBUTE = 'investments'
+					ON MVL.OBJECT = 'STrat_eval_cycle'
+					AND MVL.ATTRIBUTE = 'inveSTments'
 					AND MVL.PK_ID = ${vCycle_Intl}
 					AND I.ID = MVL.VALUE
 				INNER JOIN ODF_CA_STRAT_EVALUATION SE
@@ -142,37 +142,37 @@
 			Where I.ODF_OBJECT_CODE = '${vObjectCode}'
 			GROUP BY I.CODE, I.NAME, I.ID
 		</sql:query>
-		<core:forEach items="${vInvestments.rowsByIndex}" var="row">
+		<core:forEach items="${vInveSTments.rowsByIndex}" var="row">
 			<core:set var="vInv_Code">${row[0]}</core:set>
 			<core:set var="vInv_Name">${row[1]}</core:set>
 			<core:set var="vInv_Intl">${row[2]}</core:set>
 			<core:set var="vAlignment">${row[3]}</core:set>
-			<core:if test="${DebugLevel &gt; 0}">
-				<gel:log level="debug" message="InvType: ${vObjectCode}. Found Investment ${vInv_Name}=${vInv_Code} with Calculated Alignment=${vAlignment}."/>
+			<core:if teST="${DebugLevel &gt; 0}">
+				<gel:log level="debug" message="InvType: ${vObjectCode}. Found InveSTment ${vInv_Name}=${vInv_Code} with Calculated Alignment=${vAlignment}."/>
 			</core:if>
 
-			<core:if test="${vCycle_Meth == 'ALL'}">
+			<core:if teST="${vCycle_Meth == 'ALL'}">
 				<gel:parse var="v_xml_goals">
-					<ColumnValue name="strat_sup_goals"/>
+					<ColumnValue name="STrat_sup_goals"/>
 				</gel:parse>
 				<sql:query escapeText="false" var="vEvaluations">
 					SELECT DISTINCT SI.CODE, SI.ID
 					from ODF_CA_STRAT_EVALUATION SE
 						inner join odf_multi_valued_lookups MVL
 							on MVL.attribute='related_metrics'
-							and MVL.object='strategic_item'
+							and MVL.object='STrategic_item'
 							and MVL.value = se.metricid
 						inner join ODF_CA_STRATEGIC_ITEM SI
 							on SI.ID = MVL.PK_ID
 					where SE.cycleid=${vCycle_Intl}
 					and SE.INVESTMENTID=${vInv_Intl}
-					and nvl(SE.invevaluation,0)!=0
+					and ${isNullFunction}(SE.invevaluation,0)!=0
 					order by SI.CODE
 				</sql:query>
 				<core:forEach items="${vEvaluations.rowsByIndex}" var="row">
 					<core:set var="vItem_Code">${row[0]}</core:set>
 					<core:set var="vItem_Intl">${row[1]}</core:set>
-					<core:if test="${DebugLevel &gt; 0}">
+					<core:if teST="${DebugLevel &gt; 0}">
 						<gel:log level="debug" message="New Items: Will Insert Item ${vItem_Code} for Project ${vInv_Code}"/>
 					</core:if>
 					<gel:parse var="v_xml_value">
@@ -186,7 +186,7 @@
 					SELECT DISTINCT SI.CODE, SI.ID
 					from INV_INVESTMENTS I
 						inner join odf_multi_valued_lookups MVL
-							on MVL.attribute='strat_sup_goals'
+							on MVL.attribute='STrat_sup_goals'
 							and MVL.object='${vObjectCode}'
 							and MVL.PK_ID = ${vInv_Intl}
 						inner join ODF_CA_STRATEGIC_ITEM SI
@@ -197,8 +197,8 @@
 				<core:forEach items="${vSupGoals.rowsByIndex}" var="row">
 					<core:set var="vItem_Code">${row[0]}</core:set>
 					<core:set var="vItem_Intl">${row[1]}</core:set>
-					<core:if test="${DebugLevel &gt; 0}">
-						<gel:log level="debug" message="Existing Items: Will Insert Item ${vItem_Code} for Project ${vInv_Code}"/>
+					<core:if teST="${DebugLevel &gt; 0}">
+						<gel:log level="debug" message="ExiSTing Items: Will Insert Item ${vItem_Code} for Project ${vInv_Code}"/>
 					</core:if>
 					<gel:parse var="v_xml_value">
 						<Value>${vItem_Code}</Value>
@@ -208,108 +208,108 @@
 			</core:if>
 
 			<core:choose>
-				<core:when test="${vObjectCode == 'application'}">
-					<gel:parse var="v_xml_instance">
+				<core:when teST="${vObjectCode == 'application'}">
+					<gel:parse var="v_xml_inSTance">
 						<Application objectID="${vInv_Code}" name="${vInv_Name}" >
-							<CustomInformation>
+							<CuSTomInformation>
 								<ColumnValue name="${vCycle_Attr}">${vAlignment}</ColumnValue>
-							</CustomInformation>
+							</CuSTomInformation>
 						</Application>
 					</gel:parse>
-					<core:if test="${vCycle_Meth == 'ALL'}">
-						<gel:set insert="true" select="$v_xml_instance/Application/CustomInformation" value="${v_xml_goals}"/>
+					<core:if teST="${vCycle_Meth == 'ALL'}">
+						<gel:set insert="true" select="$v_xml_inSTance/Application/CuSTomInformation" value="${v_xml_goals}"/>
 					</core:if>
-					<!-- Adding the new Item Instance to the Root Document -->
-					<gel:set insert="true" select="$v_xml_root/NikuDataBus/Applications" value="${v_xml_instance}"/>
+					<!-- Adding the new Item InSTance to the Root Document -->
+					<gel:set insert="true" select="$v_xml_root/NikuDataBus/Applications" value="${v_xml_inSTance}"/>
 				</core:when>
-				<core:when test="${vObjectCode == 'asset'}">
-					<gel:parse var="v_xml_instance">
+				<core:when teST="${vObjectCode == 'asset'}">
+					<gel:parse var="v_xml_inSTance">
 						<Asset objectID="${vInv_Code}" name="${vInv_Name}" >
-							<CustomInformation>
+							<CuSTomInformation>
 								<ColumnValue name="${vCycle_Attr}">${vAlignment}</ColumnValue>
-							</CustomInformation>
+							</CuSTomInformation>
 						</Asset>
 					</gel:parse>
-					<core:if test="${vCycle_Meth == 'ALL'}">
-						<gel:set insert="true" select="$v_xml_instance/Asset/CustomInformation" value="${v_xml_goals}"/>
+					<core:if teST="${vCycle_Meth == 'ALL'}">
+						<gel:set insert="true" select="$v_xml_inSTance/Asset/CuSTomInformation" value="${v_xml_goals}"/>
 					</core:if>
-					<!-- Adding the new Item Instance to the Root Document -->
-					<gel:set insert="true" select="$v_xml_root/NikuDataBus/Assets" value="${v_xml_instance}"/>
+					<!-- Adding the new Item InSTance to the Root Document -->
+					<gel:set insert="true" select="$v_xml_root/NikuDataBus/Assets" value="${v_xml_inSTance}"/>
 				</core:when>
-				<core:when test="${vObjectCode == 'other'}">
-					<gel:parse var="v_xml_instance">
-						<OtherInvestment objectID="${vInv_Code}" name="${vInv_Name}" >
-							<CustomInformation>
+				<core:when teST="${vObjectCode == 'other'}">
+					<gel:parse var="v_xml_inSTance">
+						<OtherInveSTment objectID="${vInv_Code}" name="${vInv_Name}" >
+							<CuSTomInformation>
 								<ColumnValue name="${vCycle_Attr}">${vAlignment}</ColumnValue>
-							</CustomInformation>
-						</OtherInvestment>
+							</CuSTomInformation>
+						</OtherInveSTment>
 					</gel:parse>
-					<core:if test="${vCycle_Meth == 'ALL'}">
-						<gel:set insert="true" select="$v_xml_instance/OtherInvestment/CustomInformation" value="${v_xml_goals}"/>
+					<core:if teST="${vCycle_Meth == 'ALL'}">
+						<gel:set insert="true" select="$v_xml_inSTance/OtherInveSTment/CuSTomInformation" value="${v_xml_goals}"/>
 					</core:if>
-					<!-- Adding the new Item Instance to the Root Document -->
-					<gel:set insert="true" select="$v_xml_root/NikuDataBus/OtherInvestments" value="${v_xml_instance}"/>
+					<!-- Adding the new Item InSTance to the Root Document -->
+					<gel:set insert="true" select="$v_xml_root/NikuDataBus/OtherInveSTments" value="${v_xml_inSTance}"/>
 				</core:when>
-				<core:when test="${vObjectCode == 'product'}">
-					<gel:parse var="v_xml_instance">
+				<core:when teST="${vObjectCode == 'product'}">
+					<gel:parse var="v_xml_inSTance">
 						<Product objectID="${vInv_Code}" name="${vInv_Name}" >
-							<CustomInformation>
+							<CuSTomInformation>
 								<ColumnValue name="${vCycle_Attr}">${vAlignment}</ColumnValue>
-							</CustomInformation>
+							</CuSTomInformation>
 						</Product>
 					</gel:parse>
-					<core:if test="${vCycle_Meth == 'ALL'}">
-						<gel:set insert="true" select="$v_xml_instance/Product/CustomInformation" value="${v_xml_goals}"/>
+					<core:if teST="${vCycle_Meth == 'ALL'}">
+						<gel:set insert="true" select="$v_xml_inSTance/Product/CuSTomInformation" value="${v_xml_goals}"/>
 					</core:if>
-					<!-- Adding the new Item Instance to the Root Document -->
-					<gel:set insert="true" select="$v_xml_root/NikuDataBus/Products" value="${v_xml_instance}"/>
+					<!-- Adding the new Item InSTance to the Root Document -->
+					<gel:set insert="true" select="$v_xml_root/NikuDataBus/Products" value="${v_xml_inSTance}"/>
 				</core:when>
-				<core:when test="${vObjectCode == 'service'}">
-					<gel:parse var="v_xml_instance">
+				<core:when teST="${vObjectCode == 'service'}">
+					<gel:parse var="v_xml_inSTance">
 						<Service objectID="${vInv_Code}" name="${vInv_Name}" >
-							<CustomInformation>
+							<CuSTomInformation>
 								<ColumnValue name="${vCycle_Attr}">${vAlignment}</ColumnValue>
-							</CustomInformation>
+							</CuSTomInformation>
 						</Service>
 					</gel:parse>
-					<core:if test="${vCycle_Meth == 'ALL'}">
-						<gel:set insert="true" select="$v_xml_instance/Service/CustomInformation" value="${v_xml_goals}"/>
+					<core:if teST="${vCycle_Meth == 'ALL'}">
+						<gel:set insert="true" select="$v_xml_inSTance/Service/CuSTomInformation" value="${v_xml_goals}"/>
 					</core:if>
-					<!-- Adding the new Item Instance to the Root Document -->
-					<gel:set insert="true" select="$v_xml_root/NikuDataBus/Services" value="${v_xml_instance}"/>
+					<!-- Adding the new Item InSTance to the Root Document -->
+					<gel:set insert="true" select="$v_xml_root/NikuDataBus/Services" value="${v_xml_inSTance}"/>
 				</core:when>
-				<core:when test="${vObjectCode == 'idea'}">
-					<gel:parse var="v_xml_instance">
+				<core:when teST="${vObjectCode == 'idea'}">
+					<gel:parse var="v_xml_inSTance">
 						<Idea objectID="${vInv_Code}" name="${vInv_Name}" >
-							<CustomInformation>
+							<CuSTomInformation>
 								<ColumnValue name="${vCycle_Attr}">${vAlignment}</ColumnValue>
-							</CustomInformation>
+							</CuSTomInformation>
 						</Idea>
 					</gel:parse>
-					<core:if test="${vCycle_Meth == 'ALL'}">
-						<gel:set insert="true" select="$v_xml_instance/Idea/CustomInformation" value="${v_xml_goals}"/>
+					<core:if teST="${vCycle_Meth == 'ALL'}">
+						<gel:set insert="true" select="$v_xml_inSTance/Idea/CuSTomInformation" value="${v_xml_goals}"/>
 					</core:if>
-					<!-- Adding the new Item Instance to the Root Document -->
-					<gel:set insert="true" select="$v_xml_root/NikuDataBus/Ideas" value="${v_xml_instance}"/>
+					<!-- Adding the new Item InSTance to the Root Document -->
+					<gel:set insert="true" select="$v_xml_root/NikuDataBus/Ideas" value="${v_xml_inSTance}"/>
 				</core:when>
-				<core:when test="${vObjectCode == 'project'}">
-					<gel:parse var="v_xml_instance">
+				<core:when teST="${vObjectCode == 'project'}">
+					<gel:parse var="v_xml_inSTance">
 						<Project projectID="${vInv_Code}" name="${vInv_Name}" >
-							<CustomInformation>
+							<CuSTomInformation>
 								<ColumnValue name="${vCycle_Attr}">${vAlignment}</ColumnValue>
-							</CustomInformation>
+							</CuSTomInformation>
 						</Project>
 					</gel:parse>
-					<core:if test="${vCycle_Meth == 'ALL'}">
-						<gel:set insert="true" select="$v_xml_instance/Project/CustomInformation" value="${v_xml_goals}"/>
+					<core:if teST="${vCycle_Meth == 'ALL'}">
+						<gel:set insert="true" select="$v_xml_inSTance/Project/CuSTomInformation" value="${v_xml_goals}"/>
 					</core:if>
-					<!-- Adding the new Item Instance to the Root Document -->
-					<gel:set insert="true" select="$v_xml_root/NikuDataBus/Projects" value="${v_xml_instance}"/>
+					<!-- Adding the new Item InSTance to the Root Document -->
+					<gel:set insert="true" select="$v_xml_root/NikuDataBus/Projects" value="${v_xml_inSTance}"/>
 				</core:when>
 			</core:choose>
 
 		</core:forEach>
-		<core:if test="${DebugLevel &gt; 1}">
+		<core:if teST="${DebugLevel &gt; 1}">
 			<gel:serialize var="${v_xml_root}" fileName="${XOGwebFolder}/XOGWrite_Cycle_Inv_${vCycle_Intl}_${vObjectCode}.xml"/>
 			<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_Cycle_Inv_${vCycle_Intl}_${vObjectCode}.xml"/>
 		</core:if>
@@ -332,23 +332,23 @@
 			</soap:invoke>
 		</core:catch>
 		<core:choose>
-			<core:when test="${v_xog_exception != null}">
+			<core:when teST="${v_xog_exception != null}">
 				<gel:log category="XOG" level="ERROR">XOG operation failed: ${v_xog_exception}</gel:log>
 			</core:when>
 			<core:otherwise>
 				<gel:set select="$runresult/soapenv:Envelope/soapenv:Body/XOGOutput" var="writeOutputRoot"/>
-				<gel:set asString="true" select="$writeOutputRoot/Status/@state" var="XOGoutcome"/>
-				<gel:set asString="true" select="$writeOutputRoot/Records/Record" var="XOGoutputrecords"/>
-				<gel:set asString="true" select="$writeOutputRoot/Statistics/@totalNumberOfRecords" var="XOGtotalrecords"/>
-				<gel:set asString="true" select="$writeOutputRoot/Statistics/@insertedRecords" var="XOGinsertedrecords"/>
-				<gel:set asString="true" select="$writeOutputRoot/Statistics/@updatedRecords" var="XOGupdatedrecords"/>
-				<gel:set asString="true" select="$writeOutputRoot/Statistics/@failureRecords" var="XOGfailurerecords"/>
+				<gel:set asSTring="true" select="$writeOutputRoot/STatus/@STate" var="XOGoutcome"/>
+				<gel:set asSTring="true" select="$writeOutputRoot/Records/Record" var="XOGoutputrecords"/>
+				<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@totalNumberOfRecords" var="XOGtotalrecords"/>
+				<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@insertedRecords" var="XOGinsertedrecords"/>
+				<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@updatedRecords" var="XOGupdatedrecords"/>
+				<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@failureRecords" var="XOGfailurerecords"/>
 				<!-- Check the XOG result -->
-				<gel:log category="XOG" level="INFO">[XOGDocument import for ${vCycle_Intl}-${vParent} status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
+				<gel:log category="XOG" level="INFO">[XOGDocument import for ${vCycle_Intl}-${vParent} STatus:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
 			</core:otherwise>
 		</core:choose>
 
-		<core:if test="${DebugLevel &gt; 1}">
+		<core:if teST="${DebugLevel &gt; 1}">
 			<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGResults_Cycle_Inv_${vCycle_Code}_ParentItem_${vParent}_${vObjectCode}.xml"/>
 			<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_Cycle_Inv_${vCycle_Code}_ParentItem_${vParent}_${vObjectCode}.xml"/>
 		</core:if>

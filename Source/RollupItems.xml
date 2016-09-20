@@ -5,61 +5,61 @@
     xmlns:soap="jelly:com.niku.union.gel.SOAPTagLibrary"
     xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
     xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance">
 
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 5.0 							-->
-	<!-- Process: Strategic Indicator Calculation 					-->
-	<!-- Step	: Indicator Calculation and Rollup					-->
+	<!-- Package: STrategic Alignment 5.0 							-->
+	<!-- Process: STrategic Indicator Calculation 					-->
+	<!-- STep	: Indicator Calculation and Rollup					-->
 	<!-- Action	: Rollup Items										-->
    	<!--============================================================-->
 	<!-- Object : n/a												-->
    	<!--============================================================-->
-	<!-- Recalculate all Rollup All Strategic Item Status			-->
+	<!-- Recalculate all Rollup All STrategic Item STatus			-->
    	<!--============================================================-->
 	 
-	<core:if test="${DebugLevel &gt; 0}">
-		<gel:log level="debug" message="Start Script"/>
-		<gel:log level="debug" message=">>Persisted XOG URL   : ${XOGURL}"/> 
-		<gel:log level="debug" message=">>Persisted LOG Folder: ${XOGlogFolder}"/> 
-		<gel:log level="debug" message=">>Persisted WEB Folder: ${XOGwebFolder}"/> 
-		<gel:log level="debug" message=">>Persisted SessionID : ${sessionID}"/> 
-		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/> 
-		<gel:log level="debug" message=">>Persisted dbVendor  : ${dbVendor}"/> 
+	<core:if teST="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="STart Script"/>
+		<gel:log level="debug" message=">>PersiSTed XOG URL   : ${XOGURL}"/> 
+		<gel:log level="debug" message=">>PersiSTed LOG Folder: ${XOGlogFolder}"/> 
+		<gel:log level="debug" message=">>PersiSTed WEB Folder: ${XOGwebFolder}"/> 
+		<gel:log level="debug" message=">>PersiSTed SessionID : ${sessionID}"/> 
+		<gel:log level="debug" message=">>PersiSTed DebugLevel: ${DebugLevel}"/> 
+		<gel:log level="debug" message=">>PersiSTed dbVendor  : ${dbVendor}"/> 
 	</core:if>
 
     <gel:setDataSource dbId="niku"/>
 
 	<gel:parse var="v_xml_items">
-		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
-			<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="13.0.0.6982"/>
-			<customObjectInstances objectCode="strategic_item"/>
+		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_cuSTomObjectInSTance.xsd">
+			<Header action="write" externalSource="NIKU" objectType="cuSTomObjectInSTance" version="13.0.0.6982"/>
+			<cuSTomObjectInSTances objectCode="STrategic_item"/>
 		</NikuDataBus>
 	</gel:parse>
 
-    <!-- Now, Calculate Indicators Status at the Strategic Items Level -->
-	<!-- First, Calculate all Direct Indicators -->
-	<gel:log level="debug" message="Updating Direct Indicator Status for All Active Strategic Items "/> 
+    <!-- Now, Calculate Indicators STatus at the STrategic Items Level -->
+	<!-- FirST, Calculate all Direct Indicators -->
+	<gel:log level="debug" message="Updating Direct Indicator STatus for All Active STrategic Items "/> 
 	<core:set var="vFoundItems" value="0"/>
     <sql:query escapeText="false" var="vItems">
 		Select 	SI.NAME, SI.CODE, SI.ID, SI.ROLLUP_METHOD
 		FROM ODF_CA_STRATEGIC_ITEM SI
-		WHERE SI.ACTIVE = 1 
+		WHERE SI.ACTIVE = 1 AND SI.STRAT_PLAN_STATUS = 'ACTIVE' 
 	</sql:query>
     <core:forEach items="${vItems.rowsByIndex}" var="row">
         <core:set var="vItem_Name">${row[0]}</core:set>
         <core:set var="vItem_Code">${row[1]}</core:set>
         <core:set var="vItem_Intl">${row[2]}</core:set>
         <core:set var="vItem_Roll">${row[3]}</core:set>
-		<core:if test="${DebugLevel &gt; 0}">
+		<core:if teST="${DebugLevel &gt; 0}">
 			<gel:log level="debug" message="-- SI Found: ${vItem_Name}-${vItem_Code} will Rollup ${vItem_Roll} from Direct Indicators."/> 
 		</core:if>
 		
 		<core:choose>
-			<core:when test="${vItem_Roll=='Worst'}">
+			<core:when teST="${vItem_Roll=='WorST'}">
 				<core:set var="vAggrFunction" value="MIN"/>
 			</core:when>
-			<core:when test="${vItem_Roll=='Best'}">
+			<core:when teST="${vItem_Roll=='BeST'}">
 				<core:set var="vAggrFunction" value="MAX"/>
 			</core:when>
 			<core:otherwise>
@@ -68,10 +68,10 @@
 		</core:choose>
 			
 		<sql:query escapeText="false" var="vItemIndicators">
-			Select ${vAggrFunction}(SK.KPI_STATUS), round(${vAggrFunction}(SK.STRAT_ITEM_STATUS))
+			Select ${vAggrFunction}(SK.KPI_STATUS), round(${vAggrFunction}(SK.STRAT_ITEM_STATUS)), MAX(SK.ACC_ISSUE_SCORE)
 			FROM ODF_CA_STRAT_KPI SK 
 				INNER JOIN ODF_MULTI_VALUED_LOOKUPS MVL
-					ON MVL.OBJECT = 'strategic_item'
+					ON MVL.OBJECT = 'STrategic_item'
 					AND MVL.ATTRIBUTE = 'related_kpis'
 					AND MVL.PK_ID = ${vItem_Intl}
 					AND MVL.VALUE = SK.ID 
@@ -79,31 +79,33 @@
 		</sql:query>
 		<core:forEach items="${vItemIndicators.rowsByIndex}" var="row">
 			<core:set var="vFoundItems" value="1"/>
-			<core:set var="vItem_IndicatorStatus">${row[0]}</core:set>
-			<core:set var="vItem_ItemStatus">${row[1]}</core:set>
-			<core:if test="${DebugLevel &gt; 0}">
-				<gel:log level="debug" message="---- SI Calculated Status from Indicators: ${vItem_IndicatorStatus}-${vItem_ItemStatus} for ${vItem_Code}."/> 
-				<core:if test="${DebugLevel &gt; 1}">
+			<core:set var="vItem_IndicatorSTatus">${row[0]}</core:set>
+			<core:set var="vItem_ItemSTatus">${row[1]}</core:set>
+			<core:set var="vItem_IssueScore">${row[2]}</core:set>
+			<core:if teST="${DebugLevel &gt; 0}">
+				<gel:log level="debug" message="---- SI Calculated STatus from Indicators: ${vItem_IndicatorSTatus}-${vItem_ItemSTatus} with Issue Score ${vItem_IssueScore} for ${vItem_Code}."/> 
+				<core:if teST="${DebugLevel &gt; 1}">
 					<gel:log level="debug" message="------ Aggregate Function = ${vAggrFunction} Item Internal ID = ${vItem_Intl}. "/> 
 				</core:if>
 			</core:if>
 			
-			<gel:parse var="v_xml_item_instance">
-				<instance instanceCode="${vItem_Code}" objectCode="strategic_item">
-					<CustomInformation>
-						<ColumnValue name="kpi_status_direct">${vItem_IndicatorStatus}</ColumnValue>
-						<ColumnValue name="item_status_direct">${vItem_ItemStatus}</ColumnValue>
-					</CustomInformation>
-				</instance>
+			<gel:parse var="v_xml_item_inSTance">
+				<inSTance inSTanceCode="${vItem_Code}" objectCode="STrategic_item">
+					<CuSTomInformation>
+						<ColumnValue name="kpi_STatus_direct">${vItem_IndicatorSTatus}</ColumnValue>
+						<ColumnValue name="item_STatus_direct">${vItem_ItemSTatus}</ColumnValue>
+						<ColumnValue name="issue_score">${vItem_IssueScore}</ColumnValue>
+					</CuSTomInformation>
+				</inSTance>
 			</gel:parse>
-			<gel:set insert="true" select="$v_xml_items/NikuDataBus/customObjectInstances" value="${v_xml_item_instance}"/>
+			<gel:set insert="true" select="$v_xml_items/NikuDataBus/cuSTomObjectInSTances" value="${v_xml_item_inSTance}"/>
 		</core:forEach>
 		
     </core:forEach>
 	
 	<!-- If Items were found, run XOG to update -->
-	<core:if test="${vFoundItems == 1}">
-		<core:if test="${DebugLevel &gt; 1}">
+	<core:if teST="${vFoundItems == 1}">
+		<core:if teST="${DebugLevel &gt; 1}">
 			<gel:serialize var="${v_xml_items}" fileName="${XOGwebFolder}/XOGWrite_Indicator_Calc_Items.xml"/>
 			<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_Indicator_Calc_Items.xml"/> 
 		</core:if>
@@ -127,69 +129,69 @@
 		</core:catch>
 	
 		<core:choose>
-			<core:when test="${v_xog_exception != null}">
+			<core:when teST="${v_xog_exception != null}">
 				<gel:log category="XOG" level="ERROR">XOG operation failed: ${v_xog_exception}</gel:log>
 			</core:when>
 			<core:otherwise>
 				<gel:set select="$runresult3/soapenv:Envelope/soapenv:Body/XOGOutput" var="writeOutputRoot"/>
-				<gel:set asString="true" select="$writeOutputRoot/Status/@state" var="XOGoutcome"/>
-				<gel:set asString="true" select="$writeOutputRoot/Records/Record" var="XOGoutputrecords"/>
-				<gel:set asString="true" select="$writeOutputRoot/Statistics/@totalNumberOfRecords" var="XOGtotalrecords"/>
-				<gel:set asString="true" select="$writeOutputRoot/Statistics/@insertedRecords" var="XOGinsertedrecords"/>
-				<gel:set asString="true" select="$writeOutputRoot/Statistics/@updatedRecords" var="XOGupdatedrecords"/>
-				<gel:set asString="true" select="$writeOutputRoot/Statistics/@failureRecords" var="XOGfailurerecords"/>
+				<gel:set asSTring="true" select="$writeOutputRoot/STatus/@STate" var="XOGoutcome"/>
+				<gel:set asSTring="true" select="$writeOutputRoot/Records/Record" var="XOGoutputrecords"/>
+				<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@totalNumberOfRecords" var="XOGtotalrecords"/>
+				<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@insertedRecords" var="XOGinsertedrecords"/>
+				<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@updatedRecords" var="XOGupdatedrecords"/>
+				<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@failureRecords" var="XOGfailurerecords"/>
 				<!-- Check the XOG result -->
-				<gel:log category="XOG" level="INFO">Document import for Items status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
+				<gel:log category="XOG" level="INFO">Document import for Items STatus:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
 			</core:otherwise>
 		</core:choose>
 		
-		<core:if test="${DebugLevel &gt; 1}">
+		<core:if teST="${DebugLevel &gt; 1}">
 			<gel:serialize var="${runresult3}" fileName="${XOGwebFolder}/XOGResults_Indicator_Calc_Items.xml"/>
 			<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_Indicator_Calc_Items.xml"/> 
 		</core:if>
 	</core:if>
 	
-	<!-- Now, all Strategic Items Need their RollUP Status from lower levels -->
-	<!-- We need to start from the bottom of the tree and work our way up -->
-	<gel:log level="debug" message="Updating Rollup Status for All Active Strategic Items"/> 
+	<!-- Now, all STrategic Items Need their RollUP STatus from lower levels -->
+	<!-- We need to STart from the bottom of the tree and work our way up -->
+	<gel:log level="debug" message="Updating Rollup STatus for All Active STrategic Items"/> 
     <sql:query escapeText="false" var="vLevel">
 		Select 	MAX(ITEM_LEVEL)
 		FROM ODF_CA_STRATEGIC_ITEM SI
-		WHERE SI.ACTIVE = 1 
+		WHERE SI.ACTIVE = 1  AND SI.STRAT_PLAN_STATUS = 'ACTIVE' 
 	</sql:query>
 	<core:forEach items="${vLevel.rowsByIndex}" var="row">
 		<core:set var="vMaxLevel">${row[0]}</core:set>
-		<core:if test="${DebugLevel &gt; 0}">
+		<core:if teST="${DebugLevel &gt; 0}">
 			<gel:log level="debug" message="Found Max Level ${vMaxLevel}."/> 
 		</core:if>
 	</core:forEach>
 	
 	<core:set var="vCurrentLevel" value="${vMaxLevel}"/>
-	<core:while test="${vCurrentLevel &gt; 0}">
-		<core:if test="${DebugLevel &gt; 0}">
+	<core:while teST="${vCurrentLevel &gt; 0}">
+		<core:if teST="${DebugLevel &gt; 0}">
 			<gel:log level="debug" message="-- Processing Level ${vCurrentLevel}"/> 
 		</core:if>
 		<!-- v_xml_item2 will process RollUp-->
 		<gel:parse var="v_xml_items2">
-			<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
-				<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="13.0.0.6982"/>
-				<customObjectInstances objectCode="strategic_item"/>
+			<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_cuSTomObjectInSTance.xsd">
+				<Header action="write" externalSource="NIKU" objectType="cuSTomObjectInSTance" version="13.0.0.6982"/>
+				<cuSTomObjectInSTances objectCode="STrategic_item"/>
 			</NikuDataBus>
 		</gel:parse>
-		<!-- v_xml_item3 will process Final Status-->
+		<!-- v_xml_item3 will process Final STatus-->
 		<gel:parse var="v_xml_items3">
-			<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
-				<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="13.0.0.6982"/>
-				<customObjectInstances objectCode="strategic_item"/>
+			<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_cuSTomObjectInSTance.xsd">
+				<Header action="write" externalSource="NIKU" objectType="cuSTomObjectInSTance" version="13.0.0.6982"/>
+				<cuSTomObjectInSTances objectCode="STrategic_item"/>
 			</NikuDataBus>
 		</gel:parse>
 
 		<core:set var="vFoundItems2" value="0"/>
 	    <sql:query escapeText="false" var="vItemsRoll">
-			Select 	SI.NAME, SI.CODE, SI.ID, SI.ROLLUP_METHOD, SI.KPI_STATUS_DEFN, NVL(SI.ROLLUP_LIMIT_PERCENT,99999999), NVL(SI.KPI_STATUS_DIRECT,0), NVL(SI.ITEM_STATUS_DIRECT,0)
+			Select 	SI.NAME, SI.CODE, SI.ID, SI.ROLLUP_METHOD, SI.KPI_STATUS_DEFN, ${isNullFunction}(SI.ROLLUP_LIMIT_PERCENT,99999999), ${isNullFunction}(SI.KPI_STATUS_DIRECT,0), ${isNullFunction}(SI.ITEM_STATUS_DIRECT,0), ${isNullFunction}(SI.ISSUE_SCORE,0), ${isNullFunction}(SI.RISK_SCORE,0)
 			FROM ODF_CA_STRATEGIC_ITEM SI
 			WHERE SI.ACTIVE = 1 
-			AND SI.ITEM_LEVEL = ${vCurrentLevel}
+			AND SI.ITEM_LEVEL = ${vCurrentLevel} AND SI.STRAT_PLAN_STATUS = 'ACTIVE' 
 		</sql:query>
 		<core:forEach items="${vItemsRoll.rowsByIndex}" var="row">
 			<core:set var="vFoundItems2" value="1"/>
@@ -201,15 +203,17 @@
 			<core:set var="vItem_Limt">${row[5]}</core:set>
 			<core:set var="vItem_DirK">${row[6]}</core:set>
 			<core:set var="vItem_DirI">${row[7]}</core:set>
-			<core:if test="${DebugLevel &gt; 0}">
-				<gel:log level="debug" message="-- SI Found: ${vItem_Name}-${vItem_Code}-${vItem_Intl}. Roll up will be will ${vItem_Roll}. Status will be ${vItem_Defn}, Limit Rollup to ${vItem_Limt*100}%. Direct Status = ${vItem_DirK}-${vItem_DirI}."/> 
+			<core:set var="vItem_Issu">${row[8]}</core:set>
+			<core:set var="vItem_Risk">${row[9]}</core:set>
+			<core:if teST="${DebugLevel &gt; 0}">
+				<gel:log level="debug" message="-- SI Found: ${vItem_Name}-${vItem_Code}-${vItem_Intl}. Roll up will be will ${vItem_Roll}. STatus will be ${vItem_Defn}, Limit Rollup to ${vItem_Limt*100}%. Direct STatus = ${vItem_DirK}-${vItem_DirI}. Issue Score is ${vItem_Issu}, Risk Score ${vItem_Risk}."/> 
 			</core:if>
 			<core:choose>
-				<core:when test="${vItem_Roll=='Worst'}">
+				<core:when teST="${vItem_Roll=='WorST'}">
 					<core:set var="vAggrFunction" value="MIN"/>
 					<core:set var="vWeight" value=""/>
 				</core:when>
-				<core:when test="${vItem_Roll=='Best'}">
+				<core:when teST="${vItem_Roll=='BeST'}">
 					<core:set var="vAggrFunction" value="MAX"/>
 					<core:set var="vWeight" value=""/>
 				</core:when>
@@ -218,83 +222,94 @@
 					<core:set var="vWeight" value="SI.WEIGHTPERCENT * "/>
 				</core:otherwise>
 			</core:choose>
-			<core:if test="${DebugLevel &gt; 1}">
+			<core:if teST="${DebugLevel &gt; 1}">
 				<gel:log level="debug" message="---- Aggregate Function = ${vAggrFunction} using Weight ${vWeight}."/> 
 			</core:if>			
-			<core:set var="vChild_IndicatorStatus">0</core:set>
-			<core:set var="vChild_ItemStatus">0</core:set>
+			<core:set var="vChild_IndicatorSTatus">0</core:set>
+			<core:set var="vChild_ItemSTatus">0</core:set>
+			<core:set var="vChild_IssueScore">0</core:set>
+			<core:set var="vChild_RiskScore">0</core:set>
 			<sql:query escapeText="false" var="vItemIndicators2">
-				Select ${vAggrFunction}(${vWeight} (Case When SI.KPI_STATUS &gt; ${vItem_Limt} Then ${vItem_Limt} Else SI.KPI_STATUS End)), round(${vAggrFunction}(${vWeight}SI.ITEMSTATUS),0)
+				Select ${vAggrFunction}(${vWeight} (Case When SI.KPI_STATUS &gt; ${vItem_Limt} Then ${vItem_Limt} Else SI.KPI_STATUS End)), round(${vAggrFunction}(${vWeight}SI.ITEMSTATUS),0), 
+						MAX(${isNullFunction}(SI.ISSUE_SCORE,0)), MAX(${isNullFunction}(SI.ACC_RISK_SCORE,0)),
+						Case When MAX(${isNullFunction}(SI.ISSUE_SCORE,0)) &gt; ${vItem_Issu} then MAX(${isNullFunction}(SI.ISSUE_SCORE,0)) else ${vItem_Issu} end FINALISSUE, 
+						Case When MAX(${isNullFunction}(SI.ACC_RISK_SCORE,0)) &gt; ${vItem_Risk} then MAX(${isNullFunction}(SI.ACC_RISK_SCORE,0)) else ${vItem_Risk} end FINALRISK 
 				FROM ODF_CA_STRATEGIC_ITEM SI
 				WHERE SI.ACTIVE = 1 
 				AND SI.PARENTITEM = ${vItem_Intl}
 			</sql:query>
 			<core:forEach items="${vItemIndicators2.rowsByIndex}" var="row">
-				<core:set var="vChild_IndicatorStatus">${row[0]}</core:set>
-				<core:set var="vChild_ItemStatus">${row[1]}</core:set>
-				<core:if test="${DebugLevel &gt; 0}">
-					<gel:log level="debug" message="---- SI Calculated Status from Lower Level: ${vChild_IndicatorStatus}-${vChild_ItemStatus} for ${vItem_Code}."/> 
-					<core:if test="${DebugLevel &gt; 1}">
+				<core:set var="vChild_IndicatorSTatus">${row[0]}</core:set>
+				<core:set var="vChild_ItemSTatus">${row[1]}</core:set>
+				<core:set var="vChild_IssueScore">${row[2]}</core:set>
+				<core:set var="vChild_RiskScore">${row[3]}</core:set>
+				<core:set var="vIssueScore">${row[4]}</core:set>
+				<core:set var="vRiskScore">${row[5]}</core:set>
+				<core:if teST="${DebugLevel &gt; 0}">
+					<gel:log level="debug" message="---- SI Calculated STatus from Lower Level: ${vChild_IndicatorSTatus}-${vChild_ItemSTatus}, Issue Score Child: ${vChild_IssueScore} Final: ${vIssueScore} and Risk Score Child: ${vChild_RiskScore} Final ${vRiskScore} for ${vItem_Code}."/> 
+					<core:if teST="${DebugLevel &gt; 1}">
 						<gel:log level="debug" message="------ Item Internal ID = ${vItem_Intl}. "/> 
 					</core:if>
 				</core:if>
 			</core:forEach>
 
-			<core:set var="vItem_IndicatorStatus" value="0" />
-			<core:set var="vItem_ItemStatus" value="0" />
+			<core:set var="vItem_IndicatorSTatus" value="0" />
+			<core:set var="vItem_ItemSTatus" value="0" />
 			<core:switch on="${vItem_Defn}">
 				<core:case value="A">
 					<gel:log level="debug" message="--- Will update with AVERAGE"/>
-					<core:set var="vItem_IndicatorStatus" value="${(vItem_DirK + vChild_IndicatorStatus)/2}" />
-					<core:set var="vItem_ItemStatus" value="${(vItem_DirI + vChild_ItemStatus)/2}" />
-					<core:invoke method="intValue" on="${vItem_ItemStatus}" var="vItem_ItemStatus">
-                    </core:invoke>
-					<gel:log level="debug" message="--- Will update with AVERAGE ${vItem_IndicatorStatus}-${vItem_ItemStatus}"/>
+					<core:set var="vItem_IndicatorSTatus" value="${(vItem_DirK + vChild_IndicatorSTatus)/2}" />
+					<core:set var="vItem_ItemSTatus" value="${(vItem_DirI + vChild_ItemSTatus)/2}" />
+					<core:invoke method="intValue" on="${vItem_ItemSTatus}" var="vItem_ItemSTatus"/>
+					<gel:log level="debug" message="--- Will update with AVERAGE ${vItem_IndicatorSTatus}-${vItem_ItemSTatus} Issue Score ${vItem_IssueScore} Risk Score ${vItem_RiskScore}."/>
 				</core:case>
 				<core:case value="B">
-					<core:set var="vItem_IndicatorStatus" value="${vChild_IndicatorStatus}" />
-					<core:set var="vItem_ItemStatus" value="${vChild_ItemStatus}" />
-					<core:if test="${vItem_DirK &gt; vChild_IndicatorStatus}">
-						<core:set var="vItem_IndicatorStatus" value="${vItem_DirK}" />
-						<core:set var="vItem_ItemStatus" value="${vItem_DirI}" />
+					<core:set var="vItem_IndicatorSTatus" value="${vChild_IndicatorSTatus}" />
+					<core:set var="vItem_ItemSTatus" value="${vChild_ItemSTatus}" />
+					<core:if teST="${vItem_DirK &gt; vChild_IndicatorSTatus}">
+						<core:set var="vItem_IndicatorSTatus" value="${vItem_DirK}" />
+						<core:set var="vItem_ItemSTatus" value="${vItem_DirI}" />
 					</core:if>
-					<gel:log level="debug" message="--- Will update with BEST ${vItem_IndicatorStatus}-${vItem_ItemStatus}"/>
+					<gel:log level="debug" message="--- Will update with BEST ${vItem_IndicatorSTatus}-${vItem_ItemSTatus} Issue Score ${vItem_IssueScore} Risk Score ${vItem_RiskScore}."/>
 				</core:case>
 				<core:case value="C">
-					<core:set var="vItem_IndicatorStatus" value="${vChild_IndicatorStatus}" />
-					<core:set var="vItem_ItemStatus" value="${vChild_ItemStatus}" />
-					<gel:log level="debug" message="--- Will update with CHILDREN ${vItem_IndicatorStatus}-${vItem_ItemStatus}"/>
+					<core:set var="vItem_IndicatorSTatus" value="${vChild_IndicatorSTatus}" />
+					<core:set var="vItem_ItemSTatus" value="${vChild_ItemSTatus}" />
+					<gel:log level="debug" message="--- Will update with CHILDREN ${vItem_IndicatorSTatus}-${vItem_ItemSTatus} Issue Score ${vItem_IssueScore} Risk Score ${vItem_RiskScore}."/>
 				</core:case>
 				<core:case value="D">
-					<core:set var="vItem_IndicatorStatus" value="${vItem_DirK}" />
-					<core:set var="vItem_ItemStatus" value="${vItem_DirI}" />
-					<gel:log level="debug" message="--- Will update with DIRECT ${vItem_IndicatorStatus}-${vItem_ItemStatus}"/>
+					<core:set var="vItem_IndicatorSTatus" value="${vItem_DirK}" />
+					<core:set var="vItem_ItemSTatus" value="${vItem_DirI}" />
+					<gel:log level="debug" message="--- Will update with DIRECT ${vItem_IndicatorSTatus}-${vItem_ItemSTatus} Issue Score ${vItem_IssueScore} Risk Score ${vItem_RiskScore}."/>
 				</core:case>
 				<core:case value="W">
-					<core:set var="vItem_IndicatorStatus" value="${vChild_IndicatorStatus}" />
-					<core:set var="vItem_ItemStatus" value="${vChild_ItemStatus}" />
-					<core:if test="${vItem_DirK &lt; vChild_IndicatorStatus}">
-						<core:set var="vItem_IndicatorStatus" value="${vItem_DirK}" />
-						<core:set var="vItem_ItemStatus" value="${vItem_DirI}" />
+					<core:set var="vItem_IndicatorSTatus" value="${vChild_IndicatorSTatus}" />
+					<core:set var="vItem_ItemSTatus" value="${vChild_ItemSTatus}" />
+					<core:if teST="${vChild_IndicatorSTatus &gt; vItem_DirK}">
+						<core:set var="vItem_IndicatorSTatus" value="${vItem_DirK}" />
+						<core:set var="vItem_ItemSTatus" value="${vItem_DirI}" />
 					</core:if>
-					<gel:log level="debug" message="--- Will update with WORST ${vItem_IndicatorStatus}-${vItem_ItemStatus}"/>
+					<gel:log level="debug" message="--- Will update with WORST ${vItem_IndicatorSTatus}-${vItem_ItemSTatus} Issue Score ${vItem_IssueScore} Risk Score ${vItem_RiskScore}."/>
 				</core:case>
 			</core:switch>
-			<gel:parse var="v_xml_item_instance2">
-				<instance instanceCode="${vItem_Code}" objectCode="strategic_item">
-					<CustomInformation>
-						<ColumnValue name="kpi_status_children">${vChild_IndicatorStatus}</ColumnValue>
-						<ColumnValue name="item_status_children">${vChild_ItemStatus}</ColumnValue>
-						<ColumnValue name="kpi_status">${vItem_IndicatorStatus}</ColumnValue>
-						<ColumnValue name="itemstatus">${vItem_ItemStatus}</ColumnValue>
-					</CustomInformation>
-				</instance>
+
+			<gel:parse var="v_xml_item_inSTance2">
+				<inSTance inSTanceCode="${vItem_Code}" objectCode="STrategic_item">
+					<CuSTomInformation>
+						<ColumnValue name="kpi_STatus_children">${vChild_IndicatorSTatus}</ColumnValue>
+						<ColumnValue name="item_STatus_children">${vChild_ItemSTatus}</ColumnValue>
+						<ColumnValue name="kpi_STatus">${vItem_IndicatorSTatus}</ColumnValue>
+						<ColumnValue name="itemSTatus">${vItem_ItemSTatus}</ColumnValue>
+						<ColumnValue name="issue_score">${vIssueScore}</ColumnValue>
+						<ColumnValue name="acc_risk_score">${vRiskScore}</ColumnValue>
+					</CuSTomInformation>
+				</inSTance>
 			</gel:parse>
-			<gel:set insert="true" select="$v_xml_items2/NikuDataBus/customObjectInstances" value="${v_xml_item_instance2}"/>
+			<gel:set insert="true" select="$v_xml_items2/NikuDataBus/cuSTomObjectInSTances" value="${v_xml_item_inSTance2}"/>
 		</core:forEach>
 		<!-- If Items were found, run XOG to update -->
-		<core:if test="${vFoundItems2 == 1}">
-			<core:if test="${DebugLevel &gt; 1}">
+		<core:if teST="${vFoundItems2 == 1}">
+			<core:if teST="${DebugLevel &gt; 1}">
 				<gel:serialize var="${v_xml_items2}" fileName="${XOGwebFolder}/XOGWrite_Indicator_Calc_Items_Level${vCurrentLevel}.xml"/>
 				<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_Indicator_Calc_Items_Level${vCurrentLevel}.xml"/> 
 			</core:if>
@@ -318,23 +333,23 @@
 			</core:catch>
 	
 			<core:choose>
-				<core:when test="${v_xog_exception != null}">
+				<core:when teST="${v_xog_exception != null}">
 					<gel:log category="XOG" level="ERROR">XOG operation failed: ${v_xog_exception}</gel:log>
 				</core:when>
 				<core:otherwise>
 					<gel:set select="$runresult4/soapenv:Envelope/soapenv:Body/XOGOutput" var="writeOutputRoot"/>
-					<gel:set asString="true" select="$writeOutputRoot/Status/@state" var="XOGoutcome"/>
-					<gel:set asString="true" select="$writeOutputRoot/Records/Record" var="XOGoutputrecords"/>
-					<gel:set asString="true" select="$writeOutputRoot/Statistics/@totalNumberOfRecords" var="XOGtotalrecords"/>
-					<gel:set asString="true" select="$writeOutputRoot/Statistics/@insertedRecords" var="XOGinsertedrecords"/>
-					<gel:set asString="true" select="$writeOutputRoot/Statistics/@updatedRecords" var="XOGupdatedrecords"/>
-					<gel:set asString="true" select="$writeOutputRoot/Statistics/@failureRecords" var="XOGfailurerecords"/>
+					<gel:set asSTring="true" select="$writeOutputRoot/STatus/@STate" var="XOGoutcome"/>
+					<gel:set asSTring="true" select="$writeOutputRoot/Records/Record" var="XOGoutputrecords"/>
+					<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@totalNumberOfRecords" var="XOGtotalrecords"/>
+					<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@insertedRecords" var="XOGinsertedrecords"/>
+					<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@updatedRecords" var="XOGupdatedrecords"/>
+					<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@failureRecords" var="XOGfailurerecords"/>
 					<!-- Check the XOG result -->
-					<gel:log category="XOG" level="INFO">Document import for Items status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
+					<gel:log category="XOG" level="INFO">Document import for Items STatus:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
 				</core:otherwise>
 			</core:choose>
 		
-			<core:if test="${DebugLevel &gt; 1}">
+			<core:if teST="${DebugLevel &gt; 1}">
 				<gel:serialize var="${runresult4}" fileName="${XOGwebFolder}/XOGResults_Indicator_Calc_Items_Level${vCurrentLevel}.xml"/>
 				<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_Indicator_Calc_Items_Level${vCurrentLevel}.xml"/> 
 			</core:if>

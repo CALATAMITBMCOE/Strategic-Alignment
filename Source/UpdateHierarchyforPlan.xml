@@ -5,29 +5,29 @@
     xmlns:soap="jelly:com.niku.union.gel.SOAPTagLibrary"
     xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
     xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance">
 
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 5.0 							-->
-	<!-- Process: Strategic Item - Store Plan ID					-->
-	<!-- Step	: Update Hierarchy for Plan							-->
+	<!-- Package: STrategic Alignment 5.0 							-->
+	<!-- Process: STrategic Item - STore Plan ID					-->
+	<!-- STep	: Update Hierarchy for Plan							-->
 	<!-- Action	: Update Hierarchy for Plan							-->
    	<!--============================================================-->
-	<!-- Object : Strategic Item (strategic_item)					-->
+	<!-- Object : STrategic Item (STrategic_item)					-->
    	<!--============================================================-->
 	<!-- This process updates STRAT_HIERARCHY of the level 1 item   -->
 	<!--============================================================-->
 	
-    <core:set value="${gel_objectInstanceId}" var="vItemID"/>
+    <core:set value="${gel_objectInSTanceId}" var="vItemID"/>
 
-	<core:if test="${DebugLevel &gt; 0}">
-		<gel:log level="debug" message="Start Script"/>
-		<gel:log level="debug" message=">>Strategic Item ID   : ${vItemID}"/> 
-		<gel:log level="debug" message=">>Persisted XOG URL   : ${XOGURL}"/> 
-		<gel:log level="debug" message=">>Persisted LOG Folder: ${XOGlogFolder}"/> 
-		<gel:log level="debug" message=">>Persisted WEB Folder: ${XOGwebFolder}"/> 
-		<gel:log level="debug" message=">>Persisted SessionID : ${sessionID}"/> 
-		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/> 
+	<core:if teST="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="STart Script"/>
+		<gel:log level="debug" message=">>STrategic Item ID   : ${vItemID}"/> 
+		<gel:log level="debug" message=">>PersiSTed XOG URL   : ${XOGURL}"/> 
+		<gel:log level="debug" message=">>PersiSTed LOG Folder: ${XOGlogFolder}"/> 
+		<gel:log level="debug" message=">>PersiSTed WEB Folder: ${XOGwebFolder}"/> 
+		<gel:log level="debug" message=">>PersiSTed SessionID : ${sessionID}"/> 
+		<gel:log level="debug" message=">>PersiSTed DebugLevel: ${DebugLevel}"/> 
 	</core:if>
 
     <gel:setDataSource dbId="niku"/>
@@ -42,27 +42,27 @@
     <core:forEach items="${vItem.rowsByIndex}" var="row">
         <core:set var="vItem_Code">${row[0]}</core:set>
         <core:set var="vItem_Name">${row[1]}</core:set>
-		<core:if test="${DebugLevel &gt; 0}">
-			<gel:log level="debug" message="Found Strategic Item: ${vItem_Code}-${vItem_Name}."/> 
+		<core:if teST="${DebugLevel &gt; 0}">
+			<gel:log level="debug" message="Found STrategic Item: ${vItem_Code}-${vItem_Name}."/> 
 		</core:if>
 		
-		<!-- Update the strategic Item Plan ID with its own ID -->
+		<!-- Update the STrategic Item Plan ID with its own ID -->
 		<gel:parse var="v_xml_root">
-			<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
-				<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="13.0.0.6982"/>
-					<customObjectInstances objectCode="strategic_item">
-						<instance instanceCode="${vItem_Code}" objectCode="strategic_item">
-							<CustomInformation>
-								<ColumnValue name="strat_hierarchy">${vItemID}</ColumnValue>
-							</CustomInformation>
-						</instance>
-					</customObjectInstances>
+			<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_cuSTomObjectInSTance.xsd">
+				<Header action="write" externalSource="NIKU" objectType="cuSTomObjectInSTance" version="13.0.0.6982"/>
+					<cuSTomObjectInSTances objectCode="STrategic_item">
+						<inSTance inSTanceCode="${vItem_Code}" objectCode="STrategic_item">
+							<CuSTomInformation>
+								<ColumnValue name="STrat_hierarchy">${vItemID}</ColumnValue>
+							</CuSTomInformation>
+						</inSTance>
+					</cuSTomObjectInSTances>
 			</NikuDataBus>
 		</gel:parse>
 
-		<core:if test="${DebugLevel &gt; 1}">
-			<gel:serialize var="${v_xml_root}" fileName="${XOGwebFolder}/XOGWrite_StratItem_${vItem_Code}.xml"/>
-			<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_StratItem_${vItem_Code}.xml"/> 
+		<core:if teST="${DebugLevel &gt; 1}">
+			<gel:serialize var="${v_xml_root}" fileName="${XOGwebFolder}/XOGWrite_STratItem_${vItem_Code}.xml"/>
+			<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_STratItem_${vItem_Code}.xml"/> 
 		</core:if>
 
 		<!-- Calling XOG-->
@@ -84,25 +84,25 @@
 		</core:catch>
 		
 		<core:choose>
-			<core:when test="${v_xog_exception != null}">
+			<core:when teST="${v_xog_exception != null}">
 				<gel:log category="XOG" level="ERROR">XOG operation failed: ${v_xog_exception}</gel:log>
 			</core:when>
 			<core:otherwise>
 				<gel:set select="$runresult/soapenv:Envelope/soapenv:Body/XOGOutput" var="writeOutputRoot"/>
-				<gel:set asString="true" select="$writeOutputRoot/Status/@state" var="XOGoutcome"/>
-				<gel:set asString="true" select="$writeOutputRoot/Records/Record" var="XOGoutputrecords"/>
-				<gel:set asString="true" select="$writeOutputRoot/Statistics/@totalNumberOfRecords" var="XOGtotalrecords"/>
-				<gel:set asString="true" select="$writeOutputRoot/Statistics/@insertedRecords" var="XOGinsertedrecords"/>
-				<gel:set asString="true" select="$writeOutputRoot/Statistics/@updatedRecords" var="XOGupdatedrecords"/>
-				<gel:set asString="true" select="$writeOutputRoot/Statistics/@failureRecords" var="XOGfailurerecords"/>
+				<gel:set asSTring="true" select="$writeOutputRoot/STatus/@STate" var="XOGoutcome"/>
+				<gel:set asSTring="true" select="$writeOutputRoot/Records/Record" var="XOGoutputrecords"/>
+				<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@totalNumberOfRecords" var="XOGtotalrecords"/>
+				<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@insertedRecords" var="XOGinsertedrecords"/>
+				<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@updatedRecords" var="XOGupdatedrecords"/>
+				<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@failureRecords" var="XOGfailurerecords"/>
 				<!-- Check the XOG result -->
-				<gel:log category="XOG" level="INFO">Document import for ${vItemID} status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
+				<gel:log category="XOG" level="INFO">Document import for ${vItemID} STatus:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
 			</core:otherwise>
 		</core:choose>
 		
-		<core:if test="${DebugLevel &gt; 1}">
-			<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGResults_StratItem_${vItem_Code}.xml"/>
-			<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_StratItem_${vItem_Code}.xml"/> 
+		<core:if teST="${DebugLevel &gt; 1}">
+			<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGResults_STratItem_${vItem_Code}.xml"/>
+			<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_STratItem_${vItem_Code}.xml"/> 
 		</core:if>
 	</core:forEach>
 </gel:script>

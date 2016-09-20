@@ -5,33 +5,33 @@
     xmlns:soap="jelly:com.niku.union.gel.SOAPTagLibrary"
     xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
     xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance">
 
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 5.0 							-->
-	<!-- Process: Strategic Portfolio Creation 						-->
-	<!-- Step	: Generate Portfolio								-->
+	<!-- Package: STrategic Alignment 5.0 							-->
+	<!-- Process: STrategic Portfolio Creation 						-->
+	<!-- STep	: Generate Portfolio								-->
 	<!-- Action	: Create Portfolio									-->
    	<!--============================================================-->
-	<!-- Object : Strategic Item (strategic_item)					-->
+	<!-- Object : STrategic Item (STrategic_item)					-->
    	<!--============================================================-->
-	<!-- Generate a Portfolio with the Strategic Item information 	-->
+	<!-- Generate a Portfolio with the STrategic Item information 	-->
    	<!--============================================================-->
 	
-    <core:set value="${gel_objectInstanceId}" var="vItem_Intl"/>
+    <core:set value="${gel_objectInSTanceId}" var="vItem_Intl"/>
 
-	<core:if test="${DebugLevel &gt; 0}">
-		<gel:log level="debug" message="Start Script"/>
-		<gel:log level="debug" message=">>Strategic Item ID   : ${vItem_Intl}"/> 
-		<gel:log level="debug" message=">>Persisted XOG URL   : ${XOGURL}"/> 
-		<gel:log level="debug" message=">>Persisted LOG Folder: ${XOGlogFolder}"/> 
-		<gel:log level="debug" message=">>Persisted WEB Folder: ${XOGwebFolder}"/> 
-		<gel:log level="debug" message=">>Persisted SessionID : ${sessionID}"/> 
-		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/> 
+	<core:if teST="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="STart Script"/>
+		<gel:log level="debug" message=">>STrategic Item ID   : ${vItem_Intl}"/> 
+		<gel:log level="debug" message=">>PersiSTed XOG URL   : ${XOGURL}"/> 
+		<gel:log level="debug" message=">>PersiSTed LOG Folder: ${XOGlogFolder}"/> 
+		<gel:log level="debug" message=">>PersiSTed WEB Folder: ${XOGwebFolder}"/> 
+		<gel:log level="debug" message=">>PersiSTed SessionID : ${sessionID}"/> 
+		<gel:log level="debug" message=">>PersiSTed DebugLevel: ${DebugLevel}"/> 
 	</core:if>
 
 	<gel:parse var="v_xml_portfolios">
-		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_pfm_portfolio.xsd">
+		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_pfm_portfolio.xsd">
 			<Header action="write" externalSource="NIKU" objectType="pfm_portfolio" version="13.2"/>
 			<pfmPortfolios/>
 		</NikuDataBus>
@@ -39,11 +39,19 @@
 	
     <gel:setDataSource dbId="niku"/>
 
+	<!-- SQL Server Compatibility -->
+	<core:set var="selSTartDate" value="SUBSTRING(CONVERT(NVARCHAR(30),SI.START_DATE, 20),1,10)"/>
+	<core:set var="selFinishDate" value="SUBSTRING(CONVERT(NVARCHAR(30),SI.FINISH_DATE, 20),1,10)"/>
+	<core:if teST="${dbVendor=='oracle'}">
+		<core:set var="selSTartDate" value="to_char(SI.START_DATE,'YYYY-MM-DD')"/>
+		<core:set var="selFinishDate" value="to_char(SI.FINISH_DATE, 'YYYY-MM-DD')"/>
+	</core:if>
+
     <!-- Reading Item Data-->
     <sql:query escapeText="false" var="vHier">
-		Select substr(SI.NAME,1,32), SI.CODE, U.USER_NAME, 
-				SI.STRAT_ALLOC_BENEFIT, SI.STRAT_ALLOC_FUNDING, SI.STRAT_ALLOC_FTE, NVL(SI.PTF_OPEXLIM,0), SI.CURRENCY_CODE, 
-				to_char(SI.START_DATE,'YYYY-MM-DD'), to_char(SI.FINISH_DATE, 'YYYY-MM-DD'), U.ID 
+		Select ${subSTringFunction}(SI.NAME,1,32), SI.CODE, U.USER_NAME, 
+				SI.STRAT_ALLOC_BENEFIT, SI.STRAT_ALLOC_FUNDING, SI.STRAT_ALLOC_FTE, ${isNullFunction}(SI.PTF_OPEXLIM,0), SI.CURRENCY_CODE, 
+				${selSTartDate}, ${selFinishDate}, U.ID 
 		FROM ODF_CA_STRATEGIC_ITEM SI
 			INNER JOIN SRM_RESOURCES R on R.ID = SI.STRAT_PFM_MANAGER
 			INNER JOIN CMN_SEC_USERS U on U.ID = R.USER_ID
@@ -54,14 +62,14 @@
         <core:set var="vItem_Code">${row[1]}</core:set>
         <core:set var="vItem_User">${row[2]}</core:set>
         <core:set var="vItem_Benf">${row[3]}</core:set>
-        <core:set var="vItem_Cost">${row[4]}</core:set>
+        <core:set var="vItem_CoST">${row[4]}</core:set>
         <core:set var="vItem_FTEs">${row[5]}</core:set>
         <core:set var="vItem_OPEX">${row[6]}</core:set>
         <core:set var="vItem_Curr">${row[7]}</core:set>
         <core:set var="vItem_sDat">${row[8]}</core:set>
         <core:set var="vItem_fDat">${row[9]}</core:set>
         <core:set var="vItem_UsID">${row[10]}</core:set>
-		<core:if test="${DebugLevel &gt; 0}">
+		<core:if teST="${DebugLevel &gt; 0}">
 			<gel:log level="debug" message="Found Item: ${vItem_Code}-${vItem_Name}. Created on Behalf of ${vItem_User}."/> 
 		</core:if>
 		<sql:query escapeText="false" var="vPart">
@@ -74,12 +82,12 @@
 		<core:set var="vPart_Code">NIKU.ROOT</core:set>
 		<core:forEach items="${vPart.rowsByIndex}" var="row">
 			<core:set var="vPart_Code">${row[0]}</core:set>
-			<core:if test="${DebugLevel &gt; 0}">
+			<core:if teST="${DebugLevel &gt; 0}">
 				<gel:log level="debug" message="-- Found Default Partition for User: ${vPart_Code}."/> 
 			</core:if>
 		</core:forEach>
 		<sql:query escapeText="false" var="vHier2">
-			SELECT distinct child_item 
+			SELECT diSTinct child_item 
 			FROM ODF_CA_STRAT_TREE_FLAT 
 			WHERE PARENT_ITEM = ${vItem_Intl}
 			AND CHILD_ITEM != ${vItem_Intl}
@@ -87,43 +95,43 @@
 		<core:set var="vExpression" value="( "/>
 		<core:forEach items="${vHier2.rowsByIndex}" var="row">
 			<core:set var="vChild_Intl">${row[0]}</core:set>
-			<core:if test="${DebugLevel &gt; 0}">
+			<core:if teST="${DebugLevel &gt; 0}">
 				<gel:log level="debug" message="-- Found Children: ${vChild_Intl}."/> 
 			</core:if>
-			<core:set var="vExpression" value="${vExpression} project.strat_fund_source ==  lookup(&quot;OBJECT_LOOKUP_STRATEGIC_ITEM&quot;, ${vChild_Intl}) || "/>
+			<core:set var="vExpression" value="${vExpression} project.STrat_fund_source ==  lookup(&quot;OBJECT_LOOKUP_STRATEGIC_ITEM&quot;, ${vChild_Intl}) || "/>
 		</core:forEach>
-		<core:set var="vExpression" value="${vExpression} project.strat_fund_source ==  lookup(&quot;OBJECT_LOOKUP_STRATEGIC_ITEM&quot;, ${vItem_Intl}) ) "/>
+		<core:set var="vExpression" value="${vExpression} project.STrat_fund_source ==  lookup(&quot;OBJECT_LOOKUP_STRATEGIC_ITEM&quot;, ${vItem_Intl}) ) "/>
     </core:forEach>
 
-	<gel:parse var="v_Portfolio_Instance">
-		<pfmPortfolio benefits_target="${vItem_Benf}" cap_unit_type="CAPACITY_UNIT_TYPE_FTE" capital_cost_target="${vItem_Cost}" code="PT-${vItem_Code}" 
+	<gel:parse var="v_Portfolio_InSTance">
+		<pfmPortfolio benefits_target="${vItem_Benf}" cap_unit_type="CAPACITY_UNIT_TYPE_FTE" capital_coST_target="${vItem_CoST}" code="PT-${vItem_Code}" 
   description="${vItem_Name}" finish_date="${vItem_fDat}T00:00:00" is_active="1" 
-  name="${vItem_Name}" operating_cost_target="${vItem_OPEX}" currency_code="${vItem_Curr}" 
+  name="${vItem_Name}" operating_coST_target="${vItem_OPEX}" currency_code="${vItem_Curr}" 
   page_layout="cop.pfmInvDashboard" partition_code="${vPart_Code}" resources_target="${vItem_FTEs}" 
-  start_date="${vItem_sDat}T00:00:00">
+  STart_date="${vItem_sDat}T00:00:00">
 			<Content>
 				<Filters>
-					<investment_type code="project" expression="${vExpression}"/>
+					<inveSTment_type code="project" expression="${vExpression}"/>
 				</Filters>
-				<Investments/>
+				<InveSTments/>
 				<Children/>
 			</Content>
 			<Prioritization/>
 			<Roles/>
-			<Stakeholders/>
+			<STakeholders/>
 			<Owners>
 				<Value>${vItem_User}</Value>
 			</Owners>
 			<OBSAssocs complete="false"/>
-			<CustomInformation/>
+			<CuSTomInformation/>
 			<pfmPlans/>
 		</pfmPortfolio>
 	</gel:parse>
 
-	<gel:set insert="true" select="$v_xml_portfolios/NikuDataBus/pfmPortfolios" value="${v_Portfolio_Instance}"/>
+	<gel:set insert="true" select="$v_xml_portfolios/NikuDataBus/pfmPortfolios" value="${v_Portfolio_InSTance}"/>
 
 	<!-- Processing Portfolios Creation -->
-	<core:if test="${DebugLevel &gt; 1}">
+	<core:if teST="${DebugLevel &gt; 1}">
 		<gel:serialize var="${v_xml_portfolios}" fileName="${XOGwebFolder}/XOGWrite_TopDown-Portfolios_${vItem_Intl}.xml"/>
 		<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_TopDown-Portfolios_${vItem_Intl}"/> 
 	</core:if>
@@ -145,23 +153,23 @@
 		</soap:invoke>
 	</core:catch>
 	<core:choose>
-		<core:when test="${v_xog_exception != null}">
+		<core:when teST="${v_xog_exception != null}">
 			<gel:log category="XOG" level="ERROR">XOG operation failed: ${v_xog_exception}</gel:log>
 		</core:when>
 		<core:otherwise>
-			<core:if test="${DebugLevel &gt; 1}">
+			<core:if teST="${DebugLevel &gt; 1}">
 				<gel:serialize var="${runresultportfolios}" fileName="${XOGwebFolder}/XOGResults_TopDown-Portfolios_${vItem_Intl}.xml"/>
 				<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_TopDown-Portfolios_${vItem_Intl}.xml"/> 
 			</core:if>
 			<gel:set select="$runresultportfolios/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput" var="writeOutputRoot"/>
-			<gel:set asString="true" select="$writeOutputRoot/Status/@state" var="XOGoutcome"/>
-			<gel:set asString="true" select="$writeOutputRoot/Statistics/@totalNumberOfRecords" var="XOGtotalrecords"/>
-			<gel:set asString="true" select="$writeOutputRoot/Statistics/@insertedRecords" var="XOGinsertedrecords"/>
-			<gel:set asString="true" select="$writeOutputRoot/Statistics/@updatedRecords" var="XOGupdatedrecords"/>
-			<gel:set asString="true" select="$writeOutputRoot/Statistics/@failureRecords" var="XOGfailurerecords"/>
+			<gel:set asSTring="true" select="$writeOutputRoot/STatus/@STate" var="XOGoutcome"/>
+			<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@totalNumberOfRecords" var="XOGtotalrecords"/>
+			<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@insertedRecords" var="XOGinsertedrecords"/>
+			<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@updatedRecords" var="XOGupdatedrecords"/>
+			<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@failureRecords" var="XOGfailurerecords"/>
 
 			<!-- Check the XOG result -->
-			<gel:log category="XOG" level="INFO">[XOG]Document import for Portfolios ${vItem_Intl} status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
+			<gel:log category="XOG" level="INFO">[XOG]Document import for Portfolios ${vItem_Intl} STatus:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
 		</core:otherwise>
 	</core:choose>
 

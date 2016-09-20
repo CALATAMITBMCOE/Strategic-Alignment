@@ -1,0 +1,22 @@
+SQL Server Compatibility changes
+PrepareEnvironment.xml
+AutoMeasurementCalculation.xml
+CalculateHierarchyWeigth.xml
+CalculateInvestmentAlignment.xml
+CalculateTargetMeasurementVariation.xml
+CopyPlan.xml
+Create Portfolio.xml
+DistributeEvaluation.xml
+DistributeTopDownPlanning.xml
+FindTopLevel.xml
+RebuildTree.xml
+RebuildTreeByPlan.xml
+ReCalculateHierarchyWeigth.xml
+RollupFunding.xml
+RollupIndicators.xml
+RollupItems.xml
+UpdateInvestments.xml
+
+Função simples substituída: NVL/ISNULL, SUBSTR/SUBSTRING, LENGTH/LEN, sysdate/getdate()
+
+Função complicada: TO_CHAR, TO_NUMBER, EXTRACT, ADD_MONTHS

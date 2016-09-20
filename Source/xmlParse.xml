@@ -1,0 +1,57 @@
+<gel:script  
+    xmlns:core="jelly:core"  
+    xmlns:gel="jelly:com.niku.union.gel.GELTagLibrary"  
+    xmlns:file="jelly:com.niku.union.gel.FileTagLibrary"  
+    xmlns:soap="jelly:com.niku.union.gel.SOAPTagLibrary"  
+    xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"  
+    xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"  
+    xmlns:sql="jelly:sql"  
+    xmlns:x="jelly:org.apache.commons.jelly.tags.xml.XMLTagLibrary"  
+    xmlns:util="jelly:util"  
+    xmlns:xog="http://www.niku.com/xog"  
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance">  
+  
+    <gel:out message="STart Xml File Parse TeST" />  
+  
+    <!-- jelly/gel have troubles with namespaces (or at leaST I haven't figure out how to get them to behave with namespaces) so let remove them -->  
+    <x:parse var="RemoveNameSpace"> <!-- this is our xslt to remove the namespaces -->  
+        <xsl:STylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">  
+            <xsl:output indent="yes" method="xml" encoding="utf-8" omit-xml-declaration="yes"/>  
+            <xsl:template match="*">  
+                <xsl:element name="{local-name()}">  
+                    <xsl:apply-templates select="@* | node()"/>  
+                </xsl:element>  
+            </xsl:template>  
+            <xsl:template match="@*">  
+                <xsl:attribute name="{local-name()}">  
+                    <xsl:value-of select="."/>  
+                </xsl:attribute>  
+            </xsl:template>  
+            <xsl:template match="comment() | text() | processing-inSTruction()">  
+                <xsl:copy/>  
+            </xsl:template>  
+        </xsl:STylesheet>  
+    </x:parse>  
+  
+    <!-- Jelly  parses into a dom4j document / appy transformation to remove namespaces-->  
+    <x:parse var="xmlRawData" xml="file:///schema.xml"  />  
+    <x:transform var="xmlData" xml= "${xmlRawData}" xslt="${RemoveNameSpace}" />  
+      
+    <!-- This is way our xml looks like without namespaces -->  
+    <gel:out message="${xmlData.asXML()}" />  
+  
+    <!-- Gel parses the document into a org.w3c.dom / appy transformation to remove namespaces-->  
+    <gel:parse var="gelXmlData">  
+        <x:transform xml= "${xmlRawData}" xslt="${RemoveNameSpace}" />  
+    </gel:parse>  
+  
+    <!-- Use gel:set to get a specific node via select -->  
+	<gel:forEach select="$gelXmlData/schema/itemGroups/itemGroup" var="vItemGroup">
+		<gel:set var="id" select="$vItemGroup/@id" asSTring="true"/>  
+		<gel:out message="ID = ${id}"/>
+	</gel:forEach>
+ 
+  
+    <gel:out message="Finish Xml File Parse TeST" />  
+</gel:script>

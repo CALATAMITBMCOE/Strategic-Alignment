@@ -5,42 +5,42 @@
     xmlns:soap="jelly:com.niku.union.gel.SOAPTagLibrary"
     xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
     xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance">
 
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 5.0 							-->
-	<!-- Process: Strategy Control									-->
-	<!-- Step	: Distribute Evaluation								-->
-	<!-- Action	: Distribute Evaluation								-->
+	<!-- Package: STrategic Alignment 5.0 							-->
+	<!-- Process: STrategy Control									-->
+	<!-- STep	: DiSTribute Evaluation								-->
+	<!-- Action	: DiSTribute Evaluation								-->
    	<!--============================================================-->
-	<!-- Object : Evaluation Cycle (strat_eval_cycle)				-->
+	<!-- Object : Evaluation Cycle (STrat_eval_cycle)				-->
    	<!--============================================================-->
-	<!-- Distributes Evaluation Questions to Investment Owners for	-->
-	<!-- Investment Alignment calculation							-->
+	<!-- DiSTributes Evaluation QueSTions to InveSTment Owners for	-->
+	<!-- InveSTment Alignment calculation							-->
    	<!--============================================================-->
 	
-    <core:set value="${gel_objectInstanceId}" var="vCycle_Intl"/>
+    <core:set value="${gel_objectInSTanceId}" var="vCycle_Intl"/>
 
-	<core:if test="${DebugLevel &gt; 0}">
-		<gel:log level="debug" message="Start Script"/>
+	<core:if teST="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="STart Script"/>
 		<gel:log level="debug" message=">>Cycle ID            : ${vCycle_Intl}"/> 
-		<gel:log level="debug" message=">>Persisted XOG URL   : ${XOGURL}"/> 
-		<gel:log level="debug" message=">>Persisted LOG Folder: ${XOGlogFolder}"/> 
-		<gel:log level="debug" message=">>Persisted WEB Folder: ${XOGwebFolder}"/> 
-		<gel:log level="debug" message=">>Persisted SessionID : ${sessionID}"/> 
-		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/> 
+		<gel:log level="debug" message=">>PersiSTed XOG URL   : ${XOGURL}"/> 
+		<gel:log level="debug" message=">>PersiSTed LOG Folder: ${XOGlogFolder}"/> 
+		<gel:log level="debug" message=">>PersiSTed WEB Folder: ${XOGwebFolder}"/> 
+		<gel:log level="debug" message=">>PersiSTed SessionID : ${sessionID}"/> 
+		<gel:log level="debug" message=">>PersiSTed DebugLevel: ${DebugLevel}"/> 
 	</core:if>
 
     <gel:setDataSource dbId="niku"/>
 
     <!-- Reading Cycle Data-->
     <sql:query escapeText="false" var="vCycleFields">
-		Select A.NAME, A.CODE, A.PARTITION_CODE, A.STRAT_HIERARCHY, A.STRAT_CYCLE_METHOD, NVL(A.PORTFOLIO,0), U.USER_NAME
+		Select A.NAME, A.CODE, A.PARTITION_CODE, A.STRAT_HIERARCHY, A.STRAT_CYCLE_METHOD, ${isNullFunction}(A.PORTFOLIO,0), U.USER_NAME
 		FROM ODF_CA_STRAT_EVAL_CYCLE A
 			INNER JOIN CMN_SEC_USERS U on U.ID = A.CREATED_BY
 		WHERE A.id=${vCycle_Intl}
 	</sql:query>
-    <!-- cycle Data is stored in "vCycle_XXXX" variables -->
+    <!-- cycle Data is STored in "vCycle_XXXX" variables -->
     <core:forEach items="${vCycleFields.rowsByIndex}" var="row">
         <core:set var="vCycle_Name">${row[0]}</core:set>
         <core:set var="vCycle_Code">${row[1]}</core:set>
@@ -49,23 +49,23 @@
         <core:set var="vCycle_Meth">${row[4]}</core:set>
         <core:set var="vCycle_Ptfl">${row[5]}</core:set>
         <core:set var="vCycle_User">${row[6]}</core:set>
-		<core:if test="${DebugLevel &gt; 0}">
+		<core:if teST="${DebugLevel &gt; 0}">
 			<gel:log level="debug" message="Found Eval Cycle: ${vCycle_Code}-${vCycle_Name}. Hier=${vCycle_Hier}. Method=${vCycle_Meth}. Portfolio=${vCycle_Ptfl}. Initiated by ${vCycle_User}"/> 
 		</core:if>
     </core:forEach>
 	
 	<!-- This is the XML Root Document-->
 	<gel:parse var="v_xml_root">
-		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
-			<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="8.1.0.03.4373"/>
-				<customObjectInstances objectCode="strat_evaluation"/>
+		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_cuSTomObjectInSTance.xsd">
+			<Header action="write" externalSource="NIKU" objectType="cuSTomObjectInSTance" version="8.1.0.03.4373"/>
+				<cuSTomObjectInSTances objectCode="STrat_evaluation"/>
 		</NikuDataBus>
 	</gel:parse>
             
 	<!-- Evaluate Cycle Method -->
-	<core:if test="${vCycle_Meth == 'ALL'}">
-		<gel:log level="debug" message="Method: Investments in the Cycle will be Evaluated against ALL metrics."/> 
-		<!-- Reading Cycle Investment Data-->
+	<core:if teST="${vCycle_Meth == 'ALL'}">
+		<gel:log level="debug" message="Method: InveSTments in the Cycle will be Evaluated againST ALL metrics."/> 
+		<!-- Reading Cycle InveSTment Data-->
 		<sql:query escapeText="false" var="vCycleInvFields">
 			SELECT DISTINCT I.ID, I.CODE, I.NAME, I.MANAGER_ID, I.RESOURCE_ID, I.USER_NAME, I.FULL_NAME
 			FROM (
@@ -78,27 +78,27 @@
 					UNION
 					SELECT INV.ID ID, INV.CODE CODE, INV.NAME NAME, INV.MANAGER_ID MANAGER_ID, R.ID RESOURCE_ID, U.USER_NAME USER_NAME, R.FULL_NAME FULL_NAME
 					FROM ODF_MULTI_VALUED_LOOKUPS L, INV_INVESTMENTS INV, CMN_SEC_USERS U, SRM_RESOURCES R
-					WHERE L.OBJECT = 'strat_eval_cycle'
-					AND L.ATTRIBUTE = 'investments'
+					WHERE L.OBJECT = 'STrat_eval_cycle'
+					AND L.ATTRIBUTE = 'inveSTments'
 					AND L.PK_ID = ${vCycle_Intl}
 					AND INV.ID = L.VALUE
 					AND U.ID = INV.MANAGER_ID
 					AND R.USER_ID = U.ID			
 			) I
 		</sql:query>
-		<!-- Reading Strategic Goals and Metrics Data-->
+		<!-- Reading STrategic Goals and Metrics Data-->
 		<sql:query escapeText="false" var="vGoalsMetrics">
 			SELECT UNIQUE SM.ID, SM.CODE, SM.NAME
 			FROM ODF_CA_STRATEGIC_ITEM SI 
 				INNER JOIN ODF_MULTI_VALUED_LOOKUPS MVL 
-					on MVL.OBJECT='strategic_item' AND MVL.ATTRIBUTE = 'related_metrics' AND MVL.PK_ID = SI.ID
+					on MVL.OBJECT='STrategic_item' AND MVL.ATTRIBUTE = 'related_metrics' AND MVL.PK_ID = SI.ID
 				INNER JOIN 	ODF_CA_STRAT_ALIGN_METRIC SM ON SM.ID = MVL.VALUE AND SM.ACTIVE = 1
 			WHERE SI.ACTIVE = 1 
 			AND SI.STRAT_HIERARCHY = ${vCycle_Hier}
 		</sql:query>
 	
-		<!--For Each combination Investment x Metric process the inclusion of a new "Instance" in the XML Document -->
-		<core:set var="vFirstTime" value="1"/>
+		<!--For Each combination InveSTment x Metric process the inclusion of a new "InSTance" in the XML Document -->
+		<core:set var="vFirSTTime" value="1"/>
 		<core:forEach items="${vCycleInvFields.rowsByIndex}" var="row">
 			<core:set var="vCycleInv_InvIntId">${row[0]}</core:set>
 			<core:set var="vCycleInv_InvCode">${row[1]}</core:set>
@@ -107,71 +107,71 @@
 			<core:set var="vCycleInv_InvManagerRId">${row[4]}</core:set>
 			<core:set var="vCycleInv_InvManagerUName">${row[5]}</core:set>
 			<core:set var="vCycleInv_InvManagerFName">${row[6]}</core:set>
-			<core:if test="${DebugLevel &gt; 0}">
-				<gel:log level="debug" message="Found Investment: ${vCycleInv_InvName}-${vCycleInv_InvCode}."/> 
+			<core:if teST="${DebugLevel &gt; 0}">
+				<gel:log level="debug" message="Found InveSTment: ${vCycleInv_InvName}-${vCycleInv_InvCode}."/> 
 			</core:if>
 			<core:forEach items="${vGoalsMetrics.rowsByIndex}" var="row2">
 				<core:set var="vGoalsMetric_MetrID">${row2[0]}</core:set>
 				<core:set var="vGoalsMetric_MetrCode">${row2[1]}</core:set>
 				<core:set var="vGoalsMetric_MetrName">${row2[2]}</core:set>
-				<core:if test="${DebugLevel &gt; 0}">
-						<core:if test="${vFirstTime == 1}">
+				<core:if teST="${DebugLevel &gt; 0}">
+						<core:if teST="${vFirSTTime == 1}">
 						<gel:log level="debug" message="Found Metric: ${vGoalsMetric_MetrName}-${vGoalsMetric_MetrCode}."/> 
 					</core:if>
 				</core:if>
-				<core:set var="vStrategyEvaluation_Code">${vCycle_Code}-${vCycleInv_InvCode}${vGoalsMetric_MetrCode}</core:set>
-				<gel:parse var="StrategyEvalInstance">
-					<instance instanceCode="${vStrategyEvaluation_Code}" objectCode="strat_evaluation">
-						<CustomInformation>
-							<ColumnValue name="page_layout">odf.strat_evaluationFrame</ColumnValue>
-							<ColumnValue name="code">${vStrategyEvaluation_Code}</ColumnValue>
-							<ColumnValue name="name">${vStrategyEvaluation_Code}</ColumnValue>
+				<core:set var="vSTrategyEvaluation_Code">${vCycle_Code}-${vCycleInv_InvCode}${vGoalsMetric_MetrCode}</core:set>
+				<gel:parse var="STrategyEvalInSTance">
+					<inSTance inSTanceCode="${vSTrategyEvaluation_Code}" objectCode="STrat_evaluation">
+						<CuSTomInformation>
+							<ColumnValue name="page_layout">odf.STrat_evaluationFrame</ColumnValue>
+							<ColumnValue name="code">${vSTrategyEvaluation_Code}</ColumnValue>
+							<ColumnValue name="name">${vSTrategyEvaluation_Code}</ColumnValue>
 							<ColumnValue name="partition_code">${vCycle_Part}</ColumnValue>
 							<ColumnValue name="metricid">${vGoalsMetric_MetrID}</ColumnValue>
 							<ColumnValue name="cycleid">${vCycle_Intl}</ColumnValue>
-							<ColumnValue name="investmentid">${vCycleInv_InvIntId}</ColumnValue>
-							<ColumnValue name="strat_evaluator">${vCycleInv_InvManagerId}</ColumnValue>
-						</CustomInformation>
+							<ColumnValue name="inveSTmentid">${vCycleInv_InvIntId}</ColumnValue>
+							<ColumnValue name="STrat_evaluator">${vCycleInv_InvManagerId}</ColumnValue>
+						</CuSTomInformation>
 						<OBSAssocs completed="false"/>
 						<Security>
-							<UserSecurity rightCode="odf_cst_strat_evaluation_edit" userName="admin"/>
-							<UserSecurity rightCode="odf_cst_strat_evaluation_view" userName="${vCycle_User}"/>
-							<UserSecurity rightCode="odf_cst_strat_evaluation_edit" userName="${vCycleInv_InvManagerUName}"/>
+							<UserSecurity rightCode="odf_cST_STrat_evaluation_edit" userName="admin"/>
+							<UserSecurity rightCode="odf_cST_STrat_evaluation_view" userName="${vCycle_User}"/>
+							<UserSecurity rightCode="odf_cST_STrat_evaluation_edit" userName="${vCycleInv_InvManagerUName}"/>
 						</Security>
-					</instance>
+					</inSTance>
 				</gel:parse>
-				<!-- Adding the new Eval Instance to the Root Document -->
-				<gel:set insert="true" select="$v_xml_root/NikuDataBus/customObjectInstances" value="${StrategyEvalInstance}"/>
+				<!-- Adding the new Eval InSTance to the Root Document -->
+				<gel:set insert="true" select="$v_xml_root/NikuDataBus/cuSTomObjectInSTances" value="${STrategyEvalInSTance}"/>
 			</core:forEach>
-			<core:set var="vFirstTime" value="0"/>
+			<core:set var="vFirSTTime" value="0"/>
 		</core:forEach>
 	</core:if>
-	<core:if test="${vCycle_Meth == 'ONLY'}">
-		<gel:log level="debug" message="Method: Investments in the Cycle will be Evaluated ONLY against supported goals metrics."/> 
-		<!-- Reading Strategic Goals and Metrics Data-->
-		<!-- MVL = Metrics related to the Items in the Strategy -->
-		<!-- MVL2= Investments declared in the Evaluation Cycle -->
-		<!-- MVL3= Supported Goals related to the Investments -->
+	<core:if teST="${vCycle_Meth == 'ONLY'}">
+		<gel:log level="debug" message="Method: InveSTments in the Cycle will be Evaluated ONLY againST supported goals metrics."/> 
+		<!-- Reading STrategic Goals and Metrics Data-->
+		<!-- MVL = Metrics related to the Items in the STrategy -->
+		<!-- MVL2= InveSTments declared in the Evaluation Cycle -->
+		<!-- MVL3= Supported Goals related to the InveSTments -->
 		<sql:query escapeText="false" var="vGoalsAndInvs">
 			SELECT UNIQUE I.ID, I.CODE, I.NAME, I.MANAGER_ID, R.ID, U.USER_NAME, R.FULL_NAME, SM.ID, SM.CODE, SM.NAME
 			FROM ODF_CA_STRATEGIC_ITEM SI 
 				INNER JOIN ODF_MULTI_VALUED_LOOKUPS MVL 
-					on MVL.OBJECT='strategic_item' AND MVL.ATTRIBUTE = 'related_metrics' AND MVL.PK_ID = SI.ID
+					on MVL.OBJECT='STrategic_item' AND MVL.ATTRIBUTE = 'related_metrics' AND MVL.PK_ID = SI.ID
 				INNER JOIN ODF_CA_STRAT_ALIGN_METRIC SM ON SM.ID = MVL.VALUE AND SM.ACTIVE = 1
 				INNER JOIN ODF_MULTI_VALUED_LOOKUPS MVL2
-					on MVL2.OBJECT='strat_eval_cycle' AND MVL2.ATTRIBUTE = 'investments' AND MVL2.PK_ID = ${vCycle_Intl} 
+					on MVL2.OBJECT='STrat_eval_cycle' AND MVL2.ATTRIBUTE = 'inveSTments' AND MVL2.PK_ID = ${vCycle_Intl} 
 				INNER JOIN INV_INVESTMENTS I
 					on I.ID = MVL2.VALUE
 				INNER JOIN ODF_MULTI_VALUED_LOOKUPS MVL3
 					on MVL3.OBJECT in ( 'project', 'application', 'service', 'product', 'idea', 'other', 'asset')
-					AND MVL3.ATTRIBUTE = 'strat_sup_goals' AND MVL3.VALUE = SI.ID AND MVL3.PK_ID = I.ID
+					AND MVL3.ATTRIBUTE = 'STrat_sup_goals' AND MVL3.VALUE = SI.ID AND MVL3.PK_ID = I.ID
 				INNER JOIN CMN_SEC_USERS U 
 					on U.ID = I.MANAGER_ID
 				INNER JOIN SRM_RESOURCES R
 					on R.USER_ID = U.ID			WHERE SI.ACTIVE = 1 
 			AND SI.STRAT_HIERARCHY = ${vCycle_Hier}
 		</sql:query>
-		<core:set var="vFirstTime" value="1"/>
+		<core:set var="vFirSTTime" value="1"/>
 		<core:forEach items="${vGoalsAndInvs.rowsByIndex}" var="row">
 			<core:set var="vCycleInv_InvIntId">${row[0]}</core:set>
 			<core:set var="vCycleInv_InvCode">${row[1]}</core:set>
@@ -183,38 +183,38 @@
 			<core:set var="vGoalsMetric_MetrID">${row[7]}</core:set>
 			<core:set var="vGoalsMetric_MetrCode">${row[8]}</core:set>
 			<core:set var="vGoalsMetric_MetrName">${row[9]}</core:set>
-			<core:if test="${DebugLevel &gt; 0}">
-				<gel:log level="debug" message="Found Investment: ${vCycleInv_InvName}-${vCycleInv_InvCode}."/> 
+			<core:if teST="${DebugLevel &gt; 0}">
+				<gel:log level="debug" message="Found InveSTment: ${vCycleInv_InvName}-${vCycleInv_InvCode}."/> 
 				<gel:log level="debug" message="Found Metric: ${vGoalsMetric_MetrName}-${vGoalsMetric_MetrCode}."/> 
 			</core:if>
-			<core:set var="vStrategyEvaluation_Code">${vCycle_Code}-${vCycleInv_InvCode}${vGoalsMetric_MetrCode}</core:set>
-			<gel:parse var="StrategyEvalInstance">
-				<instance instanceCode="${vStrategyEvaluation_Code}" objectCode="strat_evaluation">
-					<CustomInformation>
-						<ColumnValue name="page_layout">odf.strat_evaluationFrame</ColumnValue>
-						<ColumnValue name="code">${vStrategyEvaluation_Code}</ColumnValue>
-						<ColumnValue name="name">${vStrategyEvaluation_Code}</ColumnValue>
+			<core:set var="vSTrategyEvaluation_Code">${vCycle_Code}-${vCycleInv_InvCode}${vGoalsMetric_MetrCode}</core:set>
+			<gel:parse var="STrategyEvalInSTance">
+				<inSTance inSTanceCode="${vSTrategyEvaluation_Code}" objectCode="STrat_evaluation">
+					<CuSTomInformation>
+						<ColumnValue name="page_layout">odf.STrat_evaluationFrame</ColumnValue>
+						<ColumnValue name="code">${vSTrategyEvaluation_Code}</ColumnValue>
+						<ColumnValue name="name">${vSTrategyEvaluation_Code}</ColumnValue>
 						<ColumnValue name="partition_code">${vCycle_Part}</ColumnValue>
 						<ColumnValue name="metricid">${vGoalsMetric_MetrID}</ColumnValue>
 						<ColumnValue name="cycleid">${vCycle_Intl}</ColumnValue>
-						<ColumnValue name="investmentid">${vCycleInv_InvIntId}</ColumnValue>
-						<ColumnValue name="strat_evaluator">${vCycleInv_InvManagerId}</ColumnValue>
-					</CustomInformation>
+						<ColumnValue name="inveSTmentid">${vCycleInv_InvIntId}</ColumnValue>
+						<ColumnValue name="STrat_evaluator">${vCycleInv_InvManagerId}</ColumnValue>
+					</CuSTomInformation>
 					<OBSAssocs completed="false"/>
 					<Security>
-						<UserSecurity rightCode="odf_cst_strat_evaluation_edit" userName="admin"/>
-						<UserSecurity rightCode="odf_cst_strat_evaluation_view" userName="${vCycle_User}"/>
-						<UserSecurity rightCode="odf_cst_strat_evaluation_edit" userName="${vCycleInv_InvManagerUName}"/>
+						<UserSecurity rightCode="odf_cST_STrat_evaluation_edit" userName="admin"/>
+						<UserSecurity rightCode="odf_cST_STrat_evaluation_view" userName="${vCycle_User}"/>
+						<UserSecurity rightCode="odf_cST_STrat_evaluation_edit" userName="${vCycleInv_InvManagerUName}"/>
 					</Security>
-				</instance>
+				</inSTance>
 			</gel:parse>
-			<!-- Adding the new Eval Instance to the Root Document -->
-			<gel:set insert="true" select="$v_xml_root/NikuDataBus/customObjectInstances" value="${StrategyEvalInstance}"/>
-			<core:set var="vFirstTime" value="0"/>
+			<!-- Adding the new Eval InSTance to the Root Document -->
+			<gel:set insert="true" select="$v_xml_root/NikuDataBus/cuSTomObjectInSTances" value="${STrategyEvalInSTance}"/>
+			<core:set var="vFirSTTime" value="0"/>
 		</core:forEach>
 	</core:if>
 		
-	<core:if test="${DebugLevel &gt; 1}">
+	<core:if teST="${DebugLevel &gt; 1}">
 		<gel:serialize var="${v_xml_root}" fileName="${XOGwebFolder}/XOGWrite_Cycle_${vCycle_Code}.xml"/>
 		<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_Cycle_${vCycle_Code}.xml"/> 
 	</core:if>
@@ -237,24 +237,24 @@
 		</soap:invoke>
 	</core:catch>
 	<core:choose>
-		<core:when test="${v_xog_exception != null}">
+		<core:when teST="${v_xog_exception != null}">
 			<gel:log category="XOG" level="ERROR">XOG operation failed: ${v_xog_exception}</gel:log>
 		</core:when>
 		<core:otherwise>
 			<gel:set select="$runresult/soapenv:Envelope/soapenv:Body/XOGOutput" var="writeOutputRoot"/>
-			<gel:set asString="true" select="$writeOutputRoot/Status/@state" var="XOGoutcome"/>
-			<gel:set asString="true" select="$writeOutputRoot/Records/Record" var="XOGoutputrecords"/>
-			<gel:set asString="true" select="$writeOutputRoot/Statistics/@totalNumberOfRecords" var="XOGtotalrecords"/>
-			<gel:set asString="true" select="$writeOutputRoot/Statistics/@insertedRecords" var="XOGinsertedrecords"/>
-			<gel:set asString="true" select="$writeOutputRoot/Statistics/@updatedRecords" var="XOGupdatedrecords"/>
-			<gel:set asString="true" select="$writeOutputRoot/Statistics/@failureRecords" var="XOGfailurerecords"/>
+			<gel:set asSTring="true" select="$writeOutputRoot/STatus/@STate" var="XOGoutcome"/>
+			<gel:set asSTring="true" select="$writeOutputRoot/Records/Record" var="XOGoutputrecords"/>
+			<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@totalNumberOfRecords" var="XOGtotalrecords"/>
+			<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@insertedRecords" var="XOGinsertedrecords"/>
+			<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@updatedRecords" var="XOGupdatedrecords"/>
+			<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@failureRecords" var="XOGfailurerecords"/>
 
 			<!-- Check the XOG result -->
-			<gel:log category="XOG" level="INFO">[XOGDocument import for ${vCycle_Intl} status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
+			<gel:log category="XOG" level="INFO">[XOGDocument import for ${vCycle_Intl} STatus:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
 		</core:otherwise>
 	</core:choose>
 
-	<core:if test="${DebugLevel &gt; 1}">
+	<core:if teST="${DebugLevel &gt; 1}">
 		<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGResults_Cycle_${vCycle_Code}.xml"/>
 		<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_Cycle_${vCycle_Code}.xml"/> 
 	</core:if>
