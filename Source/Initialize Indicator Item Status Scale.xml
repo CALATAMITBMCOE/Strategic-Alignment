@@ -7,31 +7,31 @@
     xmlns:sql="jelly:sql"
     xmlns:xog="http://www.niku.com/xog"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:file="jelly:com.niku.union.gel.FileTagLibrary"
     xmlns:util="jelly:util"
     xmlns:q="http://www.niku.com/xog/Query">
 	
    	<!--============================================================-->
-	<!-- Package: STrategic Alignment 5.0 							-->
-	<!-- Process: STrategic Item STatus Initialize					-->
-	<!-- STep	: Initialize Indicator Item STatus Scale			-->
-	<!-- Action	: Initialize Indicator Item STatus Scale			-->
+	<!-- Package: Strategic Alignment 5.0 							-->
+	<!-- Process: Strategic Item Status Initialize					-->
+	<!-- Step	: Initialize Indicator Item Status Scale			-->
+	<!-- Action	: Initialize Indicator Item Status Scale			-->
    	<!--============================================================-->
-	<!-- Object : STrategic Indicator (STrat_kpi)  					-->
+	<!-- Object : Strategic Indicator (Strat_kpi)  					-->
    	<!--============================================================-->
-	<!-- Initialize the Item STatus Scale object with empty records -->
+	<!-- Initialize the Item Status Scale object with empty records -->
    	<!--============================================================-->
 	
-	<core:set var="vKPIID" value="${gel_objectInSTanceId}"/>
-	<core:if teST="${DebugLevel &gt; 0}">
-		<gel:log level="debug" message="STart Script"/>
-		<gel:log level="debug" message=">>Item STatus ID      : ${vKPIID}"/> 
-		<gel:log level="debug" message=">>PersiSTed XOG URL   : ${XOGURL}"/> 
-		<gel:log level="debug" message=">>PersiSTed LOG Folder: ${XOGlogFolder}"/> 
-		<gel:log level="debug" message=">>PersiSTed WEB Folder: ${XOGwebFolder}"/> 
-		<gel:log level="debug" message=">>PersiSTed SessionID : ${sessionID}"/> 
-		<gel:log level="debug" message=">>PersiSTed DebugLevel: ${DebugLevel}"/> 
+	<core:set var="vKPIID" value="${gel_objectInstanceId}"/>
+	<core:if test="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="Start Script"/>
+		<gel:log level="debug" message=">>Item Status ID      : ${vKPIID}"/> 
+		<gel:log level="debug" message=">>Persisted XOG URL   : ${XOGURL}"/> 
+		<gel:log level="debug" message=">>Persisted LOG Folder: ${XOGlogFolder}"/> 
+		<gel:log level="debug" message=">>Persisted WEB Folder: ${XOGwebFolder}"/> 
+		<gel:log level="debug" message=">>Persisted SessionID : ${sessionID}"/> 
+		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/> 
 	</core:if>
 
 
@@ -39,37 +39,37 @@
 
 	<sql:query escapeText="false" var="vKPI">
  		select SK.CODE, SK.NAME, U.USER_NAME, U.ID 
-		from odf_ca_STrat_kpi SK inner join cmn_sec_users U on u.ID = SK.CREATED_BY
+		from odf_ca_Strat_kpi SK inner join cmn_sec_users U on u.ID = SK.CREATED_BY
 		Where SK.id = ${vKPIID}
-		and not exiSTs (select 'x' from odf_ca_STrat_item_scale where odf_parent_id = SK.id)
+		and not exists (select 'x' from odf_ca_Strat_item_scale where odf_parent_id = SK.id)
 	</sql:query>
 	<core:forEach items="${vKPI.rowsByIndex}" var="row">
 		<core:set var="vKPICODE">${row[0]}</core:set>
 		<core:set var="vKPINAME">${row[1]}</core:set>
 		<core:set var="vUserName">${row[2]}</core:set>
 		<core:set var="vUserID">${row[3]}</core:set>
-		<core:if teST="${DebugLevel &gt; 1}">
+		<core:if test="${DebugLevel &gt; 1}">
 			<gel:log level="debug" message="Found KPI: ${vKPIID}-${vKPICODE}-${vKPINAME} UserName=${vUserName}-${vUserID}"/> 
 		</core:if>
 	
 		<gel:parse var="v_xml_root">
-			<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_cuSTomObjectInSTance.xsd">
+			<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
 				<Header action="write" externalSource="NIKU"
-					objectType="cuSTomObjectInSTance" version="13"/>
-				<cuSTomObjectInSTances objectCode="STrat_item_scale">
-				</cuSTomObjectInSTances>
+					objectType="customObjectInstance" version="13"/>
+				<customObjectInstances objectCode="strat_item_scale">
+				</customObjectInstances>
 			</NikuDataBus>
 		</gel:parse>
 
 		<core:set var="vScale" value="1"/>
 		<core:set var="vLow" value="-9"/>
 		<core:set var="vHigh" value="0.6"/>
-		<core:while teST="${vScale &lt; 7}"> 
+		<core:while test="${7 &gt; vScale}"> 
 			
-			<gel:parse var="v_xml_inSTance">
-				<inSTance inSTanceCode="${vKPICODE}-${vScale}" objectCode="STrat_item_scale"
-					parentInSTanceCode="${vKPICODE}" parentObjectCode="STrat_kpi">
-					<CuSTomInformation>
+			<gel:parse var="v_xml_instance">
+				<instance instanceCode="${vKPICODE}-${vScale}" objectCode="strat_item_scale"
+					parentInstanceCode="${vKPICODE}" parentObjectCode="strat_kpi">
+					<CustomInformation>
 						<ColumnValue name="highvalue">${vHigh}</ColumnValue>
 						<ColumnValue name="lowvalue">${vLow}</ColumnValue>
 						<ColumnValue name="odf_cncrt_parent_id"/>
@@ -77,43 +77,43 @@
 						<ColumnValue name="code">${vKPICODE}-${vScale}</ColumnValue>
 						<ColumnValue name="name">${vKPICODE}-${vScale}</ColumnValue>
 						<ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
-						<ColumnValue name="itemSTatus">${vScale}</ColumnValue>
-					</CuSTomInformation>
+						<ColumnValue name="itemStatus">${vScale}</ColumnValue>
+					</CustomInformation>
 					<OBSAssocs completed="false"/>
 					<Security>
-						<UserSecurity rightCode="odf_cST_STrat_item_scale_edit" userName="${vUserName}"/>
+						<UserSecurity rightCode="odf_cst_Strat_item_scale_edit" userName="${vUserName}"/>
 					</Security>
-				</inSTance>
+				</instance>
 			</gel:parse>
-			<gel:set insert="true" select="$v_xml_root/NikuDataBus/cuSTomObjectInSTances" value="${v_xml_inSTance}"/>
+			<gel:set insert="true" select="$v_xml_root/NikuDataBus/customObjectInstances" value="${v_xml_instance}"/>
 			<core:set var="vScale" value="${vScale+1}"/>
 			<core:set var="vLow" value="${vHigh+0.0001}"/>
 			<core:choose>
-				<core:when teST="${vScale==2}">
+				<core:when test="${vScale==2}">
 					<core:set var="vHigh" value="0.8"/>
 				</core:when>
-				<core:when teST="${vScale==3}">
+				<core:when test="${vScale==3}">
 					<core:set var="vHigh" value="0.95"/>
 				</core:when>
-				<core:when teST="${vScale==4}">
+				<core:when test="${vScale==4}">
 					<core:set var="vHigh" value="1.03"/>
 				</core:when>
-				<core:when teST="${vScale==5}">
+				<core:when test="${vScale==5}">
 					<core:set var="vHigh" value="1.1"/>
 				</core:when>
-				<core:when teST="${vScale==6}">
+				<core:when test="${vScale==6}">
 					<core:set var="vHigh" value="99.99"/>
 				</core:when>
 				<core:otherwise>
-					<gel:log level="debug" message="Error Defining Item STatus Scale for ${vScale}; ${vLow}; ${vHigh}."/>
+					<gel:log level="debug" message="Error Defining Item Status Scale for ${vScale}; ${vLow}; ${vHigh}."/>
 				</core:otherwise>
 			</core:choose>
 		
 		</core:while>
 		
-		<core:if teST="${DebugLevel &gt; 1}">
-			<gel:serialize var="${v_xml_root}" fileName="${XOGwebFolder}/XOGWrite_KPIItemSTatus_${vKPIID}.xml"/>
-			<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_KPIItemSTatus_${vKPIID}.xml"/> 
+		<core:if test="${DebugLevel &gt; 1}">
+			<gel:serialize var="${v_xml_root}" fileName="${XOGwebFolder}/XOGWrite_KPIItemStatus_${vKPIID}.xml"/>
+			<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_KPIItemStatus_${vKPIID}.xml"/> 
 		</core:if>
 		
 		<!-- Calling XOG-->
@@ -133,9 +133,9 @@
 				</soap:message>
 			</soap:invoke>
 		</core:catch>
-		<core:if teST="${DebugLevel &gt; 1}">
-			<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGResult_KPIItemSTatus_${vKPIID}.xml"/>
-			<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResult_KPIItemSTatus_${vKPIID}.xml"/> 
+		<core:if test="${DebugLevel &gt; 1}">
+			<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGResult_KPIItemStatus_${vKPIID}.xml"/>
+			<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResult_KPIItemStatus_${vKPIID}.xml"/> 
 		</core:if>
 		
 	</core:forEach>

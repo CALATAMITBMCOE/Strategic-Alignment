@@ -5,25 +5,25 @@
     xmlns:soap="jelly:com.niku.union.gel.SOAPTagLibrary"
     xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
     xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance">
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
    	<!--============================================================-->
-	<!-- Package: STrategic Alignment 5.0 							-->
-	<!-- Process: STrategic Item - CleanUp Tree						-->
-	<!-- STep	: STart												-->
+	<!-- Package: Strategic Alignment 5.0 							-->
+	<!-- Process: Strategic Item - CleanUp Tree						-->
+	<!-- Step	: Start												-->
 	<!-- Action	: Clean up Tree										-->
    	<!--============================================================-->
-    <!-- Object : STrategic Item (STrategic_item)					-->
+    <!-- Object : Strategic Item (strategic_item)					-->
    	<!--============================================================-->
-	<!-- This process cleans up the tree on STrat_tree_flat			-->
+	<!-- This process cleans up the tree on Strat_tree_flat			-->
    	<!--============================================================-->
 
-      <core:set value="${gel_objectInSTanceId}" var="vItemID"/>
+      <core:set value="${gel_objectInstanceId}" var="vItemID"/>
 
 
 	<core:set var="DebugLevel" value="1"/>
-	<core:if teST="${DebugLevel &gt; 0}">
-		<gel:log level="debug" message="STart Script"/>
+	<core:if test="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="Start Script"/>
 		<gel:log level="debug" message=">>DebugLevel: ${DebugLevel}"/>
 	</core:if>
 
@@ -33,7 +33,7 @@
       <sql:query escapeText="false" var="vHier">
   		Select SH.ID, SH.CODE, SH.NAME, SI.CODE, SI.NAME
   		FROM ODF_CA_STRATEGIC_ITEM SI
-        INNER JOIN ODF_STRATEGIC_ITEM SH ON SH.ID = SI.STRAT_HIERARCHY
+        INNER JOIN ODF_STRATEGIC_ITEM SH ON SH.ID = SI.Strat_HIERARCHY
   		WHERE SI.ID = ${vItemID}
   	</sql:query>
       <core:forEach items="${vHier.rowsByIndex}" var="row">
@@ -42,16 +42,16 @@
           <core:set var="vSH_Name">${row[2]}</core:set>
           <core:set var="vSI_Code">${row[3]}</core:set>
           <core:set var="vSI_Name">${row[4]}</core:set>
-      		<core:if teST="${DebugLevel &gt; 0}">
+      		<core:if test="${DebugLevel &gt; 0}">
       			<gel:log level="debug" message="Found Plan ${vSH_Name}-${vSH_Code}-${vSH_Intl} for Item ${vSI_Name}-${vSI_Code}."/>
       		</core:if>
       </core:forEach>
 
-	<!-- Children that don't exiST -->
+	<!-- Children that don't exist -->
     <sql:query escapeText="false" var="vInvalidChildren">
 		Select ST.ID, ST.CODE, ST.PARENT_ITEM, ST.CHILD_ITEM
-		FROM ODF_CA_STRAT_TREE_FLAT ST
-		WHERE ST.STRAT_HIERARCHY = ${vSH_Intl}
+		FROM ODF_CA_Strat_TREE_FLAT ST
+		WHERE ST.Strat_HIERARCHY = ${vSH_Intl}
     AND NOT ST.EXISTS (Select 'x'
 							From ODF_CA_STRATEGIC_ITEM SI
 							Where SI.ID=ST.CHILD_ITEM)
@@ -61,20 +61,20 @@
         <core:set var="vTree_Code">${row[1]}</core:set>
         <core:set var="vTree_Parn">${row[2]}</core:set>
         <core:set var="vTree_Chld">${row[3]}</core:set>
-		<core:if teST="${DebugLevel &gt; 0}">
+		<core:if test="${DebugLevel &gt; 0}">
 			<gel:log level="debug" message="Found Invalid Child Item ${vTree_Code}: Parent ${vTree_Parn} Child ${vTree_Chld}."/>
 		</core:if>
 		<sql:update escapeText="false" var="vCleanUp1">
-			DELETE FROM ODF_CA_STRAT_TREE_FLAT
+			DELETE FROM ODF_CA_Strat_TREE_FLAT
 			WHERE CODE='${vTree_Code}'
 		</sql:update>
     </core:forEach>
 
-	<!-- Parents that don't exiST -->
+	<!-- Parents that don't exist -->
     <sql:query escapeText="false" var="vInvalidParents">
 		Select ST.ID, ST.CODE, ST.PARENT_ITEM, ST.CHILD_ITEM
-		FROM ODF_CA_STRAT_TREE_FLAT ST
-    WHERE ST.STRAT_HIERARCHY = ${vSH_Intl}
+		FROM ODF_CA_Strat_TREE_FLAT ST
+    WHERE ST.Strat_HIERARCHY = ${vSH_Intl}
     AND NOT EXISTS (Select 'x'
 							From ODF_CA_STRATEGIC_ITEM SI
 							Where SI.ID=ST.PARENT_ITEM)
@@ -84,11 +84,11 @@
         <core:set var="vTree_Code">${row[1]}</core:set>
         <core:set var="vTree_Parn">${row[2]}</core:set>
         <core:set var="vTree_Chld">${row[2]}</core:set>
-		<core:if teST="${DebugLevel &gt; 0}">
+		<core:if test="${DebugLevel &gt; 0}">
 			<gel:log level="debug" message="Found Invalid Parent Item ${vTree_Code}: Parent ${vTree_Parn} Child ${vTree_Chld}."/>
 		</core:if>
 		<sql:update escapeText="false" var="vCleanUp2">
-			DELETE FROM ODF_CA_STRAT_TREE_FLAT
+			DELETE FROM ODF_CA_Strat_TREE_FLAT
 			WHERE CODE='${vTree_Code}'
 		</sql:update>
     </core:forEach>

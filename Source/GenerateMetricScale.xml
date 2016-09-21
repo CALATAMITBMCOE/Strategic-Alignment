@@ -7,32 +7,32 @@
     xmlns:sql="jelly:sql"
     xmlns:xog="http://www.niku.com/xog"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:file="jelly:com.niku.union.gel.FileTagLibrary"
     xmlns:util="jelly:util"
     xmlns:q="http://www.niku.com/xog/Query">
 	
    	<!--============================================================-->
-	<!-- Package: STrategic Alignment 5.0 							-->
-	<!-- Process: STrategic Alignment Metric Initialize				-->
-	<!-- STep	: Initialize Metric									-->
+	<!-- Package: Strategic Alignment 5.0 							-->
+	<!-- Process: Strategic Alignment Metric Initialize				-->
+	<!-- Step	: Initialize Metric									-->
 	<!-- Action	: Generate Metric Scale								-->
    	<!--============================================================-->
-	<!-- Object : InveSTment Alignment Metric (STrat_align_metric)  -->
+	<!-- Object : Investment Alignment Metric (Strat_align_metric)  -->
    	<!--============================================================-->
 	<!-- Initialize the Alignment Metric Scale object with empty    -->
 	<!-- records 													-->
    	<!--============================================================-->
 	
-	<core:set var="vMetricID" value="${gel_objectInSTanceId}"/>
-	<core:if teST="${DebugLevel &gt; 0}">
-		<gel:log level="debug" message="STart Script"/>
+	<core:set var="vMetricID" value="${gel_objectInstanceId}"/>
+	<core:if test="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="Start Script"/>
 		<gel:log level="debug" message=">>Metric ID           : ${vMetricID}"/> 
-		<gel:log level="debug" message=">>PersiSTed XOG URL   : ${XOGURL}"/> 
-		<gel:log level="debug" message=">>PersiSTed LOG Folder: ${XOGlogFolder}"/> 
-		<gel:log level="debug" message=">>PersiSTed WEB Folder: ${XOGwebFolder}"/> 
-		<gel:log level="debug" message=">>PersiSTed SessionID : ${sessionID}"/> 
-		<gel:log level="debug" message=">>PersiSTed DebugLevel: ${DebugLevel}"/> 
+		<gel:log level="debug" message=">>Persisted XOG URL   : ${XOGURL}"/> 
+		<gel:log level="debug" message=">>Persisted LOG Folder: ${XOGlogFolder}"/> 
+		<gel:log level="debug" message=">>Persisted WEB Folder: ${XOGwebFolder}"/> 
+		<gel:log level="debug" message=">>Persisted SessionID : ${sessionID}"/> 
+		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/> 
 	</core:if>
 
 
@@ -51,46 +51,46 @@
 	<core:set var="vMetricNextNum100" value="ZZZ00011"/>
 	
 	<!-- SQL Server Compatibility -->
-	<core:set var="sqlSTatement">
-		select  'ZZZ'+ REPLICATE('0', 5-LEN(LTRIM(RTRIM(CONVERT(INT, subSTring(max(code),4,5))+1)))) + LTRIM(RTRIM(CONVERT(INT, subSTring(max(code),4,5))+1)),
-				'ZZZ'+ REPLICATE('0', 5-LEN(LTRIM(RTRIM(CONVERT(INT, subSTring(max(code),4,5))+1)))) + LTRIM(RTRIM(CONVERT(INT, subSTring(max(code),4,5))+2)),
-				'ZZZ'+ REPLICATE('0', 5-LEN(LTRIM(RTRIM(CONVERT(INT, subSTring(max(code),4,5))+1)))) + LTRIM(RTRIM(CONVERT(INT, subSTring(max(code),4,5))+3)),
-				'ZZZ'+ REPLICATE('0', 5-LEN(LTRIM(RTRIM(CONVERT(INT, subSTring(max(code),4,5))+1)))) + LTRIM(RTRIM(CONVERT(INT, subSTring(max(code),4,5))+4)),
-				'ZZZ'+ REPLICATE('0', 5-LEN(LTRIM(RTRIM(CONVERT(INT, subSTring(max(code),4,5))+1)))) + LTRIM(RTRIM(CONVERT(INT, subSTring(max(code),4,5))+5)),
-				'ZZZ'+ REPLICATE('0', 5-LEN(LTRIM(RTRIM(CONVERT(INT, subSTring(max(code),4,5))+1)))) + LTRIM(RTRIM(CONVERT(INT, subSTring(max(code),4,5))+6)),
-				'ZZZ'+ REPLICATE('0', 5-LEN(LTRIM(RTRIM(CONVERT(INT, subSTring(max(code),4,5))+1)))) + LTRIM(RTRIM(CONVERT(INT, subSTring(max(code),4,5))+7)),
-				'ZZZ'+ REPLICATE('0', 5-LEN(LTRIM(RTRIM(CONVERT(INT, subSTring(max(code),4,5))+1)))) + LTRIM(RTRIM(CONVERT(INT, subSTring(max(code),4,5))+8)),
-				'ZZZ'+ REPLICATE('0', 5-LEN(LTRIM(RTRIM(CONVERT(INT, subSTring(max(code),4,5))+1)))) + LTRIM(RTRIM(CONVERT(INT, subSTring(max(code),4,5))+9)),
-				'ZZZ'+ REPLICATE('0', 5-LEN(LTRIM(RTRIM(CONVERT(INT, subSTring(max(code),4,5))+1)))) + LTRIM(RTRIM(CONVERT(INT, subSTring(max(code),4,5))+10)),
-				'ZZZ'+ REPLICATE('0', 5-LEN(LTRIM(RTRIM(CONVERT(INT, subSTring(max(code),4,5))+1)))) + LTRIM(RTRIM(CONVERT(INT, subSTring(max(code),4,5))+11))
-		from odf_ca_STrat_metric_scale
+	<core:set var="sqlStatement">
+		select  'ZZZ'+ REPLICATE('0', 5-LEN(LTRIM(RTRIM(CONVERT(INT, substring(max(code),4,5))+1)))) + LTRIM(RTRIM(CONVERT(INT, substring(max(code),4,5))+1)),
+				'ZZZ'+ REPLICATE('0', 5-LEN(LTRIM(RTRIM(CONVERT(INT, substring(max(code),4,5))+1)))) + LTRIM(RTRIM(CONVERT(INT, substring(max(code),4,5))+2)),
+				'ZZZ'+ REPLICATE('0', 5-LEN(LTRIM(RTRIM(CONVERT(INT, substring(max(code),4,5))+1)))) + LTRIM(RTRIM(CONVERT(INT, substring(max(code),4,5))+3)),
+				'ZZZ'+ REPLICATE('0', 5-LEN(LTRIM(RTRIM(CONVERT(INT, substring(max(code),4,5))+1)))) + LTRIM(RTRIM(CONVERT(INT, substring(max(code),4,5))+4)),
+				'ZZZ'+ REPLICATE('0', 5-LEN(LTRIM(RTRIM(CONVERT(INT, substring(max(code),4,5))+1)))) + LTRIM(RTRIM(CONVERT(INT, substring(max(code),4,5))+5)),
+				'ZZZ'+ REPLICATE('0', 5-LEN(LTRIM(RTRIM(CONVERT(INT, substring(max(code),4,5))+1)))) + LTRIM(RTRIM(CONVERT(INT, substring(max(code),4,5))+6)),
+				'ZZZ'+ REPLICATE('0', 5-LEN(LTRIM(RTRIM(CONVERT(INT, substring(max(code),4,5))+1)))) + LTRIM(RTRIM(CONVERT(INT, substring(max(code),4,5))+7)),
+				'ZZZ'+ REPLICATE('0', 5-LEN(LTRIM(RTRIM(CONVERT(INT, substring(max(code),4,5))+1)))) + LTRIM(RTRIM(CONVERT(INT, substring(max(code),4,5))+8)),
+				'ZZZ'+ REPLICATE('0', 5-LEN(LTRIM(RTRIM(CONVERT(INT, substring(max(code),4,5))+1)))) + LTRIM(RTRIM(CONVERT(INT, substring(max(code),4,5))+9)),
+				'ZZZ'+ REPLICATE('0', 5-LEN(LTRIM(RTRIM(CONVERT(INT, substring(max(code),4,5))+1)))) + LTRIM(RTRIM(CONVERT(INT, substring(max(code),4,5))+10)),
+				'ZZZ'+ REPLICATE('0', 5-LEN(LTRIM(RTRIM(CONVERT(INT, substring(max(code),4,5))+1)))) + LTRIM(RTRIM(CONVERT(INT, substring(max(code),4,5))+11))
+		from odf_ca_Strat_metric_scale
 		where code like 'ZZZ%'
 	</core:set>
-	<core:if teST="${dbVendor=='oracle'}">
-		<core:set var="sqlSTatement">
-			select  'ZZZ'||trim(to_char(to_number(${subSTringFunction}(max(code),4,5))+1,'00000')), 
-					'ZZZ'||trim(to_char(to_number(${subSTringFunction}(max(code),4,5))+2,'00000')), 
-					'ZZZ'||trim(to_char(to_number(${subSTringFunction}(max(code),4,5))+3,'00000')), 
-					'ZZZ'||trim(to_char(to_number(${subSTringFunction}(max(code),4,5))+4,'00000')), 
-					'ZZZ'||trim(to_char(to_number(${subSTringFunction}(max(code),4,5))+5,'00000')), 
-					'ZZZ'||trim(to_char(to_number(${subSTringFunction}(max(code),4,5))+6,'00000')), 
-					'ZZZ'||trim(to_char(to_number(${subSTringFunction}(max(code),4,5))+7,'00000')), 
-					'ZZZ'||trim(to_char(to_number(${subSTringFunction}(max(code),4,5))+8,'00000')), 
-					'ZZZ'||trim(to_char(to_number(${subSTringFunction}(max(code),4,5))+9,'00000')), 
-					'ZZZ'||trim(to_char(to_number(${subSTringFunction}(max(code),4,5))+10,'00000')), 
-					'ZZZ'||trim(to_char(to_number(${subSTringFunction}(max(code),4,5))+11,'00000'))
-			from odf_ca_STrat_metric_scale
+	<core:if test="${dbVendor=='oracle'}">
+		<core:set var="sqlStatement">
+			select  'ZZZ'||trim(to_char(to_number(${subStringFunction}(max(code),4,5))+1,'00000')), 
+					'ZZZ'||trim(to_char(to_number(${subStringFunction}(max(code),4,5))+2,'00000')), 
+					'ZZZ'||trim(to_char(to_number(${subStringFunction}(max(code),4,5))+3,'00000')), 
+					'ZZZ'||trim(to_char(to_number(${subStringFunction}(max(code),4,5))+4,'00000')), 
+					'ZZZ'||trim(to_char(to_number(${subStringFunction}(max(code),4,5))+5,'00000')), 
+					'ZZZ'||trim(to_char(to_number(${subStringFunction}(max(code),4,5))+6,'00000')), 
+					'ZZZ'||trim(to_char(to_number(${subStringFunction}(max(code),4,5))+7,'00000')), 
+					'ZZZ'||trim(to_char(to_number(${subStringFunction}(max(code),4,5))+8,'00000')), 
+					'ZZZ'||trim(to_char(to_number(${subStringFunction}(max(code),4,5))+9,'00000')), 
+					'ZZZ'||trim(to_char(to_number(${subStringFunction}(max(code),4,5))+10,'00000')), 
+					'ZZZ'||trim(to_char(to_number(${subStringFunction}(max(code),4,5))+11,'00000'))
+			from odf_ca_Strat_metric_scale
 			where code like 'ZZZ%'
 		</core:set>
 	</core:if>
 
 	<!-- Determine Next Numbers for UNIQUE_CODE -->
 	<sql:query escapeText="false" var="vMetricNum">
-		${sqlSTatement}
+		${sqlStatement}
 	</sql:query>
 	<core:forEach items="${vMetricNum.rowsByIndex}" var="row">
-		<core:set var="vTeST" value="${row[0]}"/>
-		<core:if teST="${vTeST!='ZZZ'}"> 
+		<core:set var="vTest" value="${row[0]}"/>
+		<core:if test="${vTest!='ZZZ'}"> 
 			<core:set var="vMetricNextNum00" value="${row[0]}"/>
 			<core:set var="vMetricNextNum10" value="${row[1]}"/>
 			<core:set var="vMetricNextNum20" value="${row[2]}"/>
@@ -103,7 +103,7 @@
 			<core:set var="vMetricNextNum90" value="${row[9]}"/>
 			<core:set var="vMetricNextNum100" value="${row[10]}"/>
 		</core:if>
-		<core:if teST="${DebugLevel &gt; 1}">
+		<core:if test="${DebugLevel &gt; 1}">
 			<gel:log level="debug" message="MetricNextNum00: ${vMetricNextNum00}"/> 
 			<gel:log level="debug" message="MetricNextNum10: ${vMetricNextNum10}"/> 
 			<gel:log level="debug" message="MetricNextNum20: ${vMetricNextNum20}"/> 
@@ -120,40 +120,40 @@
 
 	<sql:query escapeText="false" var="vMetric">
  		select SM.CODE, SM.NAME, U.USER_NAME, U.ID 
-		from odf_ca_STrat_align_metric SM inner join cmn_sec_users U on u.ID = SM.CREATED_BY
+		from odf_ca_Strat_align_metric SM inner join cmn_sec_users U on u.ID = SM.CREATED_BY
 		Where SM.id = ${vMetricID}
-		and not exiSTs (select 'x' from odf_ca_STrat_metric_scale where odf_parent_id = SM.id)
+		and not exists (select 'x' from odf_ca_Strat_metric_scale where odf_parent_id = SM.id)
 	</sql:query>
 	<core:forEach items="${vMetric.rowsByIndex}" var="row">
 		<core:set var="vMetricCODE">${row[0]}</core:set>
 		<core:set var="vMetricNAME">${row[1]}</core:set>
 		<core:set var="vUserName">${row[2]}</core:set>
 		<core:set var="vUserID">${row[3]}</core:set>
-		<core:if teST="${DebugLevel &gt; 1}">
+		<core:if test="${DebugLevel &gt; 1}">
 			<gel:log level="debug" message="Found Metric: ${vMetricID}-${vMetricCODE}-${vMetricNAME} UserName=${vUserName}-${vUserID}"/> 
 		</core:if>
 	
 		<gel:parse var="v_xml_root">
-			<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_cuSTomObjectInSTance.xsd">
+			<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
 				<Header action="write" externalSource="NIKU"
-					objectType="cuSTomObjectInSTance" version="12.0.6.5471"/>
-				<cuSTomObjectInSTances objectCode="STrat_metric_scale">
-				</cuSTomObjectInSTances>
+					objectType="customObjectInstance" version="12.0.6.5471"/>
+				<customObjectInstances objectCode="strat_metric_scale">
+				</customObjectInstances>
 			</NikuDataBus>
 		</gel:parse>
 
 		<core:set var="vScale" value="0"/>
-		<core:while teST="${vScale &lt; 11}"> 
+		<core:while test="${11 &gt; vScale}"> 
 			<core:set var="vScaleCode" value="0${vScale}"/>
-			<core:if teST="${vScale == 10}">
+			<core:if test="${vScale == 10}">
 				<core:set var="vScaleCode" value="${vScale}"/>
 			</core:if>
 			<core:set var="vScaleValue" value="${vScale*10}"/>
 			
-			<gel:parse var="v_xml_inSTance">
-				<inSTance inSTanceCode="${vMetricCODE}-${vScaleCode}" objectCode="STrat_metric_scale"
-					parentInSTanceCode="${vMetricCODE}" parentObjectCode="STrat_align_metric">
-					<CuSTomInformation>
+			<gel:parse var="v_xml_instance">
+				<instance instanceCode="${vMetricCODE}-${vScaleCode}" objectCode="strat_metric_scale"
+					parentInstanceCode="${vMetricCODE}" parentObjectCode="strat_align_metric">
+					<CustomInformation>
 						<ColumnValue name="highvalue"/>
 						<ColumnValue name="lowvalue"/>
 						<ColumnValue name="odf_cncrt_parent_id"/>
@@ -162,18 +162,18 @@
 						<ColumnValue name="name">${vMetricCODE}-${vScaleCode}</ColumnValue>
 						<ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
 						<ColumnValue name="metricvalue">${vScaleValue}</ColumnValue>
-					</CuSTomInformation>
+					</CustomInformation>
 					<OBSAssocs completed="false"/>
 					<Security>
-						<UserSecurity rightCode="odf_cST_STrat_metric_scale_edit" userName="${vUserName}"/>
+						<UserSecurity rightCode="odf_cst_Strat_metric_scale_edit" userName="${vUserName}"/>
 					</Security>
-				</inSTance>
+				</instance>
 			</gel:parse>
-			<gel:set insert="true" select="$v_xml_root/NikuDataBus/cuSTomObjectInSTances" value="${v_xml_inSTance}"/>
+			<gel:set insert="true" select="$v_xml_root/NikuDataBus/customObjectInstances" value="${v_xml_instance}"/>
 			<core:set var="vScale" value="${vScale+1}"/>
 		</core:while>
 		
-		<core:if teST="${DebugLevel &gt; 1}">
+		<core:if test="${DebugLevel &gt; 1}">
 			<gel:serialize var="${v_xml_root}" fileName="${XOGwebFolder}/XOGWrite_Metric_${vMetricID}.xml"/>
 			<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_Metric_${vMetricID}.xml"/> 
 		</core:if>
@@ -195,7 +195,7 @@
 				</soap:message>
 			</soap:invoke>
 		</core:catch>
-		<core:if teST="${DebugLevel &gt; 1}">
+		<core:if test="${DebugLevel &gt; 1}">
 			<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGResult_Metric_${vMetricID}.xml"/>
 			<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResult_Metric_${vMetricID}.xml"/> 
 		</core:if>

@@ -5,45 +5,46 @@
     xmlns:soap="jelly:com.niku.union.gel.SOAPTagLibrary"
     xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
     xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance">
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
    	<!--============================================================-->
-	<!-- Package: STrategic Alignment 5.1 							-->
-	<!-- Process: STrategic Indicator Issue Score          			-->
-	<!-- STep	: Calculate Issue Score	            				-->
+	<!-- Package: Strategic Alignment 5.1 							-->
+	<!-- Process: Strategic Indicator Issue Score          			-->
+	<!-- Step	: Calculate Issue Score	            				-->
 	<!-- Action	: Calculate Issue Score								-->
    	<!--============================================================-->
 	<!-- Object : Indicator Issue 									-->
    	<!--============================================================-->
-	<!-- Calculate the STrategic Indicator Issue Score 				-->
+	<!-- Calculate the Strategic Indicator Issue Score 				-->
 	<!-- based on the related Issues								-->
    	<!--============================================================-->
 	 
-	<core:if teST="${DebugLevel &gt; 0}">
-		<gel:log level="debug" message="STart Script"/>
-		<gel:log level="debug" message=">>PersiSTed XOG URL   : ${XOGURL}"/> 
-		<gel:log level="debug" message=">>PersiSTed LOG Folder: ${XOGlogFolder}"/> 
-		<gel:log level="debug" message=">>PersiSTed WEB Folder: ${XOGwebFolder}"/> 
-		<gel:log level="debug" message=">>PersiSTed SessionID : ${sessionID}"/> 
-		<gel:log level="debug" message=">>PersiSTed DebugLevel: ${DebugLevel}"/> 
-		<gel:log level="debug" message=">>PersiSTed dbVendor  : ${dbVendor}"/> 
-		<gel:log level="debug" message=">>Process InSTance	  : ${gel_processInSTanceId}"/>
+	<core:if test="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="Start Script"/>
+		<gel:log level="debug" message=">>Persisted XOG URL   : ${XOGURL}"/> 
+		<gel:log level="debug" message=">>Persisted LOG Folder: ${XOGlogFolder}"/> 
+		<gel:log level="debug" message=">>Persisted WEB Folder: ${XOGwebFolder}"/> 
+		<gel:log level="debug" message=">>Persisted SessionID : ${sessionID}"/> 
+		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/> 
+		<gel:log level="debug" message=">>Persisted dbVendor  : ${dbVendor}"/>
+		<gel:log level="debug" message=">>Persisted dbOwner   : ${dbOwner}"/> 
+		<gel:log level="debug" message=">>Process Instance	  : ${gel_processInstanceId}"/>
 	</core:if>
 	
     <gel:setDataSource dbId="niku"/>
-	<core:set value="${gel_objectInSTanceId}" var="vIssueID"/>
+	<core:set value="${gel_objectInstanceId}" var="vIssueID"/>
 	
 	<gel:parse var="v_xml_root">
-		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_cuSTomObjectInSTance.xsd">
-		  <Header action="write" externalSource="NIKU" objectType="cuSTomObjectInSTance" version="14.4.0.234"/>
-		  <cuSTomObjectInSTances objectCode="STrat_kpi"/>
+		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
+		  <Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="14.4.0.234"/>
+		  <customObjectInstances objectCode="strat_kpi"/>
 		</NikuDataBus>
 	</gel:parse>
 
 	<!-- Max CategoryWeigth -->
     <core:set var="vTotalWeigth">1</core:set>
 	<sql:query escapeText="false" var="vCategoriesWeigth">
-		select SUM(WEIGTH) FROM ODF_CA_STRAT_RIM_CATEGORY WHERE ACTIVE = 1
+		select SUM(WEIGTH) FROM ODF_CA_Strat_RIM_CATEGORY WHERE ACTIVE = 1
 	</sql:query>
     <core:forEach items="${vCategoriesWeigth.rowsByIndex}" var="row">
         <core:set var="vTotalWeigth">${row[0]}</core:set>
@@ -52,11 +53,13 @@
 	<!-- Max score = Issue priority high -->
     <core:set var="vMaxScore">4</core:set>
     
-
 	<sql:query escapeText="false" var="vIndctoActivate">
-		Select SR.NAME, SR.CODE, SI.NAME, SI.CODE, SI.ID
-		FROM ODF_CA_STRAT_ISSUE SR inner join  ODF_CA_STRAT_KPI SI on SI.ID = SR.ODF_PARENT_ID
+		Select SR.NAME, SR.CODE, SI.NAME, SI.CODE, SI.ID, MAX(${dbOwner}.CMN_NULL_INT_FCT(CI.ACC_ISSUE_SCORE,0))
+		FROM ODF_CA_Strat_ISSUE SR inner join  ODF_CA_Strat_KPI SI on SI.ID = SR.ODF_PARENT_ID
+		  left outer join ODF_MULTI_VALUED_LOOKUPS MVL on MVL.OBJECT='strat_kpi' and MVL.ATTRIBUTE='strat_children_kpi' and MVL.PK_ID = SI.ID
+		  left outer join ODF_CA_STRAT_KPI CI on CI.ID = MVL.VALUE
 		WHERE SR.ID = ${vIssueID}
+		group by SR.NAME, SR.CODE, SI.NAME, SI.CODE, SI.ID
 	</sql:query>
     <core:forEach items="${vIndctoActivate.rowsByIndex}" var="row">
         <core:set var="vIssue_Name">${row[0]}</core:set>
@@ -64,17 +67,18 @@
         <core:set var="vIndc_Name">${row[2]}</core:set>
         <core:set var="vIndc_Code">${row[3]}</core:set>
         <core:set var="vIndc_Intl">${row[4]}</core:set>
-		<core:if teST="${DebugLevel &gt; 0}">
-			<gel:log level="debug" message="SInd Found: ${vIndc_Name}-${vIndc_Code}. Issue is ${vIssue_Name}-${vIssue_Code}."/> 
-		</core:if>
+        <core:set var="vIndc_ChAc">${row[5]}</core:set>
+		<core:if test="${DebugLevel &gt; 0}">
+			<gel:log level="debug" message="SInd Found: ${vIndc_Name}-${vIndc_Code}. Issue is ${vIssue_Name}-${vIssue_Code}. Issue Acc from Children: ${vIndc_ChAc}."/> 
+		</core:if> 
 
 	    <sql:query escapeText="false" var="vGetIssues">
 			Select round(SUM(score),0) Score
 			FROM (
 					Select C.CATEGORY, MAX(100*C.SCORE/${vMaxScore}*C.WEIGTH/${vTotalWeigth}) Score
 					FROM (
-							Select SR.NAME, SR.CODE, SR.PRIORITY, SR.ID, CASE SR.PRIORITY WHEN 'LOW' THEN 1 WHEN 'MEDIUM' THEN 2 ELSE 4 END Score, SC.WEIGTH, SR.STatus, SC.CODE CATEGORY
-							FROM ODF_CA_STRAT_ISSUE SR INNER JOIN ODF_CA_STRAT_RIM_CATEGORY SC ON SC.ID = SR.CATEGORY
+							Select SR.NAME, SR.CODE, SR.PRIORITY, SR.ID, CASE SR.PRIORITY WHEN 'LOW' THEN 1 WHEN 'MEDIUM' THEN 2 ELSE 4 END Score, SC.WEIGTH, SR.Status, SC.CODE CATEGORY
+							FROM ODF_CA_Strat_ISSUE SR INNER JOIN ODF_CA_Strat_RIM_CATEGORY SC ON SC.ID = SR.CATEGORY
 							WHERE SR.ODF_PARENT_ID = ${vIndc_Intl}
 							AND STATUS in ( 'OPEN', 'WORK_IN_PROGRESS')
 					) C
@@ -83,18 +87,23 @@
 		</sql:query>
 		<core:forEach items="${vGetIssues.rowsByIndex}" var="row">
 			<core:set var="vScore">${row[0]}</core:set>
-			<gel:log level="debug" message="-- Calculated: Score ${vScore}."/> 
-			<gel:parse var="vInSTance">
-				<inSTance inSTanceCode="${vIndc_Code}" objectCode="STrat_kpi">
-					<CuSTomInformation>
+			<core:set var="vAccScore" value="${vIndc_ChAc}"/>
+			<core:if test="${vScore &gt; vIndc_ChAc}">
+				<core:set var="vAccScore" value="${vScore}"/>
+			</core:if>
+			<gel:log level="debug" message="-- Calculated: Score ${vScore}. Acc Score ${vAccScore}."/> 
+			<gel:parse var="vInstance">
+				<instance instanceCode="${vIndc_Code}" objectCode="strat_kpi">
+					<CustomInformation>
 						<ColumnValue name="ISSUE_SCORE">${vScore}</ColumnValue>
-					</CuSTomInformation>
-				</inSTance>
+						<ColumnValue name="ACC_ISSUE_SCORE">${vAccScore}</ColumnValue>
+					</CustomInformation>
+				</instance>
 			</gel:parse>
-			<gel:set insert="true" select="$v_xml_root/NikuDataBus/cuSTomObjectInSTances" value="${vInSTance}"/>
+			<gel:set insert="true" select="$v_xml_root/NikuDataBus/customObjectInstances" value="${vInstance}"/>
 		</core:forEach>
 
-		<core:if teST="${DebugLevel &gt; 1}">
+		<core:if test="${DebugLevel &gt; 1}">
 			<gel:serialize var="${v_xml_root}" fileName="${XOGwebFolder}/XOGWRITE_ISSUE_${vIssue_Code}.xml"/>
 			<gel:log level="debug" message="XOG Write can be found at: ${XOGwebPath}/XOGWRITE_ISSUE_${vIssue_Code}.xml"/> 
 		</core:if>
@@ -117,37 +126,36 @@
 			</soap:invoke>
 		</core:catch>
 
-		<core:if teST="${v_xog_exception != null}">
+		<core:if test="${v_xog_exception != null}">
 			<gel:log level="warning" message="Caught Exception: ${v_xog_exception}."/>
 			<core:set var="exitClause" value="1"/>
 		</core:if>
   
-		<core:if teST="${v_xog_exception == null}">
-			<core:if teST="${DebugLevel &gt; 1}">
+		<core:if test="${v_xog_exception == null}">
+			<core:if test="${DebugLevel &gt; 1}">
 				<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGRESULT_ACT_${vPlan_Code}.xml"/>
 				<gel:log level="debug" message="XOG Output can be found at: ${XOGwebPath}/XOGRESULT_ACT_${vPlan_Code}.xml"/> 
 			</core:if>
 
-			<gel:set asSTring="true" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/STatus/@STate" var="XOGoutcome"/>
+			<gel:set asString="true" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/Status/@state" var="XOGoutcome"/>
 			<core:switch on="${XOGoutcome}">
 				<core:case value="SUCCESS">
-					<gel:set asSTring="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/STatiSTics/@totalNumberOfRecords" var="totalNumberOfRecords"/>
-					<core:if teST="${DebugLevel &gt; 0}">
-						<core:set var="vMessage" value="InSTances XOGed-out this requeST ${totalNumberOfRecords}"/>
+					<gel:set asString="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/Statistics/@totalNumberOfRecords" var="totalNumberOfRecords"/>
+					<core:if test="${DebugLevel &gt; 0}">
+						<core:set var="vMessage" value="Instances XOGed-out this request ${totalNumberOfRecords}"/>
 						<gel:log level="debug" message="${vMessage}"/>
 					</core:if>
 				</core:case>
 				<core:case value="FAILURE">
-					<gel:set asSTring="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/STatiSTics" var="STats"/>
-					<gel:set asSTring="false" select="$STats/@totalNumberOfRecords" var="totalNumberOfRecords"/>
-					<gel:set asSTring="false" select="$STats/@failureRecords" var="failureRecords"/>
-					<core:if teST="${DebugLevel &gt; 0}">
+					<gel:set asString="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/Statistics" var="Stats"/>
+					<gel:set asString="false" select="$Stats/@totalNumberOfRecords" var="totalNumberOfRecords"/>
+					<gel:set asString="false" select="$Stats/@failureRecords" var="failureRecords"/>
+					<core:if test="${DebugLevel &gt; 0}">
 						<core:set var="vMessage" value="XOG failed.  Out of ${totalNumberOfRecords} records, ${failureRecords} failed."/>
 						<gel:log level="debug" message="${vMessage}"/>
 					</core:if>
 				</core:case>
 			</core:switch>
-
 		</core:if>
 	</core:forEach>
 

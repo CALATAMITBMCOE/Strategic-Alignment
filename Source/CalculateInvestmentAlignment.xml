@@ -5,38 +5,39 @@
     xmlns:soap="jelly:com.niku.union.gel.SOAPTagLibrary"
     xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
     xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance">
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	
    	<!--============================================================-->
-	<!-- Package: STrategic Alignment 5.0 							-->
-	<!-- Process: STrategy Control									-->
-	<!-- STep	: Close Evaluation									-->
-	<!-- Action	: Calculate InveSTment Alignment					-->
+	<!-- Package: Strategic Alignment 5.0 							-->
+	<!-- Process: Strategy Control									-->
+	<!-- Step	: Close Evaluation									-->
+	<!-- Action	: Calculate Investment Alignment					-->
    	<!--============================================================-->
-	<!-- Object : Evaluation Cycle (STrat_eval_cycle)				-->
+	<!-- Object : Evaluation Cycle (Strat_eval_cycle)				-->
    	<!--============================================================-->
-	<!-- Calculate InveSTment Alignment Scores based on the answers	-->
+	<!-- Calculate Investment Alignment Scores based on the answers	-->
    	<!--============================================================-->
 	
-    <core:set value="${gel_objectInSTanceId}" var="vCycle_Intl"/>
+    <core:set value="${gel_objectInstanceId}" var="vCycle_Intl"/>
 	
-	<core:if teST="${DebugLevel &gt; 0}">
-		<gel:log level="debug" message="STart Script"/>
+	<core:if test="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="Start Script"/>
 		<gel:log level="debug" message=">>Cycle ID            : ${vCycle_Intl}"/> 
-		<gel:log level="debug" message=">>PersiSTed XOG URL   : ${XOGURL}"/> 
-		<gel:log level="debug" message=">>PersiSTed LOG Folder: ${XOGlogFolder}"/> 
-		<gel:log level="debug" message=">>PersiSTed WEB Folder: ${XOGwebFolder}"/> 
-		<gel:log level="debug" message=">>PersiSTed SessionID : ${sessionID}"/> 
-		<gel:log level="debug" message=">>PersiSTed DebugLevel: ${DebugLevel}"/> 
-		<gel:log level="debug" message=">>PersiSTed dbVendor  : ${dbVendor}"/> 
+		<gel:log level="debug" message=">>Persisted XOG URL   : ${XOGURL}"/> 
+		<gel:log level="debug" message=">>Persisted LOG Folder: ${XOGlogFolder}"/> 
+		<gel:log level="debug" message=">>Persisted WEB Folder: ${XOGwebFolder}"/> 
+		<gel:log level="debug" message=">>Persisted SessionID : ${sessionID}"/> 
+		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/> 
+		<gel:log level="debug" message=">>Persisted dbVendor  : ${dbVendor}"/>
+		<gel:log level="debug" message=">>Persisted dbOwner   : ${dbOwner}"/> 
 	</core:if>
 
     <gel:setDataSource dbId="niku"/>
 
     <!-- Reading Cycle Data-->
     <sql:query escapeText="false" var="vCycleFields">
-		Select A.NAME, A.CODE, A.PARTITION_CODE, A.STRAT_HIERARCHY, SI.CODE
-		FROM ODF_CA_STRAT_EVAL_CYCLE A INNER JOIN ODF_CA_STRATEGIC_ITEM SI ON SI.ID = A.STRAT_HIERARCHY
+		Select A.NAME, A.CODE, A.PARTITION_CODE, A.Strat_HIERARCHY, SI.CODE
+		FROM ODF_CA_Strat_EVAL_CYCLE A INNER JOIN ODF_CA_STRATEGIC_ITEM SI ON SI.ID = A.Strat_HIERARCHY
 		WHERE A.id=${vCycle_Intl}
 	</sql:query>
     <core:forEach items="${vCycleFields.rowsByIndex}" var="row">
@@ -45,28 +46,28 @@
         <core:set var="vCycle_Part">${row[2]}</core:set>
         <core:set var="vCycle_Hier">${row[3]}</core:set>
         <core:set var="vHier_Code">${row[4]}</core:set>
-		<core:if teST="${DebugLevel &gt; 0}">
+		<core:if test="${DebugLevel &gt; 0}">
 			<gel:log level="debug" message="Found Eval Cycle: ${vCycle_Code}-${vCycle_Name}. Hier=${vCycle_Hier}-${vHier_Code}."/> 
 		</core:if>
     </core:forEach>
 
 	<!-- This is the XML Root Document-->
 	<gel:parse var="v_xml_root">
-		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_cuSTomObjectInSTance.xsd">
-			<Header action="write" externalSource="NIKU" objectType="cuSTomObjectInSTance" version="8.1.0.03.4373"/>
-				<cuSTomObjectInSTances objectCode="STrat_evaluation"/>
+		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
+			<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="8.1.0.03.4373"/>
+				<customObjectInstances objectCode="strat_evaluation"/>
 		</NikuDataBus>
 	</gel:parse>
 
 	<sql:query escapeText="false" var="vLevel">
 		Select max(SI.ITEM_LEVEL)
 		FROM ODF_CA_STRATEGIC_ITEM SI 
-		WHERE SI.STRAT_HIERARCHY=${vCycle_Hier}
+		WHERE SI.Strat_HIERARCHY=${vCycle_Hier}
 		AND SI.ACTIVE = 1
 	</sql:query>
 	<core:forEach items="${vLevel.rowsByIndex}" var="row">
 		<core:set var="vMaxLevel">${row[0]}</core:set>
-		<core:if teST="${DebugLevel &gt; 0}">
+		<core:if test="${DebugLevel &gt; 0}">
 			<gel:log level="debug" message="Found Max Level ${vMaxLevel} for Hierarchy ${vCycle_Hier}."/> 
 		</core:if>
 	</core:forEach>
@@ -76,8 +77,8 @@
 	<!-- Will only call XOG if Items were found -->
 	<core:set var="vFoundItems">0</core:set>
 	
-	<core:while teST="${vCurrentLevel &gt; 1}">
-		<core:if teST="${DebugLevel &gt; 0}">
+	<core:while test="${vCurrentLevel &gt; 1}">
+		<core:if test="${DebugLevel &gt; 0}">
 			<gel:log level="debug" message="Processing Level ${vCurrentLevel}."/> 
 		</core:if>
 		<sql:query escapeText="false" var="vItemLevel">
@@ -85,14 +86,14 @@
 			From ODF_CA_STRATEGIC_ITEM SI 
 				Inner Join ODF_MULTI_VALUED_LOOKUPS MVL
 					on MVL.attribute='related_metrics' 
-					and MVL.object='STrategic_item' 
+					and MVL.object='strategic_item' 
 					and MVL.PK_ID = SI.ID
-				Inner Join ODF_CA_STRAT_ALIGN_METRIC AM
+				Inner Join ODF_CA_Strat_ALIGN_METRIC AM
 					on AM.ID = MVL.Value
 					and AM.ACTIVE = 1
 			WHERE SI.ITEM_LEVEL = ${vCurrentLevel}
 			AND SI.ACTIVE = 1
-			AND SI.STRAT_HIERARCHY = ${vCycle_Hier}
+			AND SI.Strat_HIERARCHY = ${vCycle_Hier}
 		</sql:query>
 		<core:forEach items="${vItemLevel.rowsByIndex}" var="row">
 			<core:set var="vParent">${row[0]}</core:set>
@@ -102,12 +103,12 @@
 			<core:set var="vItem_WPer">${row[4]}</core:set>
 			<core:set var="vAMet_Intl">${row[5]}</core:set>
 			<core:set var="vAMet_Code">${row[6]}</core:set>
-			<core:if teST="${DebugLevel &gt; 0}">
+			<core:if test="${DebugLevel &gt; 0}">
 				<gel:log level="debug" message="-- Parent ${vParent} --Item: ${vItem_Code} has weightpercent=${vItem_WPer} --Metric: ${vAMet_Code}."/> 
 			</core:if>
 			<core:set var="vTree_Weight_Acum" value="${vItem_WPer}"/>
 			<core:set var="vTreeLevel" value="${vCurrentLevel}"/>
-			<core:while teST="${vTreeLevel &gt; 2}">
+			<core:while test="${vTreeLevel &gt; 2}">
 				<sql:query escapeText="false" var="vTreeWeight">
 					Select SI.WEIGHTPERCENT, SI.CODE, SI.PARENTITEM
 					From ODF_CA_STRATEGIC_ITEM SI
@@ -118,18 +119,18 @@
 					<core:set var="vTree_Code">${row[1]}</core:set>
 					<core:set var="vTree_Parent">${row[2]}</core:set>
 					<core:set var="vTree_Weight_Acum" value="${vTree_Weight_Acum * vTree_Weight}"/>
-					<core:if teST="${DebugLevel &gt; 0}">
+					<core:if test="${DebugLevel &gt; 0}">
 						<gel:log level="debug" message="---- On Level ${vTreeLevel-1} found Parent: ${vTree_Code} has Weight=${vTree_Weight}; calculated Acum Weight=${vTree_Weight_Acum}."/> 
 					</core:if>
 				</core:forEach>
 				<core:set var="vTreeLevel" value="${vTreeLevel-1}"/>
 			</core:while>
 			<sql:query escapeText="false" var="vEvaluations">
-				Select SE.CODE, SE.METRICID, SM.NAME, SE.INVESTMENTID, I.NAME, ${isNullFunction}(SE.INVEVALUATION,0), MS.MetricValue, round(MS.MetricValue * ${vTree_Weight_Acum},6)
-				From ODF_CA_STRAT_EVALUATION SE
+				Select SE.CODE, SE.METRICID, SM.NAME, SE.INVESTMENTID, I.NAME, ${dbOwner}.CMN_NULL_INT_FCT(SE.INVEVALUATION,0), MS.MetricValue, round(MS.MetricValue * ${vTree_Weight_Acum},6)
+				From ODF_CA_Strat_EVALUATION SE
 					Inner Join INV_INVESTMENTS I on I.ID = SE.INVESTMENTID
-					Inner Join ODF_CA_STRAT_ALIGN_METRIC SM ON SM.ID = SE.METRICID
-					Inner Join ODF_CA_STRAT_METRIC_SCALE MS
+					Inner Join ODF_CA_Strat_ALIGN_METRIC SM ON SM.ID = SE.METRICID
+					Inner Join ODF_CA_Strat_METRIC_SCALE MS
 						on MS.ODF_PARENT_ID = SE.METRICID
 						and SE.INVEVALUATION between MS.LOWVALUE and MS.HIGHVALUE
 				WHERE SE.CYCLEID = ${vCycle_Intl}
@@ -145,30 +146,30 @@
 				<core:set var="vEval_IEvl">${row[5]}</core:set>
 				<core:set var="vMScl_Valu">${row[6]}</core:set>
 				<core:set var="vMScl_WVal">${row[7]}</core:set>
-				<core:if teST="${DebugLevel &gt; 0}">
-					<gel:log level="debug" message="---- On Evaluation ${vEval_Code} I see Metric: ${vEval_MNam} for InveSTment ${vEval_INam} eval=${vEval_IEvl} found MetricValue=${vMScl_Valu} Calculated as ${vMScl_WVal}."/> 
+				<core:if test="${DebugLevel &gt; 0}">
+					<gel:log level="debug" message="---- On Evaluation ${vEval_Code} I see Metric: ${vEval_MNam} for Investment ${vEval_INam} eval=${vEval_IEvl} found MetricValue=${vMScl_Valu} Calculated as ${vMScl_WVal}."/> 
 				</core:if>
-				<gel:parse var="vEvalInSTance">
-					<inSTance inSTanceCode="${vEval_Code}" objectCode="STrat_evaluation">
-						<CuSTomInformation>
+				<gel:parse var="vEvalInstance">
+					<instance instanceCode="${vEval_Code}" objectCode="strat_evaluation">
+						<CustomInformation>
 							<ColumnValue name="weightedeval">${vMScl_WVal}</ColumnValue>
-						</CuSTomInformation>
-					</inSTance>
+						</CustomInformation>
+					</instance>
 				</gel:parse>
-				<!-- Adding the new Item InSTance to the Root Document -->
-				<gel:set insert="true" select="$v_xml_root/NikuDataBus/cuSTomObjectInSTances" value="${vEvalInSTance}"/>
+				<!-- Adding the new Item Instance to the Root Document -->
+				<gel:set insert="true" select="$v_xml_root/NikuDataBus/customObjectInstances" value="${vEvalInstance}"/>
 			</core:forEach>
 		</core:forEach>
 		<!-- Will continue search for metrics on upper level -->
 		<core:set var="vCurrentLevel" value="${vCurrentLevel-1}"/>
 	</core:while>
 	
-	<core:if teST="${DebugLevel &gt; 0}">
+	<core:if test="${DebugLevel &gt; 0}">
 		<gel:log level="debug" message="Found Items to be Processed = ${vFoundItems}."/> 
 	</core:if>
 	
-	<core:if teST="${vFoundItems == 1}">
-		<core:if teST="${DebugLevel &gt; 1}">
+	<core:if test="${vFoundItems == 1}">
+		<core:if test="${DebugLevel &gt; 1}">
 			<gel:serialize var="${v_xml_root}" fileName="${XOGwebFolder}/XOGWrite_Cycle_Calc_${vCycle_Code}_ParentItem_${vParent}.xml"/>
 			<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_Cycle_Calc_${vCycle_Code}_ParentItem_${vParent}.xml"/> 
 		</core:if>
@@ -191,23 +192,23 @@
 			</soap:invoke>
 		</core:catch>
 		<core:choose>
-			<core:when teST="${v_xog_exception != null}">
+			<core:when test="${v_xog_exception != null}">
 				<gel:log category="XOG" level="ERROR">XOG operation failed: ${v_xog_exception}</gel:log>
 			</core:when>
 			<core:otherwise>
 				<gel:set select="$runresult/soapenv:Envelope/soapenv:Body/XOGOutput" var="writeOutputRoot"/>
-				<gel:set asSTring="true" select="$writeOutputRoot/STatus/@STate" var="XOGoutcome"/>
-				<gel:set asSTring="true" select="$writeOutputRoot/Records/Record" var="XOGoutputrecords"/>
-				<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@totalNumberOfRecords" var="XOGtotalrecords"/>
-				<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@insertedRecords" var="XOGinsertedrecords"/>
-				<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@updatedRecords" var="XOGupdatedrecords"/>
-				<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@failureRecords" var="XOGfailurerecords"/>
+				<gel:set asString="true" select="$writeOutputRoot/Status/@state" var="XOGoutcome"/>
+				<gel:set asString="true" select="$writeOutputRoot/Records/Record" var="XOGoutputrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot/Statistics/@totalNumberOfRecords" var="XOGtotalrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot/Statistics/@insertedRecords" var="XOGinsertedrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot/Statistics/@updatedRecords" var="XOGupdatedrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot/Statistics/@failureRecords" var="XOGfailurerecords"/>
 				<!-- Check the XOG result -->
-				<gel:log category="XOG" level="INFO">[XOGDocument import for ${vCycle_Intl}-${vParent} STatus:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
+				<gel:log category="XOG" level="INFO">[XOGDocument import for ${vCycle_Intl}-${vParent} Status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
 			</core:otherwise>
 		</core:choose>
 
-		<core:if teST="${DebugLevel &gt; 1}">
+		<core:if test="${DebugLevel &gt; 1}">
 			<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGResults_Cycle_Calc_${vCycle_Code}_ParentItem_${vParent}.xml"/>
 			<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_Cycle_Calc_${vCycle_Code}_ParentItem_${vParent}.xml"/> 
 		</core:if>

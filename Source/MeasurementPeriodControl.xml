@@ -5,12 +5,12 @@
     xmlns:soap="jelly:com.niku.union.gel.SOAPTagLibrary"
     xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
     xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance">
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	
    	<!--============================================================-->
-	<!-- Package: STrategic Alignment 5.0 							-->
-	<!-- Process: STrategic Indicators Calculation 					-->
-	<!-- STep	: Indicator Calculation and Rollup					-->
+	<!-- Package: Strategic Alignment 5.0 							-->
+	<!-- Process: Strategic Indicators Calculation 					-->
+	<!-- Step	: Indicator Calculation and Rollup					-->
 	<!-- Action	: Auto Measurement Calculation						-->
    	<!--============================================================-->
 	<!-- Object : n/a												-->
@@ -18,22 +18,23 @@
 	<!-- Calculate Indicator Level values for all Indicators 		-->
    	<!--============================================================-->
 	
-	<core:if teST="${DebugLevel &gt; 0}">
-		<gel:log level="debug" message="STart Script"/>
-		<gel:log level="debug" message=">>PersiSTed XOG URL   : ${XOGURL}"/> 
-		<gel:log level="debug" message=">>PersiSTed LOG Folder: ${XOGlogFolder}"/> 
-		<gel:log level="debug" message=">>PersiSTed WEB Folder: ${XOGwebFolder}"/> 
-		<gel:log level="debug" message=">>PersiSTed SessionID : ${sessionID}"/> 
-		<gel:log level="debug" message=">>PersiSTed DebugLevel: ${DebugLevel}"/> 
-		<gel:log level="debug" message=">>PersiSTed dbVendor  : ${dbVendor}"/> 
+	<core:if test="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="Start Script"/>
+		<gel:log level="debug" message=">>Persisted XOG URL   : ${XOGURL}"/> 
+		<gel:log level="debug" message=">>Persisted LOG Folder: ${XOGlogFolder}"/> 
+		<gel:log level="debug" message=">>Persisted WEB Folder: ${XOGwebFolder}"/> 
+		<gel:log level="debug" message=">>Persisted SessionID : ${sessionID}"/> 
+		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/> 
+		<gel:log level="debug" message=">>Persisted dbVendor  : ${dbVendor}"/>
+		<gel:log level="debug" message=">>Persisted dbOwner   : ${dbOwner}"/> 
 	</core:if>
 
     <gel:setDataSource dbId="niku"/>
 
 	<gel:parse var="v_xml_indicators">
-		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_cuSTomObjectInSTance.xsd">
-			<Header action="write" externalSource="NIKU" objectType="cuSTomObjectInSTance" version="13.0.0.6982"/>
-			<cuSTomObjectInSTances objectCode="STrat_kpi"/>
+		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
+			<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="13.0.0.6982"/>
+			<customObjectInstances objectCode="strat_kpi"/>
 		</NikuDataBus>
 	</gel:parse>
 	
@@ -42,73 +43,72 @@
 	<core:set var="vFound" value="0"/>
 
 	<!-- SQL Server Compatibility -->
-	<core:set var="sqlSTatement">
-		to_char(Ind.Next_Measure_Date,'YYYY-MM-DD'), 
-		Case Ind.STrat_Meas_Per
-			When 'W' Then SUBSTRING(CONVERT(NVARCHAR(30),DATEADD(day,7,Ind.Next_Measure_Date),20),1,10) 
-			When 'BW' Then SUBSTRING(CONVERT(NVARCHAR(30),DATEADD(day,14,Ind.Next_Measure_Date),20),1,10) 
-			When 'M' Then SUBSTRING(CONVERT(NVARCHAR(30),DATEADD(month,1,Ind.Next_Measure_Date),20),1,10) 
-			When 'BM' Then SUBSTRING(CONVERT(NVARCHAR(30),DATEADD(month,2,Ind.Next_Measure_Date),20),1,10) 
-			When 'Q' Then SUBSTRING(CONVERT(NVARCHAR(30),DATEADD(month,3,Ind.Next_Measure_Date),20),1,10) 
-			When 'H' Then SUBSTRING(CONVERT(NVARCHAR(30),DATEADD(month,6,Ind.Next_Measure_Date),20),1,10) 
-			When 'Y' Then SUBSTRING(CONVERT(NVARCHAR(30),DATEADD(year,1,Ind.Next_Measure_Date),20),1,10) 
-		End Update_Measure_Date,
-		Case Ind.STrat_Meas_Per
-			When 'W' Then SUBSTRING(CONVERT(NVARCHAR(30),DATEADD(day,7,Ind.Next_Measure_Date),20),1,10) 
-			When 'BW' Then SUBSTRING(CONVERT(NVARCHAR(30),DATEADD(day,14,Ind.Next_Measure_Date),20),1,10) 
-			When 'M' Then SUBSTRING(CONVERT(NVARCHAR(30),DATEADD(month,1,Ind.Next_Measure_Date),20),1,7)
-			When 'BM' Then SUBSTRING(CONVERT(NVARCHAR(30),DATEADD(month,2,Ind.Next_Measure_Date),20),1,7)
-			When 'Q' Then DATENAME(year, DATEADD(month,3,Ind.Next_Measure_Date))+'-'+DATENAME(quarter,DATEADD(month,3,Ind.Next_Measure_Date))
-			When 'H' Then 
-			  Case 
-				  When DATEPART(month, DATEADD(month,6,Ind.Next_Measure_Date)) &lt; 7 Then DATENAME(year,DATEADD(month,6,Ind.Next_Measure_Date))+'-1' 
-				  Else DATENAME(year,DATEADD(month,6,Ind.Next_Measure_Date))+'-2' 
-			  End
-			When 'Y' DATENAME(year,DATEADD(year,1,Ind.Next_Measure_Date))
-			Else ' '
-		End Update_Measure_Name
-	</core:set>
-	<core:if teST="${dbVendor=='oracle'}">
-		<core:set var="sqlSTatement">
-			to_char(Ind.Next_Measure_Date,'YYYY-MM-DD'), 
-			Case Ind.STrat_Meas_Per
-				When 'W' Then to_char(Ind.Next_Measure_Date+7,'YYYY-MM-DD')
-				When 'BW' Then to_char(Ind.Next_Measure_Date+14,'YYYY-MM-DD')
-				When 'M' Then to_char(add_months(Ind.Next_Measure_Date,1),'YYYY-MM-DD')
-				When 'BM' Then to_char(add_months(Ind.Next_Measure_Date,2),'YYYY-MM-DD')
-				When 'Q' Then to_char(add_months(Ind.Next_Measure_Date,3),'YYYY-MM-DD')
-				When 'H' Then to_char(add_months(Ind.Next_Measure_Date,6),'YYYY-MM-DD')
-				When 'Y' Then to_char(add_months(Ind.Next_Measure_Date,12),'YYYY-MM-DD')
+	<core:set var="sqlStatement" escapeText="false" value="to_char(Ind.Next_Measure_Date,'YYYY-MM-DD'), 
+			Case Ind.Strat_Meas_Per
+				When 'W' Then SUBSTRING(CONVERT(NVARCHAR(30),DATEADD(day,7,Ind.Next_Measure_Date),20),1,10) 
+				When 'BW' Then SUBSTRING(CONVERT(NVARCHAR(30),DATEADD(day,14,Ind.Next_Measure_Date),20),1,10) 
+				When 'M' Then SUBSTRING(CONVERT(NVARCHAR(30),DATEADD(month,1,Ind.Next_Measure_Date),20),1,10) 
+				When 'BM' Then SUBSTRING(CONVERT(NVARCHAR(30),DATEADD(month,2,Ind.Next_Measure_Date),20),1,10) 
+				When 'Q' Then SUBSTRING(CONVERT(NVARCHAR(30),DATEADD(month,3,Ind.Next_Measure_Date),20),1,10) 
+				When 'H' Then SUBSTRING(CONVERT(NVARCHAR(30),DATEADD(month,6,Ind.Next_Measure_Date),20),1,10) 
+				When 'Y' Then SUBSTRING(CONVERT(NVARCHAR(30),DATEADD(year,1,Ind.Next_Measure_Date),20),1,10) 
 			End Update_Measure_Date,
-			Case Ind.STrat_Meas_Per
-				When 'W' Then to_char(Ind.Next_Measure_Date+7,'YYYY-MM-DD')
-				When 'BW' Then to_char(Ind.Next_Measure_Date+14,'YYYY-MM-DD')
-				When 'M' Then to_char(add_months(Ind.Next_Measure_Date,1),'YYYY-Mon')
-				When 'BM' Then to_char(add_months(Ind.Next_Measure_Date,2),'YYYY-Mon')
-				When 'Q' Then to_char(add_months(Ind.Next_Measure_Date,3),'YYYY-Q')
+			Case Ind.Strat_Meas_Per
+				When 'W' Then SUBSTRING(CONVERT(NVARCHAR(30),DATEADD(day,7,Ind.Next_Measure_Date),20),1,10) 
+				When 'BW' Then SUBSTRING(CONVERT(NVARCHAR(30),DATEADD(day,14,Ind.Next_Measure_Date),20),1,10) 
+				When 'M' Then SUBSTRING(CONVERT(NVARCHAR(30),DATEADD(month,1,Ind.Next_Measure_Date),20),1,7)
+				When 'BM' Then SUBSTRING(CONVERT(NVARCHAR(30),DATEADD(month,2,Ind.Next_Measure_Date),20),1,7)
+				When 'Q' Then DATENAME(year, DATEADD(month,3,Ind.Next_Measure_Date))+'-'+DATENAME(quarter,DATEADD(month,3,Ind.Next_Measure_Date))
 				When 'H' Then 
 				  Case 
-					  When EXTRACT(month FROM add_months(Ind.Next_Measure_Date,6)) &lt; 7 Then to_char(EXTRACT(year FROM add_months(Ind.Next_Measure_Date,6)))||'-1' 
-					  Else to_char(EXTRACT(year FROM add_months(Ind.Next_Measure_Date,6)))||'-2' 
+					  When DATEPART(month, DATEADD(month,6,Ind.Next_Measure_Date)) > 6 Then DATENAME(year,DATEADD(month,6,Ind.Next_Measure_Date))+'-2' 
+					  Else DATENAME(year,DATEADD(month,6,Ind.Next_Measure_Date))+'-1' 
 				  End
-				When 'Y' Then to_char(add_months(Ind.Next_Measure_Date,12),'YYYY')
+				When 'Y' DATENAME(year,DATEADD(year,1,Ind.Next_Measure_Date))
 				Else ' '
-			End Update_Measure_Name
-		</core:set>
+			End Update_Measure_Name"/>
+	<core:if test="${dbVendor=='oracle'}">
+		<core:set var="sqlStatement" escapeText="false" value="to_char(Ind.Next_Measure_Date,'YYYY-MM-DD'), 
+				Case Ind.Strat_Meas_Per
+					When 'W' Then to_char(Ind.Next_Measure_Date+7,'YYYY-MM-DD')
+					When 'BW' Then to_char(Ind.Next_Measure_Date+14,'YYYY-MM-DD')
+					When 'M' Then to_char(add_months(Ind.Next_Measure_Date,1),'YYYY-MM-DD')
+					When 'BM' Then to_char(add_months(Ind.Next_Measure_Date,2),'YYYY-MM-DD')
+					When 'Q' Then to_char(add_months(Ind.Next_Measure_Date,3),'YYYY-MM-DD')
+					When 'H' Then to_char(add_months(Ind.Next_Measure_Date,6),'YYYY-MM-DD')
+					When 'Y' Then to_char(add_months(Ind.Next_Measure_Date,12),'YYYY-MM-DD')
+				End Update_Measure_Date,
+				Case Ind.Strat_Meas_Per
+					When 'W' Then to_char(Ind.Next_Measure_Date+7,'YYYY-MM-DD')
+					When 'BW' Then to_char(Ind.Next_Measure_Date+14,'YYYY-MM-DD')
+					When 'M' Then to_char(add_months(Ind.Next_Measure_Date,1),'YYYY-Mon')
+					When 'BM' Then to_char(add_months(Ind.Next_Measure_Date,2),'YYYY-Mon')
+					When 'Q' Then to_char(add_months(Ind.Next_Measure_Date,3),'YYYY-Q')
+					When 'H' Then 
+					  Case 
+						  When EXTRACT(month FROM add_months(Ind.Next_Measure_Date,6)) > 6 Then to_char(EXTRACT(year FROM add_months(Ind.Next_Measure_Date,6)))||'-2' 
+						  Else to_char(EXTRACT(year FROM add_months(Ind.Next_Measure_Date,6)))||'-1' 
+					  End
+					When 'Y' Then to_char(add_months(Ind.Next_Measure_Date,12),'YYYY')
+					Else ' '
+				End Update_Measure_Name"/>
+		<gel:out>FALSE: ${sqlStatement}</gel:out>
 	</core:if>
 
 	
     <sql:query escapeText="false" var="vIndicatorUpdateNextDate">
-		select Ind.Name, Ind.code, Ind.id, Ind.STrat_Meas_Per,
-		${sqlSTatement} 
-		from ODF_CA_STRAT_KPI Ind
-			INNER JOIN ODF_CA_STRAT_KPI_MEASURE SKM	
+		<![CDATA[
+		select Ind.Name, Ind.code, Ind.id, Ind.Strat_Meas_Per,
+		${sqlStatement} 
+		from ODF_CA_Strat_KPI Ind
+			INNER JOIN ODF_CA_Strat_KPI_MEASURE SKM	
 				ON  SKM.ODF_PARENT_ID = Ind.ID
 				AND SKM.MEASUREMENT_DATE = (SELECT MAX(SKM2.MEASUREMENT_DATE) 
-                                    FROM ODF_CA_STRAT_KPI_MEASURE SKM2
+                                    FROM ODF_CA_Strat_KPI_MEASURE SKM2
                                     WHERE SKM2.ODF_PARENT_ID = Ind.ID
-                                    AND SKM2.MEASUREMENT_DATE &lt;= ${currentdateFunction})
-		where Ind.Next_measure_date &lt; ${currentdateFunction}
+                                    AND ${dbOwner}.CMN_CURRENTDATE_FCT() >= SKM2.MEASUREMENT_DATE)
+		where ${dbOwner}.CMN_CURRENTDATE_FCT() > Ind.Next_measure_date
+		]]>
 	</sql:query>
     <core:forEach items="${vIndicatorUpdateNextDate.rowsByIndex}" var="row">
 		<core:set var="vFoundNextDate" value="1"/>
@@ -119,33 +119,33 @@
         <core:set var="vInd_Next_Date">${row[4]}</core:set>
         <core:set var="vInd_Updt_Date">${row[5]}</core:set>
         <core:set var="vInd_Updt_Name">${row[6]}</core:set>
-		<core:if teST="${DebugLevel &gt; 0}">
+		<core:if test="${DebugLevel &gt; 0}">
 			<gel:log level="debug" message="Updating Next Date: ${vInd_Name}-${vInd_Code}-${vInd_Intl}. Period=${vInd_MPer} NextDate=${vInd_Next_Date}. Will update Next_Measure_Date to ${vInd_Updt_Date} and create empty Measurement ${vInd_Updt_Name}."/>
 		</core:if>
-		<gel:parse var="v_xml_indicator_inSTance">
-			<inSTance inSTanceCode="${vInd_Code}" objectCode="STrat_kpi">
-				<CuSTomInformation>
+		<gel:parse var="v_xml_indicator_instance">
+			<instance instanceCode="${vInd_Code}" objectCode="strat_kpi">
+				<CustomInformation>
 					<ColumnValue name="Next_Measure_Date">${vInd_Updt_Date}</ColumnValue>
-					<ColumnValue name="LaST_Measure_STatus">0</ColumnValue>
-					<inSTance inSTanceCode="${vInd_Code}-${vInd_Updt_Name}" objectCode="STrat_kpi_measure" parentInSTanceCode="${vInd_Code}" parentObjectCode="STrat_kpi">
-						<CuSTomInformation>
+					<ColumnValue name="Last_Measure_Status">0</ColumnValue>
+					<instance instanceCode="${vInd_Code}-${vInd_Updt_Name}" objectCode="strat_kpi_measure" parentInstanceCode="${vInd_Code}" parentObjectCode="strat_kpi">
+						<CustomInformation>
 							<ColumnValue name="name">${vInd_Updt_Name}</ColumnValue>
 							<ColumnValue name="code">${vInd_Code}-${vInd_Updt_Name}</ColumnValue>
 							<ColumnValue name="measurement_date">${vInd_Updt_Date}</ColumnValue>
 							<ColumnValue name="measurement_value"/>
-							<ColumnValue name="itemSTatus">0</ColumnValue>
-							<ColumnValue name="kpi_STatus"/>
-						</CuSTomInformation>
-					</inSTance>
-				</CuSTomInformation>
-			</inSTance>
+							<ColumnValue name="itemStatus">0</ColumnValue>
+							<ColumnValue name="kpi_Status"/>
+						</CustomInformation>
+					</instance>
+				</CustomInformation>
+			</instance>
 		</gel:parse>
-		<gel:set insert="true" select="$v_xml_indicators/NikuDataBus/cuSTomObjectInSTances" value="${v_xml_indicator_inSTance}"/>
+		<gel:set insert="true" select="$v_xml_indicators/NikuDataBus/customObjectInstances" value="${v_xml_indicator_instance}"/>
 	</core:forEach>
 
 	<!-- If Dates to Update were found, run XOG to update -->
-	<core:if teST="${vFoundNextDate == 1}">
-		<core:if teST="${DebugLevel &gt; 1}">
+	<core:if test="${vFoundNextDate == 1}">
+		<core:if test="${DebugLevel &gt; 1}">
 			<gel:serialize var="${v_xml_indicators}" fileName="${XOGwebFolder}/XOGWrite_IndDateUpdate.xml"/>
 			<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_IndDateUpdate.xml"/> 
 		</core:if>
@@ -169,23 +169,23 @@
 		</core:catch>
 	
 		<core:choose>
-			<core:when teST="${v_xog_exception != null}">
+			<core:when test="${v_xog_exception != null}">
 				<gel:log category="XOG" level="ERROR">XOG operation failed: ${v_xog_exception}</gel:log>
 			</core:when>
 			<core:otherwise>
 				<gel:set select="$runresult0/soapenv:Envelope/soapenv:Body/XOGOutput" var="writeOutputRoot0"/>
-				<gel:set asSTring="true" select="$writeOutputRoot0/STatus/@STate" var="XOGoutcome"/>
-				<gel:set asSTring="true" select="$writeOutputRoot0/Records/Record" var="XOGoutputrecords"/>
-				<gel:set asSTring="true" select="$writeOutputRoot0/STatiSTics/@totalNumberOfRecords" var="XOGtotalrecords"/>
-				<gel:set asSTring="true" select="$writeOutputRoot0/STatiSTics/@insertedRecords" var="XOGinsertedrecords"/>
-				<gel:set asSTring="true" select="$writeOutputRoot0/STatiSTics/@updatedRecords" var="XOGupdatedrecords"/>
-				<gel:set asSTring="true" select="$writeOutputRoot0/STatiSTics/@failureRecords" var="XOGfailurerecords"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Status/@state" var="XOGoutcome"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Records/Record" var="XOGoutputrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Statistics/@totalNumberOfRecords" var="XOGtotalrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Statistics/@insertedRecords" var="XOGinsertedrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Statistics/@updatedRecords" var="XOGupdatedrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Statistics/@failureRecords" var="XOGfailurerecords"/>
 				<!-- Check the XOG result -->
-				<gel:log category="XOG" level="INFO">Document import for KPI Targets STatus:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
+				<gel:log category="XOG" level="INFO">Document import for KPI Targets Status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
 			</core:otherwise>
 		</core:choose>
 		
-		<core:if teST="${DebugLevel &gt; 1}">
+		<core:if test="${DebugLevel &gt; 1}">
 			<gel:serialize var="${runresult0}" fileName="${XOGwebFolder}/XOGResults_IndDateUpdate.xml"/>
 			<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_IndDateUpdate.xml"/> 
 		</core:if>
@@ -194,9 +194,9 @@
 
     <!-- Missing Measurement Control -->
 	<gel:parse var="v_xml_indicators2">
-		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_cuSTomObjectInSTance.xsd">
-			<Header action="write" externalSource="NIKU" objectType="cuSTomObjectInSTance" version="13.0.0.6982"/>
-			<cuSTomObjectInSTances objectCode="STrat_kpi"/>
+		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
+			<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="13.0.0.6982"/>
+			<customObjectInstances objectCode="strat_kpi"/>
 		</NikuDataBus>
 	</gel:parse>
 	
@@ -205,15 +205,15 @@
 
 	<!-- SQL Server Compatibility -->
 	<core:set var="nextMeasureDate" value="SUBSTRING(CONVERT(NVARCHAR(30),Ind.Next_Measure_Date, 20),1,10)"/>
-	<core:if teST="${dbVendor=='oracle'}">
+	<core:if test="${dbVendor=='oracle'}">
 		<core:set var="nextMeasureDate" value="to_char(Ind.Next_Measure_Date,'YYYY-MM-DD')"/>
 	</core:if>
 	
     <sql:query escapeText="false" var="vIndicatorPendingMeasures">
-		select IndM.Name, IndM.code, IndM.id, IndM.measurement_date, Ind.Code, Ind.STrat_Meas_Per, ${nextMeasureDate}
-		from ODF_CA_STRAT_KPI_MEASURE IndM
-			Inner Join ODF_CA_STRAT_KPI Ind on Ind.ID = IndM.ODF_PARENT_ID
-		where IndM.measurement_date &lt; ${currentdateFunction} and IndM.measurement_value is null
+		select IndM.Name, IndM.code, IndM.id, IndM.measurement_date, Ind.Code, Ind.Strat_Meas_Per, ${nextMeasureDate}
+		from ODF_CA_Strat_KPI_MEASURE IndM
+			Inner Join ODF_CA_Strat_KPI Ind on Ind.ID = IndM.ODF_PARENT_ID
+		where ${dbOwner}.CMN_CURRENTDATE_FCT() &gt; IndM.measurement_date and IndM.measurement_value is null
 	</sql:query>
     <core:forEach items="${vIndicatorPendingMeasures.rowsByIndex}" var="row">
 		<core:set var="vFoundPendingMeasure" value="1"/>
@@ -224,31 +224,31 @@
         <core:set var="vInd_Code">${row[4]}</core:set>
         <core:set var="vInd_MPer">${row[5]}</core:set>
         <core:set var="vInd_Next_Date">${row[6]}</core:set>
-		<core:if teST="${DebugLevel &gt; 0}">
-			<gel:log level="debug" message="Indicator Pending Measurement: ${vMeas_Name}-${vMeas_Code}-${vMeas_Intl} for ${vInd_Code}. Period=${vInd_MPer} NextDate=${vInd_Next_Date}. Will update LaST Measure STatus to Missing."/>
+		<core:if test="${DebugLevel &gt; 0}">
+			<gel:log level="debug" message="Indicator Pending Measurement: ${vMeas_Name}-${vMeas_Code}-${vMeas_Intl} for ${vInd_Code}. Period=${vInd_MPer} NextDate=${vInd_Next_Date}. Will update Last Measure Status to Missing."/>
 		</core:if>
 		
-		<gel:parse var="v_xml_indicator_inSTance2">
-			<inSTance inSTanceCode="${vInd_Code}" objectCode="STrat_kpi">
-				<CuSTomInformation>
-					<ColumnValue name="LaST_Measure_STatus">-1</ColumnValue>
-					<inSTance inSTanceCode="${vMeas_Code}" objectCode="STrat_kpi_measure" parentInSTanceCode="${vInd_Code}" parentObjectCode="STrat_kpi">
-						<CuSTomInformation>
+		<gel:parse var="v_xml_indicator_instance2">
+			<instance instanceCode="${vInd_Code}" objectCode="strat_kpi">
+				<CustomInformation>
+					<ColumnValue name="Last_Measure_Status">-1</ColumnValue>
+					<instance instanceCode="${vMeas_Code}" objectCode="strat_kpi_measure" parentInstanceCode="${vInd_Code}" parentObjectCode="strat_kpi">
+						<CustomInformation>
 							<ColumnValue name="name">${vMeas_Name}</ColumnValue>
 							<ColumnValue name="code">${vMeas_Code}</ColumnValue>
-							<ColumnValue name="itemSTatus">-1</ColumnValue>
-							<ColumnValue name="kpi_STatus">0</ColumnValue>
-						</CuSTomInformation>
-					</inSTance>
-				</CuSTomInformation>
-			</inSTance>
+							<ColumnValue name="itemStatus">-1</ColumnValue>
+							<ColumnValue name="kpi_Status">0</ColumnValue>
+						</CustomInformation>
+					</instance>
+				</CustomInformation>
+			</instance>
 		</gel:parse>
-		<gel:set insert="true" select="$v_xml_indicators2/NikuDataBus/cuSTomObjectInSTances" value="${v_xml_indicator_inSTance2}"/>
+		<gel:set insert="true" select="$v_xml_indicators2/NikuDataBus/customObjectInstances" value="${v_xml_indicator_instance2}"/>
 	</core:forEach>
 
 	<!-- If Pending Measurements were found, run XOG to update -->
-	<core:if teST="${vFoundPendingMeasure == 1}">
-		<core:if teST="${DebugLevel &gt; 1}">
+	<core:if test="${vFoundPendingMeasure == 1}">
+		<core:if test="${DebugLevel &gt; 1}">
 			<gel:serialize var="${v_xml_indicators2}" fileName="${XOGwebFolder}/XOGWrite_IndUpdateMeasureDate.xml"/>
 			<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_IndUpdateMeasureDate.xml"/> 
 		</core:if>
@@ -272,23 +272,23 @@
 		</core:catch>
 	
 		<core:choose>
-			<core:when teST="${v_xog_exception != null}">
+			<core:when test="${v_xog_exception != null}">
 				<gel:log category="XOG" level="ERROR">XOG operation failed: ${v_xog_exception}</gel:log>
 			</core:when>
 			<core:otherwise>
 				<gel:set select="$runresult01/soapenv:Envelope/soapenv:Body/XOGOutput" var="writeOutputRoot0"/>
-				<gel:set asSTring="true" select="$writeOutputRoot0/STatus/@STate" var="XOGoutcome"/>
-				<gel:set asSTring="true" select="$writeOutputRoot0/Records/Record" var="XOGoutputrecords"/>
-				<gel:set asSTring="true" select="$writeOutputRoot0/STatiSTics/@totalNumberOfRecords" var="XOGtotalrecords"/>
-				<gel:set asSTring="true" select="$writeOutputRoot0/STatiSTics/@insertedRecords" var="XOGinsertedrecords"/>
-				<gel:set asSTring="true" select="$writeOutputRoot0/STatiSTics/@updatedRecords" var="XOGupdatedrecords"/>
-				<gel:set asSTring="true" select="$writeOutputRoot0/STatiSTics/@failureRecords" var="XOGfailurerecords"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Status/@state" var="XOGoutcome"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Records/Record" var="XOGoutputrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Statistics/@totalNumberOfRecords" var="XOGtotalrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Statistics/@insertedRecords" var="XOGinsertedrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Statistics/@updatedRecords" var="XOGupdatedrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot0/Statistics/@failureRecords" var="XOGfailurerecords"/>
 				<!-- Check the XOG result -->
-				<gel:log category="XOG" level="INFO">Document import for KPI Targets STatus:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
+				<gel:log category="XOG" level="INFO">Document import for KPI Targets Status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
 			</core:otherwise>
 		</core:choose>
 		
-		<core:if teST="${DebugLevel &gt; 1}">
+		<core:if test="${DebugLevel &gt; 1}">
 			<gel:serialize var="${runresult01}" fileName="${XOGwebFolder}/XOGResults_IndUpdateMeasureDate.xml"/>
 			<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_IndUpdateMeasureDate.xml"/> 
 		</core:if>

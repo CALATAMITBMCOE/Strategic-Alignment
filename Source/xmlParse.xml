@@ -10,13 +10,13 @@
     xmlns:util="jelly:util"  
     xmlns:xog="http://www.niku.com/xog"  
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"  
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance">  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">  
   
-    <gel:out message="STart Xml File Parse TeST" />  
+    <gel:out message="Start Xml File Parse Test" />  
   
-    <!-- jelly/gel have troubles with namespaces (or at leaST I haven't figure out how to get them to behave with namespaces) so let remove them -->  
+    <!-- jelly/gel have troubles with namespaces (or at least I haven't figure out how to get them to behave with namespaces) so let remove them -->  
     <x:parse var="RemoveNameSpace"> <!-- this is our xslt to remove the namespaces -->  
-        <xsl:STylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">  
+        <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">  
             <xsl:output indent="yes" method="xml" encoding="utf-8" omit-xml-declaration="yes"/>  
             <xsl:template match="*">  
                 <xsl:element name="{local-name()}">  
@@ -28,10 +28,10 @@
                     <xsl:value-of select="."/>  
                 </xsl:attribute>  
             </xsl:template>  
-            <xsl:template match="comment() | text() | processing-inSTruction()">  
+            <xsl:template match="comment() | text() | processing-instruction()">  
                 <xsl:copy/>  
             </xsl:template>  
-        </xsl:STylesheet>  
+        </xsl:stylesheet>  
     </x:parse>  
   
     <!-- Jelly  parses into a dom4j document / appy transformation to remove namespaces-->  
@@ -48,10 +48,10 @@
   
     <!-- Use gel:set to get a specific node via select -->  
 	<gel:forEach select="$gelXmlData/schema/itemGroups/itemGroup" var="vItemGroup">
-		<gel:set var="id" select="$vItemGroup/@id" asSTring="true"/>  
+		<gel:set var="id" select="$vItemGroup/@id" asString="true"/>  
 		<gel:out message="ID = ${id}"/>
 	</gel:forEach>
  
   
-    <gel:out message="Finish Xml File Parse TeST" />  
+    <gel:out message="Finish Xml File Parse Test" />  
 </gel:script>

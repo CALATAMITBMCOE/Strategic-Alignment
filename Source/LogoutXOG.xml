@@ -7,32 +7,32 @@
     xmlns:sql="jelly:sql"
     xmlns:xog="http://www.niku.com/xog"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:file="jelly:com.niku.union.gel.FileTagLibrary"
     xmlns:util="jelly:util"
     xmlns:q="http://www.niku.com/xog/Query">
 
    	<!--============================================================-->
-	<!-- Package: STrategic Alignment 5.1 							-->
-	<!-- Process: STrategic Indicator Calculation 					-->
-	<!-- 		  STrategic Alignment Metric Initialize				-->
-	<!-- 		  STrategic Portfolio Creation 						-->
-	<!-- 		  STrategic Item STatus Initialize 					-->
-	<!--		  STrategic Fund Allocation Initialization			-->
-	<!--		  STrategic Allocation Percentage					-->
-	<!-- 		  STrategic Top Down Planning Calculation			-->
-	<!-- 		  STrategic Rollup Allocated and Commited Funding	-->
-	<!-- 		  STrategic Item - Build Tree Flat					-->
-	<!-- 		  STrategic Item - Rebuild Tree Flat				-->
-	<!-- 		  STrategic Item - STrategic Item Lock Snapshot		-->
-	<!-- 		  STrategic Item - STrategic Plan Copy				-->
-	<!-- 		  STrategic Item - STrategic Plan Snapshot			-->
-	<!-- 		  STrategic Plan Activate							-->
-	<!-- STep	: Finish											-->
+	<!-- Package: Strategic Alignment 5.1 							-->
+	<!-- Process: Strategic Indicator Calculation 					-->
+	<!-- 		  Strategic Alignment Metric Initialize				-->
+	<!-- 		  Strategic Portfolio Creation 						-->
+	<!-- 		  Strategic Item Status Initialize 					-->
+	<!--		  Strategic Fund Allocation Initialization			-->
+	<!--		  Strategic Allocation Percentage					-->
+	<!-- 		  Strategic Top Down Planning Calculation			-->
+	<!-- 		  Strategic Rollup Allocated and Commited Funding	-->
+	<!-- 		  Strategic Item - Build Tree Flat					-->
+	<!-- 		  Strategic Item - Rebuild Tree Flat				-->
+	<!-- 		  Strategic Item - Strategic Item Lock Snapshot		-->
+	<!-- 		  Strategic Item - Strategic Plan Copy				-->
+	<!-- 		  Strategic Item - Strategic Plan Snapshot			-->
+	<!-- 		  Strategic Plan Activate							-->
+	<!-- Step	: Finish											-->
 	<!-- Action	: Logout XOG (or) Logout from XOG (or) Logout		-->
 	<!--															-->
-	<!-- Process: STrategy Control									-->
-	<!-- STep	: Close Evaluation									-->
+	<!-- Process: Strategy Control									-->
+	<!-- Step	: Close Evaluation									-->
 	<!-- Action	: Logout 											-->
    	<!--============================================================-->
 	<!-- Logout from XOG							 				-->
@@ -40,11 +40,11 @@
 
 	<core:set var="vFound">0</core:set>
 
-	<core:if teST="${DebugLevel &gt; 0}">
-		<gel:log level="debug" message="STart Script"/>
-		<gel:log level="debug" message=">>PersiSTed XOG URL  : ${XOGURL}"/>
-		<gel:log level="debug" message=">>PersiSTed SessionID: ${sessionID}"/>
-		<gel:log level="debug" message=">>PersiSTed DebugLevel: ${DebugLevel}"/>
+	<core:if test="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="Start Script"/>
+		<gel:log level="debug" message=">>Persisted XOG URL  : ${XOGURL}"/>
+		<gel:log level="debug" message=">>Persisted SessionID: ${sessionID}"/>
+		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/>
 	</core:if>
 
     <gel:setDataSource dbId="Niku"/>

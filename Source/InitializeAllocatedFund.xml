@@ -5,40 +5,40 @@
     xmlns:soap="jelly:com.niku.union.gel.SOAPTagLibrary"
     xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
     xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance">
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	
    	<!--============================================================-->
-	<!-- Package: STrategic Alignment 5.0 							-->
-	<!-- Process: STrategic Fund Allocation Initialization			-->
-	<!-- STep	: Initialize Allocated Fund							-->
+	<!-- Package: Strategic Alignment 5.0 							-->
+	<!-- Process: Strategic Fund Allocation Initialization			-->
+	<!-- Step	: Initialize Allocated Fund							-->
 	<!-- Action	: Initialize Allocated Fund							-->
    	<!--============================================================-->
-	<!-- Object : STrategic Item (STrategic_item)					-->
+	<!-- Object : Strategic Item (strategic_item)					-->
    	<!--============================================================-->
 	<!-- Copy Top Down Funding values to Allocated Funding for 		-->
 	<!-- Lower Level Items and Resets Allocated Funding for Parent	-->
 	<!-- Items to zero. 											-->
    	<!--============================================================-->
 	
-    <core:set value="${gel_objectInSTanceId}" var="vItem_Intl"/>
+    <core:set value="${gel_objectInstanceId}" var="vItem_Intl"/>
 	
-	<core:if teST="${DebugLevel &gt; 0}">
-		<gel:log level="debug" message="STart Script"/>
+	<core:if test="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="Start Script"/>
 		<gel:log level="debug" message=">>Item ID             : ${vItem_Intl}"/> 
-		<gel:log level="debug" message=">>PersiSTed XOG URL   : ${XOGURL}"/> 
-		<gel:log level="debug" message=">>PersiSTed LOG Folder: ${XOGlogFolder}"/> 
-		<gel:log level="debug" message=">>PersiSTed WEB Folder: ${XOGwebFolder}"/> 
-		<gel:log level="debug" message=">>PersiSTed SessionID : ${sessionID}"/> 
-		<gel:log level="debug" message=">>PersiSTed DebugLevel: ${DebugLevel}"/> 
+		<gel:log level="debug" message=">>Persisted XOG URL   : ${XOGURL}"/> 
+		<gel:log level="debug" message=">>Persisted LOG Folder: ${XOGlogFolder}"/> 
+		<gel:log level="debug" message=">>Persisted WEB Folder: ${XOGwebFolder}"/> 
+		<gel:log level="debug" message=">>Persisted SessionID : ${sessionID}"/> 
+		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/> 
 	</core:if>
 
     <gel:setDataSource dbId="niku"/>
 	
     <!-- Preparing XML Message -->    	
     <gel:parse var="v_xml_root">
-		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_cuSTomObjectInSTance.xsd">
-			<Header action="write" externalSource="NIKU" objectType="cuSTomObjectInSTance" version="13.0.0.6982"/>
-				<cuSTomObjectInSTances objectCode="STrategic_item"/>
+		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
+			<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="13.0.0.6982"/>
+				<customObjectInstances objectCode="strategic_item"/>
 		</NikuDataBus>
 	</gel:parse>
 
@@ -53,7 +53,7 @@
         <core:set var="vParent_Intl">${row[0]}</core:set>
         <core:set var="vParent_Code">${row[1]}</core:set>
         <core:set var="vParent_Name">${row[2]}</core:set>
-        <core:if teST="${DebugLevel &gt; 0}">
+        <core:if test="${DebugLevel &gt; 0}">
             <gel:log level="debug" message="Parent Item: ${vParent_Intl}-${vParent_Code}-${vParent_Name}."/>
         </core:if>
     
@@ -61,11 +61,11 @@
     	
 		<!-- Reading All Lower Level Children from the current Item to Copy Funds, Benefits and FTE Allocation-->
 		<sql:query escapeText="false" var="vChildren">
-			select SI.ID, SI.CODE, SI.NAME, SI.STRAT_TOP_DOWN_FUND, SI.STRAT_TD_BENEFIT, SI.STRAT_TD_FTE
+			select SI.ID, SI.CODE, SI.NAME, SI.Strat_TOP_DOWN_FUND, SI.Strat_TD_BENEFIT, SI.Strat_TD_FTE
 			FROM ODF_CA_STRATEGIC_ITEM SI
-				INNER JOIN ODF_CA_STRAT_TREE_FLAT TF ON TF.CHILD_ITEM = SI.ID
+				INNER JOIN ODF_CA_Strat_TREE_FLAT TF ON TF.CHILD_ITEM = SI.ID
 			where TF.PARENT_ITEM = ${vParent_Intl}
-			AND not exiSTs (select 'x' from ODF_CA_STRATEGIC_ITEM c where c.parentitem = SI.ID )
+			AND not exists (select 'x' from ODF_CA_STRATEGIC_ITEM c where c.parentitem = SI.ID )
 		</sql:query>
 		<core:forEach items="${vChildren.rowsByIndex}" var="row">
 			<core:set var="vChild_Intl">${row[0]}</core:set>
@@ -75,56 +75,56 @@
 			<core:set var="vChild_Benf">${row[4]}</core:set>
 			<core:set var="vChild_FTEs">${row[5]}</core:set>
 	    	<core:set var="vFoundItems" value="1"/>
-			<core:if teST="${DebugLevel &gt; 0}">
+			<core:if test="${DebugLevel &gt; 0}">
 				<gel:log level="debug" message="-- Lower Level Child Item Found: ${vChild_Intl}-${vChild_Code}-${vChild_Name}."/>
 			</core:if>
 		
-			<gel:parse var="vItemInSTance">
-				<inSTance inSTanceCode="${vChild_Code}" objectCode="STrategic_item">
-					<CuSTomInformation>
-						<ColumnValue name="STrat_alloc_funding">${vChild_Fund}</ColumnValue>
-						<ColumnValue name="STrat_alloc_benefit">${vChild_Benf}</ColumnValue>
-						<ColumnValue name="STrat_alloc_fte">${vChild_FTEs}</ColumnValue>
-					</CuSTomInformation>
-				</inSTance>
+			<gel:parse var="vItemInstance">
+				<instance instanceCode="${vChild_Code}" objectCode="strategic_item">
+					<CustomInformation>
+						<ColumnValue name="strat_alloc_funding">${vChild_Fund}</ColumnValue>
+						<ColumnValue name="strat_alloc_benefit">${vChild_Benf}</ColumnValue>
+						<ColumnValue name="strat_alloc_fte">${vChild_FTEs}</ColumnValue>
+					</CustomInformation>
+				</instance>
 			</gel:parse>
-			<!-- Adding the new Item InSTance to the Root Document -->
-			<gel:set insert="true" select="$v_xml_root/NikuDataBus/cuSTomObjectInSTances" value="${vItemInSTance}"/>
+			<!-- Adding the new Item Instance to the Root Document -->
+			<gel:set insert="true" select="$v_xml_root/NikuDataBus/customObjectInstances" value="${vItemInstance}"/>
 		</core:forEach>
 
 		<!-- Reading All Intermediate Children from the current Item to ZERO Funds, Benefits and FTE Allocation-->
 		<sql:query escapeText="false" var="vChildren">
 			select SI.ID, SI.CODE, SI.NAME
 			FROM ODF_CA_STRATEGIC_ITEM SI
-				INNER JOIN ODF_CA_STRAT_TREE_FLAT TF ON TF.CHILD_ITEM = SI.ID
+				INNER JOIN ODF_CA_Strat_TREE_FLAT TF ON TF.CHILD_ITEM = SI.ID
 			where TF.PARENT_ITEM = ${vParent_Intl}
-			AND exiSTs (select 'x' from ODF_CA_STRATEGIC_ITEM c where c.parentitem = SI.ID )
+			AND exists (select 'x' from ODF_CA_STRATEGIC_ITEM c where c.parentitem = SI.ID )
 		</sql:query>
 		<core:forEach items="${vChildren.rowsByIndex}" var="row">
 			<core:set var="vChild_Intl">${row[0]}</core:set>
 			<core:set var="vChild_Code">${row[1]}</core:set>
 			<core:set var="vChild_Name">${row[2]}</core:set>
 	    	<core:set var="vFoundItems" value="1"/>
-			<core:if teST="${DebugLevel &gt; 0}">
+			<core:if test="${DebugLevel &gt; 0}">
 				<gel:log level="debug" message="-- Intermediate Child Item Found: ${vChild_Intl}-${vChild_Code}-${vChild_Name}."/>
 			</core:if>
 		
-			<gel:parse var="vItemInSTance">
-				<inSTance inSTanceCode="${vChild_Code}" objectCode="STrategic_item">
-					<CuSTomInformation>
-						<ColumnValue name="STrat_alloc_funding">0</ColumnValue>
-						<ColumnValue name="STrat_alloc_benefit">0</ColumnValue>
-						<ColumnValue name="STrat_alloc_fte">0</ColumnValue>
-					</CuSTomInformation>
-				</inSTance>
+			<gel:parse var="vItemInstance">
+				<instance instanceCode="${vChild_Code}" objectCode="strategic_item">
+					<CustomInformation>
+						<ColumnValue name="strat_alloc_funding">0</ColumnValue>
+						<ColumnValue name="strat_alloc_benefit">0</ColumnValue>
+						<ColumnValue name="strat_alloc_fte">0</ColumnValue>
+					</CustomInformation>
+				</instance>
 			</gel:parse>
-			<!-- Adding the new Item InSTance to the Root Document -->
-			<gel:set insert="true" select="$v_xml_root/NikuDataBus/cuSTomObjectInSTances" value="${vItemInSTance}"/>
+			<!-- Adding the new Item Instance to the Root Document -->
+			<gel:set insert="true" select="$v_xml_root/NikuDataBus/customObjectInstances" value="${vItemInstance}"/>
 		</core:forEach>
 	</core:forEach>
 		
-	<core:if teST="${vFoundItems == 1}">
-		<core:if teST="${DebugLevel &gt; 1}">
+	<core:if test="${vFoundItems == 1}">
+		<core:if test="${DebugLevel &gt; 1}">
 			<gel:serialize var="${v_xml_root}" fileName="${XOGwebFolder}/XOGWrite_InitAlloc_${vParent_Code}.xml"/>
 			<gel:log level="debug" message="XOG Write can be found at: ${XOGURL}/niku/XOGWrite_InitAlloc_${vParent_Code}.xml"/> 
 		</core:if>
@@ -147,23 +147,23 @@
 			</soap:invoke>
 		</core:catch>
 		<core:choose>
-			<core:when teST="${v_xog_exception != null}">
+			<core:when test="${v_xog_exception != null}">
 				<gel:log category="XOG" level="ERROR">XOG operation failed: ${v_xog_exception}</gel:log>
 			</core:when>
 			<core:otherwise>
 				<gel:set select="$runresult/soapenv:Envelope/soapenv:Body/XOGOutput" var="writeOutputRoot"/>
-				<gel:set asSTring="true" select="$writeOutputRoot/STatus/@STate" var="XOGoutcome"/>
-				<gel:set asSTring="true" select="$writeOutputRoot/Records/Record" var="XOGoutputrecords"/>
-				<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@totalNumberOfRecords" var="XOGtotalrecords"/>
-				<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@insertedRecords" var="XOGinsertedrecords"/>
-				<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@updatedRecords" var="XOGupdatedrecords"/>
-				<gel:set asSTring="true" select="$writeOutputRoot/STatiSTics/@failureRecords" var="XOGfailurerecords"/>
+				<gel:set asString="true" select="$writeOutputRoot/Status/@state" var="XOGoutcome"/>
+				<gel:set asString="true" select="$writeOutputRoot/Records/Record" var="XOGoutputrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot/Statistics/@totalNumberOfRecords" var="XOGtotalrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot/Statistics/@insertedRecords" var="XOGinsertedrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot/Statistics/@updatedRecords" var="XOGupdatedrecords"/>
+				<gel:set asString="true" select="$writeOutputRoot/Statistics/@failureRecords" var="XOGfailurerecords"/>
 				<!-- Check the XOG result -->
-				<gel:log category="XOG" level="INFO">[XOGDocument import for ${vParent_Code} STatus:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
+				<gel:log category="XOG" level="INFO">[XOGDocument import for ${vParent_Code} Status:${XOGoutcome} Total Objs: ${XOGtotalrecords}, Total inserted: ${XOGinsertedrecords}, Total updated: ${XOGupdatedrecords}, Total failed: ${XOGfailurerecords}</gel:log>
 			</core:otherwise>
 		</core:choose>
 
-		<core:if teST="${DebugLevel &gt; 1}">
+		<core:if test="${DebugLevel &gt; 1}">
 			<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGResults_InitAlloc_${vParent_Code}.xml"/>
 			<gel:log level="debug" message="XOG Results can be found at: ${XOGURL}/niku/XOGResults_InitAlloc_${vParent_Code}.xml"/> 
 		</core:if>

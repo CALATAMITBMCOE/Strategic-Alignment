@@ -5,54 +5,55 @@
     xmlns:soap="jelly:com.niku.union.gel.SOAPTagLibrary"
     xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
     xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance">
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
    	<!--============================================================-->
-	<!-- Package: STrategic Alignment 5.1 							-->
-	<!-- Process: Copy STrategic Plan           					-->
-	<!-- STep	: Copy STrategic Plan            					-->
-	<!-- Action	: Copy STrategic Plan								-->
+	<!-- Package: Strategic Alignment 5.1 							-->
+	<!-- Process: Copy Strategic Plan           					-->
+	<!-- Step	: Copy Strategic Plan            					-->
+	<!-- Action	: Copy Strategic Plan								-->
 	<!-- Process: Generate Plan Snapshot          					-->
-	<!-- STep	: Copy STrategic Plan            					-->
-	<!-- Action	: Copy STrategic Plan								-->
+	<!-- Step	: Copy Strategic Plan            					-->
+	<!-- Action	: Copy Strategic Plan								-->
    	<!--============================================================-->
-	<!-- Object : STrategic Item 									-->
+	<!-- Object : Strategic Item 									-->
    	<!--============================================================-->
-	<!-- Copy or Generate a Snapshot of the STrategic Plan			-->
+	<!-- Copy or Generate a Snapshot of the Strategic Plan			-->
 	<!-- Parameter pOperation == COPY for Copy Plan 				-->
 	<!-- Parameter pOperation == SNAPSHOT for Generate Snapshot 	-->
    	<!--============================================================-->
 	 
-	<core:if teST="${DebugLevel &gt; 0}">
-		<gel:log level="debug" message="STart Script"/>
-		<gel:log level="debug" message=">>PersiSTed XOG URL   : ${XOGURL}"/> 
-		<gel:log level="debug" message=">>PersiSTed LOG Folder: ${XOGlogFolder}"/> 
-		<gel:log level="debug" message=">>PersiSTed WEB Folder: ${XOGwebFolder}"/> 
-		<gel:log level="debug" message=">>PersiSTed SessionID : ${sessionID}"/> 
-		<gel:log level="debug" message=">>PersiSTed DebugLevel: ${DebugLevel}"/> 
-		<gel:log level="debug" message=">>PersiSTed dbVendor  : ${dbVendor}"/> 
-		<gel:log level="debug" message=">>Process InSTance	  : ${gel_processInSTanceId}"/>
+	<core:if test="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="Start Script"/>
+		<gel:log level="debug" message=">>Persisted XOG URL   : ${XOGURL}"/> 
+		<gel:log level="debug" message=">>Persisted LOG Folder: ${XOGlogFolder}"/> 
+		<gel:log level="debug" message=">>Persisted WEB Folder: ${XOGwebFolder}"/> 
+		<gel:log level="debug" message=">>Persisted SessionID : ${sessionID}"/> 
+		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/> 
+		<gel:log level="debug" message=">>Persisted dbVendor  : ${dbVendor}"/>
+		<gel:log level="debug" message=">>Persisted dbOwner   : ${dbOwner}"/> 
+		<gel:log level="debug" message=">>Process Instance	  : ${gel_processInstanceId}"/>
 	</core:if>
 	
     <gel:parameter default="COPY" var="pOperation"/>
-	<core:set var="vPlanSTatus" value="SNAPSHOT"/>
-	<core:if teST="${pOperation=='COPY'}">
-		<core:set var="vPlanSTatus" value="DRAFT"/>
+	<core:set var="vPlanStatus" value="SNAPSHOT"/>
+	<core:if test="${pOperation=='COPY'}">
+		<core:set var="vPlanStatus" value="DRAFT"/>
 	</core:if>
 
     <gel:setDataSource dbId="niku"/>
-	<core:set value="${gel_objectInSTanceId}" var="vItemID"/>
+	<core:set value="${gel_objectInstanceId}" var="vItemID"/>
 	
 	<gel:parse var="v_xml_new">
-		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_cuSTomObjectInSTance.xsd">
-		  <Header action="write" externalSource="NIKU" objectType="cuSTomObjectInSTance" version="14.4.0.234"/>
-		  <cuSTomObjectInSTances objectCode="STrategic_item"/>
+		<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
+		  <Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="14.4.0.234"/>
+		  <customObjectInstances objectCode="strategic_item"/>
 		</NikuDataBus>
 	</gel:parse>
 	
 	<sql:query escapeText="false" var="vItemtoCopy">
-		Select SI.NAME, SI.CODE, SI.STRAT_HIERARCHY, SIP.NAME, SIP.CODE, SIP.ID, SIP.LANGUAGE_CODE
-		FROM ODF_CA_STRATEGIC_ITEM SI inner join  ODF_CA_STRATEGIC_ITEM SIP on SIP.ID = SI.STRAT_HIERARCHY 
+		Select SI.NAME, SI.CODE, SI.Strat_HIERARCHY, SIP.NAME, SIP.CODE, SIP.ID, SIP.LANGUAGE_CODE
+		FROM ODF_CA_STRATEGIC_ITEM SI inner join  ODF_CA_STRATEGIC_ITEM SIP on SIP.ID = SI.Strat_HIERARCHY 
 		WHERE SI.ID = ${vItemID}
 	</sql:query>
     <core:forEach items="${vItemtoCopy.rowsByIndex}" var="row">
@@ -63,10 +64,10 @@
         <core:set var="vPlan_Code">${row[4]}</core:set>
         <core:set var="vPlan_Intl">${row[5]}</core:set>
         <core:set var="vPlan_Lang">${row[6]}</core:set>
-		<core:if teST="${DebugLevel &gt; 0}">
+		<core:if test="${DebugLevel &gt; 0}">
 			<gel:log level="debug" message="SI Found: ${vItem_Name}-${vItem_Code}. Plan is ${vPlan_Name}-${vPlan_Code}. Language is ${vPlan_Lang}."/> 
 		</core:if>
-		<core:if teST="${vPlan_Lang == ''}">
+		<core:if test="${vPlan_Lang == ''}">
 			<core:set var="vPlan_Lang">en</core:set>
 			<gel:log level="debug" message="-- Blank Language is set to English ${vPlan_Lang}."/> 
 		</core:if>
@@ -74,7 +75,7 @@
 	    <sql:query escapeText="false" var="vGetMaxLevel">
 			Select Max(ITEM_LEVEL) 
 			FROM ODF_CA_STRATEGIC_ITEM SI 
-			WHERE SI.STRAT_HIERARCHY = ${vPlan_Intl}
+			WHERE SI.Strat_HIERARCHY = ${vPlan_Intl}
 		</sql:query>
 		<core:forEach items="${vGetMaxLevel.rowsByIndex}" var="row">
 			<core:set var="vMaxLevel">${row[0]}</core:set>
@@ -82,64 +83,64 @@
 		</core:forEach>
 				
 		<!--SQL Server Compatibility-->
-		<core:set var="sqlSTatement">
+		<core:set var="sqlStatement">
 			select LKP.NAME, LKP2.NAME, SUBSTRING(CONVERT(nvarchar(30), getdate(), 20),1,10), SUBSTRING(CONVERT(nvarchar(30), getdate(), 20),12,5), 
 					74-LEN(LKP.NAME+LKP2.NAME+SUBSTRING(CONVERT(nvarchar(30), getdate(), 20),1,10)+SUBSTRING(CONVERT(nvarchar(30), getdate(), 20),12,5))
 			from cmn_lookups_v LKP
 			  INNER JOIN cmn_lookups_v LKP2 on LKP.lookup_type = lkp2.LOOKUP_TYPE and LKP2.LANGUAGE_CODE = LKP.LANGUAGE_CODE
 			where LKP.lookup_TYPE = 'STRAT_MAINT_STRINGS' and LKP.LANGUAGE_CODE = '${vPlan_Lang}' and LKP.LOOKUP_CODE = '${pOperation}' and LKP2.LOOKUP_CODE = 'ASOFDATE'
 		</core:set>
-		<core:if teST="${dbVendor=='oracle'}">
-			<core:set var="sqlSTatement">
-				select LKP.NAME, LKP2.NAME, TO_CHAR(${currentdateFunction}, 'YYYY-MM-DD'), TO_CHAR(${currentdateFunction}, 'HH24:MI'), 74-${lengthFunction}(LKP.NAME||LKP2.NAME||TO_CHAR(${currentdateFunction}, 'YYYY-MM-DD')||TO_CHAR(${currentdateFunction}, 'HH24:MI'))
+		<core:if test="${dbVendor=='oracle'}">
+			<core:set var="sqlStatement">
+				select LKP.NAME, LKP2.NAME, TO_CHAR(sysdate, 'YYYY-MM-DD'), TO_CHAR(sysdate, 'HH24:MI'), 74-${lengthFunction}(LKP.NAME||LKP2.NAME||TO_CHAR(sysdate, 'YYYY-MM-DD')||TO_CHAR(sysdate, 'HH24:MI'))
 				from cmn_lookups_v LKP
 				  INNER JOIN cmn_lookups_v LKP2 on LKP.lookup_type = lkp2.LOOKUP_TYPE and LKP2.LANGUAGE_CODE = LKP.LANGUAGE_CODE
 				where LKP.lookup_TYPE = 'STRAT_MAINT_STRINGS' and LKP.LANGUAGE_CODE = '${vPlan_Lang}' and LKP.LOOKUP_CODE = '${pOperation}' and LKP2.LOOKUP_CODE = 'ASOFDATE'
 			</core:set>
 		</core:if>
 		
-		<!-- Find STrings to name the new Plan -->
-	    <sql:query escapeText="false" var="vFindSTrings">
-			${sqlSTatement}
+		<!-- Find Strings to name the new Plan -->
+	    <sql:query escapeText="false" var="vFindStrings">
+			${sqlStatement}
 		</sql:query>
-		<core:forEach items="${vFindSTrings.rowsByIndex}" var="row">
-			<core:set var="vNameSTring">${row[0]}</core:set>
-			<core:set var="vAsOfDateSTring">${row[1]}</core:set>
-			<core:set var="vDateSTring">${row[2]}</core:set>
-			<core:set var="vTimeSTring">${row[3]}</core:set>
-			<core:set var="vSTringSize">${row[4]}</core:set>
-			<core:if teST="${DebugLevel &gt; 0}">
-				<gel:log level="debug" message="-- STrings Found: ${vNameSTring}-${vAsOfDateSTring}. Date/Time is ${vDateSTring}-${vTimeSTring}. STring Size is ${vSTringSize}."/> 
+		<core:forEach items="${vFindStrings.rowsByIndex}" var="row">
+			<core:set var="vNameString">${row[0]}</core:set>
+			<core:set var="vAsOfDateString">${row[1]}</core:set>
+			<core:set var="vDateString">${row[2]}</core:set>
+			<core:set var="vTimeString">${row[3]}</core:set>
+			<core:set var="vStringSize">${row[4]}</core:set>
+			<core:if test="${DebugLevel &gt; 0}">
+				<gel:log level="debug" message="-- Strings Found: ${vNameString}-${vAsOfDateString}. Date/Time is ${vDateString}-${vTimeString}. String Size is ${vStringSize}."/> 
 			</core:if>
 		</core:forEach>
 		
 		<!-- Find the New Code -->
 		<core:set var="vCopyNumber" value="1"/>
 		<core:set var="exitClause" value="0"/>
-		<core:while teST="${exitClause == 0}">
+		<core:while test="${exitClause == 0}">
 			<core:set var="exitClause" value="1"/>
-			<core:set var="sqlSTatement">
-				select count(*) from odf_ca_STrategic_item where code = '${vPlan_Code}-'+REPLICATE('0',6-LEN(RTRIM(${vCopyNumber})))+RTRIM(${vCopyNumber})
+			<core:set var="sqlStatement">
+				select count(*) from odf_ca_strategic_item where code = '${vPlan_Code}-'+REPLICATE('0',6-LEN(RTRIM(${vCopyNumber})))+RTRIM(${vCopyNumber})
 			</core:set>
-			<core:if teST="${dbVendor=='oracle'}">
-				<core:set var="sqlSTatement">
-					select count(*) from odf_ca_STrategic_item where code = '${vPlan_Code}-'||trim(to_char(${vCopyNumber},'09'))
+			<core:if test="${dbVendor=='oracle'}">
+				<core:set var="sqlStatement">
+					select count(*) from odf_ca_strategic_item where code = '${vPlan_Code}-'||trim(to_char(${vCopyNumber},'09'))
 				</core:set>
 			</core:if>
 			
 			<sql:query escapeText="false" var="vNewCode">
-				${sqlSTatement}
+				${sqlStatement}
 			</sql:query>
 			<core:forEach items="${vNewCode.rowsByIndex}" var="row">
 				<core:set var="vCount">${row[0]}</core:set>
-				<core:if teST="${vCount &gt; 0}">
+				<core:if test="${vCount &gt; 0}">
 					<core:set var="vCopyNumber">${vCopyNumber+1}</core:set>
 					<core:set var="exitClause" value="0"/>
 				</core:if>
 			</core:forEach>
 		</core:while>
 		<core:set var="vNewCode" value="${vCopyNumber}"/>
-		<core:if teST="${10 &gt; vCopyNumber}">
+		<core:if test="${10 &gt; vCopyNumber}">
 			<core:set var="vNewCode" value="0${vNewCode}"/>
 		</core:if>
 		<core:set var="vNewCode" value="-${vNewCode}"/>
@@ -147,18 +148,18 @@
 		
 		<!-- Read Plan level -->
 		<gel:parse var="v_xml_root">
-			<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_read.xsd">
-				<Header version="14.3" action="read" objectType="cuSTomObjectInSTance" externalSource="NIKU">
+			<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_read.xsd">
+				<Header version="14.3" action="read" objectType="customObjectInstance" externalSource="NIKU">
 					<args name="skip value" value="0"/>
 				</Header>
-				<CuSTomObjectInSTanceQuery>
-					<Filter name="objectCode" criteria="EQUALS">STrategic_item</Filter>
-					<Filter name="inSTanceCode" criteria="EQUALS">${vPlan_Code}</Filter>
-				</CuSTomObjectInSTanceQuery>
+				<CustomObjectInstanceQuery>
+					<Filter name="objectCode" criteria="EQUALS">strategic_item</Filter>
+					<Filter name="instanceCode" criteria="EQUALS">${vPlan_Code}</Filter>
+				</CustomObjectInstanceQuery>
 			</NikuDataBus>
 		</gel:parse>
 
-		<core:if teST="${DebugLevel &gt; 1}">
+		<core:if test="${DebugLevel &gt; 1}">
 			<gel:serialize var="${v_xml_root}" fileName="${XOGwebFolder}/XOGREAD_SI_${vPlan_Code}.xml"/>
 			<gel:log level="debug" message="XOG Read can be found at: ${XOGwebPath}/XOGREAD_SI_${vPlan_Code}.xml"/> 
 		</core:if>
@@ -181,114 +182,114 @@
 			</soap:invoke>
 		</core:catch>
 
-		<core:if teST="${v_xog_exception != null}">
+		<core:if test="${v_xog_exception != null}">
 			<gel:log level="warning" message="Caught Exception: ${v_xog_exception}."/>
 			<core:set var="exitClause" value="1"/>
 		</core:if>
   
-		<core:if teST="${v_xog_exception == null}">
-			<core:if teST="${DebugLevel &gt; 1}">
+		<core:if test="${v_xog_exception == null}">
+			<core:if test="${DebugLevel &gt; 1}">
 				<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGWRITE_SI_${vPlan_Code}.xml"/>
 				<gel:log level="debug" message="XOG Output can be found at: ${XOGwebPath}/XOGWRITE_SI_${vPlan_Code}.xml"/> 
 			</core:if>
 
-			<gel:set asSTring="true" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/STatus/@STate" var="XOGoutcome"/>
+			<gel:set asString="true" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/Status/@state" var="XOGoutcome"/>
 			<core:switch on="${XOGoutcome}">
 				<core:case value="SUCCESS">
-					<gel:set asSTring="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/STatiSTics/@totalNumberOfRecords" var="totalNumberOfRecords"/>
-					<core:if teST="${DebugLevel &gt; 0}">
-						<core:set var="vMessage" value="InSTances XOGed-out this requeST ${totalNumberOfRecords}"/>
+					<gel:set asString="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/Statistics/@totalNumberOfRecords" var="totalNumberOfRecords"/>
+					<core:if test="${DebugLevel &gt; 0}">
+						<core:set var="vMessage" value="Instances XOGed-out this request ${totalNumberOfRecords}"/>
 						<gel:log level="debug" message="${vMessage}"/>
 					</core:if>
 				</core:case>
 				<core:case value="FAILURE">
-					<gel:set asSTring="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/STatiSTics" var="STats"/>
-					<gel:set asSTring="false" select="$STats/@totalNumberOfRecords" var="totalNumberOfRecords"/>
-					<gel:set asSTring="false" select="$STats/@failureRecords" var="failureRecords"/>
-					<core:if teST="${DebugLevel &gt; 0}">
+					<gel:set asString="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/Statistics" var="Stats"/>
+					<gel:set asString="false" select="$Stats/@totalNumberOfRecords" var="totalNumberOfRecords"/>
+					<gel:set asString="false" select="$Stats/@failureRecords" var="failureRecords"/>
+					<core:if test="${DebugLevel &gt; 0}">
 						<core:set var="vMessage" value="XOG failed.  Out of ${totalNumberOfRecords} records, ${failureRecords} failed."/>
 						<gel:log level="debug" message="${vMessage}"/>
 					</core:if>
 				</core:case>
 			</core:switch>
 
-			<core:set var="InputSTring" value="${vPlan_Name}"/>
-			<core:invoke var="vItemNameSize" on="${InputSTring}" method="length"/>
-			<core:if teST="${vItemNameSize &gt; vSTringSize}">
-				<core:set var="vItemNameSize" value="${vSTringSize}"/>
+			<core:set var="InputString" value="${vPlan_Name}"/>
+			<core:invoke var="vItemNameSize" on="${InputString}" method="length"/>
+			<core:if test="${vItemNameSize &gt; vStringSize}">
+				<core:set var="vItemNameSize" value="${vStringSize}"/>
 			</core:if>
 
-			<core:invoke var="vPlanNameTruncated" on="${InputSTring}" method="subSTring">
+			<core:invoke var="vPlanNameTruncated" on="${InputString}" method="substring">
 				<core:arg type="int" value="0"/>
 				<core:arg type="int" value="${vItemNameSize}"/>
 			</core:invoke>
 			
-			<!-- Change InSTance Code, As Of Date, Original Plan, STatus, Name and remove Hierarchy -->
-			<gel:forEach select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/cuSTomObjectInSTances/inSTance" var="vInSTance">
-				<gel:set select="$vInSTance/@inSTanceCode" value="${vPlan_Code}${vNewCode}"/>
+			<!-- Change Instance Code, As Of Date, Original Plan, Status, Name and remove Hierarchy -->
+			<gel:forEach select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/customObjectInstances/instance" var="vInstance">
+				<gel:set select="$vInstance/@instanceCode" value="${vPlan_Code}${vNewCode}"/>
 			</gel:forEach>
-			<gel:forEach select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/cuSTomObjectInSTances/inSTance/CuSTomInformation/ColumnValue" var="vCuSTomInfo">
-				<gel:set var="vColumName" select="$vCuSTomInfo/@name" asSTring="true"/>
-				<core:if teST="${vColumName=='code'}">
-					<gel:set select="$vCuSTomInfo/text()" value="${vPlan_Code}${vNewCode}"/>
+			<gel:forEach select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/customObjectInstances/instance/CustomInformation/ColumnValue" var="vCustomInfo">
+				<gel:set var="vColumnName" select="$vCustomInfo/@name" asString="true"/>
+				<core:if test="${vColumnName=='code'}">
+					<gel:set select="$vCustomInfo/text()" value="${vPlan_Code}${vNewCode}"/>
 				</core:if>
-				<core:if teST="${vColumName=='name'}">
-					<gel:set select="$vCuSTomInfo/text()" value="${vNameSTring} [${vPlanNameTruncated}] ${vAsOfDateSTring} ${vDateSTring} ${vTimeSTring}"/>
+				<core:if test="${vColumnName=='name'}">
+					<gel:set select="$vCustomInfo/text()" value="${vNameString} [${vPlanNameTruncated}] ${vAsOfDateString} ${vDateString} ${vTimeString}"/>
 				</core:if>
-				<core:if teST="${vColumName=='STrat_plan_STatus'}">
-					<gel:set select="$vCuSTomInfo/text()" value="${vPlanSTatus}"/>
+				<core:if test="${vColumnName=='strat_plan_status'}">
+					<gel:set select="$vCustomInfo/text()" value="${vPlanStatus}"/>
 				</core:if>
 				<core:set var="vFoundAsOfDate" value="0"/>
-				<core:if teST="${vColumName=='plan_as_of_date'}">
+				<core:if test="${vColumnName=='plan_as_of_date'}">
 					<core:set var="vFoundAsOfDate" value="1"/>
-					<gel:set select="$vCuSTomInfo/text()" value="${vDateSTring}T${vTimeSTring}:00"/>
+					<gel:set select="$vCustomInfo/text()" value="${vDateString}T${vTimeString}:00"/>
 				</core:if>
 				<core:set var="vFoundPlanOrig" value="0"/>
-				<core:if teST="${vColumName=='STrat_orig_item'}">
+				<core:if test="${vColumnName=='strat_orig_item'}">
 					<core:set var="vFoundPlanOrig" value="1"/>
-					<gel:set select="$vCuSTomInfo/text()" value="${vPlan_Code}"/>
+					<gel:set select="$vCustomInfo/text()" value="${vPlan_Code}"/>
 				</core:if>
-				<core:if teST="${vColumName=='STrat_hierarchy'}">
-					<gel:set select="$vCuSTomInfo/text()" value=""/>
+				<core:if test="${vColumnName=='strat_hierarchy'}">
+					<gel:set select="$vCustomInfo/text()" value=""/>
 				</core:if>
-				<core:if teST="${pOperation=='COPY'}">
-					<core:if teST="${vColumName=='itemSTatus'}">
-						<gel:set select="$vCuSTomInfo/text()" value="0"/>
+				<core:if test="${pOperation=='COPY'}">
+					<core:if test="${vColumnName=='itemStatus'}">
+						<gel:set select="$vCustomInfo/text()" value="0"/>
 					</core:if>
-					<core:if teST="${vColumName=='item_STatus_direct'}">
-						<gel:set select="$vCuSTomInfo/text()" value="0"/>
+					<core:if test="${vColumnName=='item_Status_direct'}">
+						<gel:set select="$vCustomInfo/text()" value="0"/>
 					</core:if>
-					<core:if teST="${vColumName=='item_STatus_children'}">
-						<gel:set select="$vCuSTomInfo/text()" value="0"/>
+					<core:if test="${vColumnName=='item_Status_children'}">
+						<gel:set select="$vCustomInfo/text()" value="0"/>
 					</core:if>
-					<core:if teST="${vColumName=='kpi_STatus'}">
-						<gel:set select="$vCuSTomInfo/text()" value="0"/>
+					<core:if test="${vColumnName=='kpi_Status'}">
+						<gel:set select="$vCustomInfo/text()" value="0"/>
 					</core:if>
-					<core:if teST="${vColumName=='kpi_STatus_direct'}">
-						<gel:set select="$vCuSTomInfo/text()" value="0"/>
+					<core:if test="${vColumnName=='kpi_Status_direct'}">
+						<gel:set select="$vCustomInfo/text()" value="0"/>
 					</core:if>
-					<core:if teST="${vColumName=='kpi_STatus_children'}">
-						<gel:set select="$vCuSTomInfo/text()" value="0"/>
+					<core:if test="${vColumnName=='kpi_Status_children'}">
+						<gel:set select="$vCustomInfo/text()" value="0"/>
 					</core:if>
 				</core:if>
 			</gel:forEach>
 			<!-- If no As Of Date is found, insert one -->
-			<core:if teST="${vFoundAsOfDate == 0}">
+			<core:if test="${vFoundAsOfDate == 0}">
 				<gel:parse var="v_xml_planAsOfDate">
-					<ColumnValue name="plan_as_of_date">${vDateSTring}T${vTimeSTring}:00</ColumnValue>
+					<ColumnValue name="plan_as_of_date">${vDateString}T${vTimeString}:00</ColumnValue>
 				</gel:parse>
-				<gel:set insert="true" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/cuSTomObjectInSTances/inSTance/CuSTomInformation" value="${v_xml_planAsOfDate}"/>
+				<gel:set insert="true" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/customObjectInstances/instance/CustomInformation" value="${v_xml_planAsOfDate}"/>
 			</core:if>
 			<!-- If no Original Item is found, insert one -->
-			<core:if teST="${vFoundPlanOrig == 0}">
+			<core:if test="${vFoundPlanOrig == 0}">
 				<gel:parse var="v_xml_planOrig">
-					<ColumnValue name="STrat_orig_item">${vPlan_Code}</ColumnValue>
+					<ColumnValue name="strat_orig_item">${vPlan_Code}</ColumnValue>
 				</gel:parse>
-				<gel:set insert="true" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/cuSTomObjectInSTances/inSTance/CuSTomInformation" value="${v_xml_planOrig}"/>
+				<gel:set insert="true" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/customObjectInstances/instance/CustomInformation" value="${v_xml_planOrig}"/>
 			</core:if>
 			
 			<gel:set select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus" var="v_xml_new"/>			
-			<core:if teST="${DebugLevel &gt; 1}">
+			<core:if test="${DebugLevel &gt; 1}">
 				<gel:serialize var="${v_xml_new}" fileName="${XOGwebFolder}/XOGWRITE_NewSI_${vPlan_Code}${vNewCode}.xml"/>
 				<gel:log level="debug" message="XOG Output can be found at: ${XOGwebPath}/XOGWRITE_NewSI_${vPlan_Code}${vNewCode}.xml"/> 
 			</core:if>
@@ -311,31 +312,31 @@
 				</soap:invoke>
 			</core:catch>
 
-			<core:if teST="${v_xog_exception != null}">
+			<core:if test="${v_xog_exception != null}">
 				<gel:log level="warning" message="Caught Exception: ${v_xog_exception}."/>
 				<core:set var="exitClause" value="1"/>
 			</core:if>
 	  
-			<core:if teST="${v_xog_exception == null}">
-				<core:if teST="${DebugLevel &gt; 1}">
+			<core:if test="${v_xog_exception == null}">
+				<core:if test="${DebugLevel &gt; 1}">
 					<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGRESULT_NewSI_${vPlan_Code}${vNewCode}.xml"/>
 					<gel:log level="debug" message="XOG Output can be found at: ${XOGwebPath}/XOGRESULT_NewSI_${vPlan_Code}${vNewCode}.xml"/> 
 				</core:if>
 
-				<gel:set asSTring="true" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/STatus/@STate" var="XOGoutcome"/>
+				<gel:set asString="true" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/Status/@state" var="XOGoutcome"/>
 				<core:switch on="${XOGoutcome}">
 					<core:case value="SUCCESS">
-						<gel:set asSTring="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/STatiSTics/@totalNumberOfRecords" var="totalNumberOfRecords"/>
-						<core:if teST="${DebugLevel &gt; 0}">
-							<core:set var="vMessage" value="InSTances XOGed-out this requeST ${totalNumberOfRecords}"/>
+						<gel:set asString="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/Statistics/@totalNumberOfRecords" var="totalNumberOfRecords"/>
+						<core:if test="${DebugLevel &gt; 0}">
+							<core:set var="vMessage" value="Instances XOGed-out this request ${totalNumberOfRecords}"/>
 							<gel:log level="debug" message="${vMessage}"/>
 						</core:if>
 					</core:case>
 					<core:case value="FAILURE">
-						<gel:set asSTring="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/STatiSTics" var="STats"/>
-						<gel:set asSTring="false" select="$STats/@totalNumberOfRecords" var="totalNumberOfRecords"/>
-						<gel:set asSTring="false" select="$STats/@failureRecords" var="failureRecords"/>
-						<core:if teST="${DebugLevel &gt; 0}">
+						<gel:set asString="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/Statistics" var="Stats"/>
+						<gel:set asString="false" select="$Stats/@totalNumberOfRecords" var="totalNumberOfRecords"/>
+						<gel:set asString="false" select="$Stats/@failureRecords" var="failureRecords"/>
+						<core:if test="${DebugLevel &gt; 0}">
 							<core:set var="vMessage" value="XOG failed.  Out of ${totalNumberOfRecords} records, ${failureRecords} failed."/>
 							<gel:log level="debug" message="${vMessage}"/>
 						</core:if>
@@ -345,19 +346,19 @@
 
 			<!-- Update Hierarchy Attribute for new Plan -->
 			<gel:parse var="v_xml_new">
-				<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_cuSTomObjectInSTance.xsd">
-					<Header action="write" externalSource="NIKU" objectType="cuSTomObjectInSTance" version="14.4.0.234"/>
-					<cuSTomObjectInSTances objectCode="STrategic_item">
-						<inSTance inSTanceCode="${vPlan_Code}${vNewCode}" objectCode="STrategic_item">
-							<CuSTomInformation>
-								<ColumnValue name="STrat_hierarchy">${vPlan_Code}${vNewCode}</ColumnValue>
-							</CuSTomInformation>
-						</inSTance>
-					</cuSTomObjectInSTances>
+				<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_customObjectInstance.xsd">
+					<Header action="write" externalSource="NIKU" objectType="customObjectInstance" version="14.4.0.234"/>
+					<customObjectInstances objectCode="strategic_item">
+						<instance instanceCode="${vPlan_Code}${vNewCode}" objectCode="strategic_item">
+							<CustomInformation>
+								<ColumnValue name="strat_hierarchy">${vPlan_Code}${vNewCode}</ColumnValue>
+							</CustomInformation>
+						</instance>
+					</customObjectInstances>
 				</NikuDataBus>
 			</gel:parse>
 			
-			<core:if teST="${DebugLevel &gt; 1}">
+			<core:if test="${DebugLevel &gt; 1}">
 				<gel:serialize var="${v_xml_new}" fileName="${XOGwebFolder}/XOGWRITE_NewSI_${vPlan_Code}${vNewCode}_HIER.xml"/>
 				<gel:log level="debug" message="XOG Output can be found at: ${XOGwebPath}/XOGWRITE_NewSI_${vPlan_Code}${vNewCode}_HIER.xml"/> 
 			</core:if>
@@ -379,31 +380,31 @@
 				</soap:invoke>
 			</core:catch>
 
-			<core:if teST="${v_xog_exception != null}">
+			<core:if test="${v_xog_exception != null}">
 				<gel:log level="warning" message="Caught Exception: ${v_xog_exception}."/>
 				<core:set var="exitClause" value="1"/>
 			</core:if>
 	  
-			<core:if teST="${v_xog_exception == null}">
-				<core:if teST="${DebugLevel &gt; 1}">
+			<core:if test="${v_xog_exception == null}">
+				<core:if test="${DebugLevel &gt; 1}">
 					<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGRESULT_NewSI_${vPlan_Code}${vNewCode}_HIER.xml"/>
 					<gel:log level="debug" message="XOG Output can be found at: ${XOGwebPath}/XOGRESULT_NewSI_${vPlan_Code}${vNewCode}_HIER.xml"/> 
 				</core:if>
 
-				<gel:set asSTring="true" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/STatus/@STate" var="XOGoutcome"/>
+				<gel:set asString="true" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/Status/@state" var="XOGoutcome"/>
 				<core:switch on="${XOGoutcome}">
 					<core:case value="SUCCESS">
-						<gel:set asSTring="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/STatiSTics/@totalNumberOfRecords" var="totalNumberOfRecords"/>
-						<core:if teST="${DebugLevel &gt; 0}">
-							<core:set var="vMessage" value="InSTances XOGed-out this requeST ${totalNumberOfRecords}"/>
+						<gel:set asString="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/Statistics/@totalNumberOfRecords" var="totalNumberOfRecords"/>
+						<core:if test="${DebugLevel &gt; 0}">
+							<core:set var="vMessage" value="Instances XOGed-out this request ${totalNumberOfRecords}"/>
 							<gel:log level="debug" message="${vMessage}"/>
 						</core:if>
 					</core:case>
 					<core:case value="FAILURE">
-						<gel:set asSTring="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/STatiSTics" var="STats"/>
-						<gel:set asSTring="false" select="$STats/@totalNumberOfRecords" var="totalNumberOfRecords"/>
-						<gel:set asSTring="false" select="$STats/@failureRecords" var="failureRecords"/>
-						<core:if teST="${DebugLevel &gt; 0}">
+						<gel:set asString="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/Statistics" var="Stats"/>
+						<gel:set asString="false" select="$Stats/@totalNumberOfRecords" var="totalNumberOfRecords"/>
+						<gel:set asString="false" select="$Stats/@failureRecords" var="failureRecords"/>
+						<core:if test="${DebugLevel &gt; 0}">
 							<core:set var="vMessage" value="XOG failed.  Out of ${totalNumberOfRecords} records, ${failureRecords} failed."/>
 							<gel:log level="debug" message="${vMessage}"/>
 						</core:if>
@@ -411,39 +412,39 @@
 				</core:switch>
 			</core:if>
 			
-			<!-- Copy the reST of the Plan by Level -->
+			<!-- Copy the rest of the Plan by Level -->
 			<core:set var="vCurrentLevel" value="2"/>
-			<core:while teST="${vMaxLevel &gt;= vCurrentLevel}">
-				<core:if teST="${DebugLevel &gt; 0}">
+			<core:while test="${vMaxLevel &gt;= vCurrentLevel}">
+				<core:if test="${DebugLevel &gt; 0}">
 					<gel:log level="debug" message="-- Processing Level ${vCurrentLevel}"/> 
 				</core:if>
 				<sql:query escapeText="false" var="vItemtoCopy">
 					Select SI.NAME, SI.CODE
 					FROM ODF_CA_STRATEGIC_ITEM SI 
-					WHERE SI.STRAT_HIERARCHY = ${vPlan_Intl}
+					WHERE SI.Strat_HIERARCHY = ${vPlan_Intl}
 					AND SI.ITEM_LEVEL = ${vCurrentLevel}
 				</sql:query>
 				<core:forEach items="${vItemtoCopy.rowsByIndex}" var="row">
 					<core:set var="vItem_Name">${row[0]}</core:set>
 					<core:set var="vItem_Code">${row[1]}</core:set>
-					<core:if teST="${DebugLevel &gt; 0}">
+					<core:if test="${DebugLevel &gt; 0}">
 						<gel:log level="debug" message="SI Found: ${vItem_Name}-${vItem_Code}."/> 
 					</core:if>
 				
 					<!-- Read Items for level -->
 					<gel:parse var="v_xml_root">
-						<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-inSTance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_read.xsd">
-							<Header version="14.3" action="read" objectType="cuSTomObjectInSTance" externalSource="NIKU">
+						<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_read.xsd">
+							<Header version="14.3" action="read" objectType="customObjectInstance" externalSource="NIKU">
 								<args name="skip value" value="0"/>
 							</Header>
-							<CuSTomObjectInSTanceQuery>
-								<Filter name="objectCode" criteria="EQUALS">STrategic_item</Filter>
-								<Filter name="inSTanceCode" criteria="EQUALS">${vItem_Code}</Filter>
-							</CuSTomObjectInSTanceQuery>
+							<CustomObjectInstanceQuery>
+								<Filter name="objectCode" criteria="EQUALS">strategic_item</Filter>
+								<Filter name="instanceCode" criteria="EQUALS">${vItem_Code}</Filter>
+							</CustomObjectInstanceQuery>
 						</NikuDataBus>
 					</gel:parse>
 
-					<core:if teST="${DebugLevel &gt; 1}">
+					<core:if test="${DebugLevel &gt; 1}">
 						<gel:serialize var="${v_xml_root}" fileName="${XOGwebFolder}/XOGREAD_SI_${vPlan_Code}_${vItem_Code}.xml"/>
 						<gel:log level="debug" message="XOG Read can be found at: ${XOGwebPath}/XOGREAD_SI_${vPlan_Code}_${vItem_Code}.xml"/> 
 					</core:if>
@@ -466,63 +467,63 @@
 						</soap:invoke>
 					</core:catch>
 
-					<core:if teST="${v_xog_exception != null}">
+					<core:if test="${v_xog_exception != null}">
 						<gel:log level="warning" message="Caught Exception: ${v_xog_exception}."/>
 						<core:set var="exitClause" value="1"/>
 					</core:if>
 			  
-					<core:if teST="${v_xog_exception == null}">
-						<core:if teST="${DebugLevel &gt; 1}">
+					<core:if test="${v_xog_exception == null}">
+						<core:if test="${DebugLevel &gt; 1}">
 							<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGWRITE_SI_${vPlan_Code}_${vItem_Code}.xml"/>
 							<gel:log level="debug" message="XOG Output can be found at: ${XOGwebPath}/XOGWRITE_SI_${vPlan_Code}_${vItem_Code}.xml"/> 
 						</core:if>
 
-						<gel:set asSTring="true" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/STatus/@STate" var="XOGoutcome"/>
+						<gel:set asString="true" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/Status/@state" var="XOGoutcome"/>
 						<core:switch on="${XOGoutcome}">
 							<core:case value="SUCCESS">
-								<gel:set asSTring="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/STatiSTics/@totalNumberOfRecords" var="totalNumberOfRecords"/>
-								<core:if teST="${DebugLevel &gt; 0}">
-									<core:set var="vMessage" value="InSTances XOGed-out this requeST ${totalNumberOfRecords}"/>
+								<gel:set asString="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/Statistics/@totalNumberOfRecords" var="totalNumberOfRecords"/>
+								<core:if test="${DebugLevel &gt; 0}">
+									<core:set var="vMessage" value="Instances XOGed-out this request ${totalNumberOfRecords}"/>
 									<gel:log level="debug" message="${vMessage}"/>
 								</core:if>
 							</core:case>
 							<core:case value="FAILURE">
-								<gel:set asSTring="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/STatiSTics" var="STats"/>
-								<gel:set asSTring="false" select="$STats/@totalNumberOfRecords" var="totalNumberOfRecords"/>
-								<gel:set asSTring="false" select="$STats/@failureRecords" var="failureRecords"/>
-								<core:if teST="${DebugLevel &gt; 0}">
+								<gel:set asString="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/Statistics" var="Stats"/>
+								<gel:set asString="false" select="$Stats/@totalNumberOfRecords" var="totalNumberOfRecords"/>
+								<gel:set asString="false" select="$Stats/@failureRecords" var="failureRecords"/>
+								<core:if test="${DebugLevel &gt; 0}">
 									<core:set var="vMessage" value="XOG failed.  Out of ${totalNumberOfRecords} records, ${failureRecords} failed."/>
 									<gel:log level="debug" message="${vMessage}"/>
 								</core:if>
 							</core:case>
 						</core:switch>
 						
-						<core:if teST="${pOperation=='SNAPSHOT'}">
-							<core:set var="InputSTring" value="${vItem_Name}"/>
-							<core:invoke var="vItemNameSize" on="${InputSTring}" method="length"/>
-							<core:if teST="${vItemNameSize &gt; vSTringSize}">
-								<core:set var="vItemNameSize" value="${vSTringSize}"/>
+						<core:if test="${pOperation=='SNAPSHOT'}">
+							<core:set var="InputString" value="${vItem_Name}"/>
+							<core:invoke var="vItemNameSize" on="${InputString}" method="length"/>
+							<core:if test="${vItemNameSize &gt; vStringSize}">
+								<core:set var="vItemNameSize" value="${vStringSize}"/>
 							</core:if>
-							<core:invoke var="vItemNameTruncated" on="${InputSTring}" method="subSTring">
+							<core:invoke var="vItemNameTruncated" on="${InputString}" method="substring">
 								<core:arg type="int" value="0"/>
 								<core:arg type="int" value="${vItemNameSize}"/>
 							</core:invoke>
 						</core:if>
 						
-						<!-- Change InSTance Code, As Of Date, Original Plan, STatus -->
-						<gel:forEach select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/cuSTomObjectInSTances/inSTance" var="vInSTance">
-							<gel:set asSTring="true" select="$vInSTance/@inSTanceCode" var="vItem_Code"/>
-							<gel:log level="debug" message="---- Processing inSTance ${vItem_Code}"/>
-							<gel:set select="$vInSTance/@inSTanceCode" value="${vItem_Code}${vNewCode}"/>
-							<gel:forEach select="$vInSTance/CuSTomInformation/ColumnValue" var="vCuSTomInfo">
-								<gel:set var="vColumName" select="$vCuSTomInfo/@name" asSTring="true"/>
-								<core:if teST="${vColumName=='code'}">
-									<gel:set select="$vCuSTomInfo/text()" value="${vItem_Code}${vNewCode}"/>
+						<!-- Change Instance Code, As Of Date, Original Plan, Status -->
+						<gel:forEach select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/customObjectInstances/instance" var="vInstance">
+							<gel:set asString="true" select="$vInstance/@instanceCode" var="vItem_Code"/>
+							<gel:log level="debug" message="---- Processing instance ${vItem_Code}"/>
+							<gel:set select="$vInstance/@instanceCode" value="${vItem_Code}${vNewCode}"/>
+							<gel:forEach select="$vInstance/CustomInformation/ColumnValue" var="vCustomInfo">
+								<gel:set var="vColumnName" select="$vCustomInfo/@name" asString="true"/>
+								<core:if test="${vColumnName=='code'}">
+									<gel:set select="$vCustomInfo/text()" value="${vItem_Code}${vNewCode}"/>
 								</core:if>
-								<core:if teST="${vColumName=='parentitem'}">
-									<gel:set asSTring="true" select="$vCuSTomInfo/text()" var="vParentItem"/>
+								<core:if test="${vColumnName=='parentitem'}">
+									<gel:set asString="true" select="$vCustomInfo/text()" var="vParentItem"/>
 									<gel:log level="debug" message="----- Parent Is ${vParentItem}"/>
-									<!-- Due to a probable Bug, PARENTITEM cannot be updated using UNIQUE_CODE. MuST Find INTERNAL_ID. -->
+									<!-- Due to a probable Bug, PARENTITEM cannot be updated using UNIQUE_CODE. Must Find INTERNAL_ID. -->
 									<sql:query escapeText="false" var="vItemParent">
 										Select SI.ID FROM ODF_CA_STRATEGIC_ITEM SI WHERE SI.CODE = '${vParentItem}${vNewCode}'  
 									</sql:query>
@@ -531,68 +532,68 @@
 										<core:set var="vPrnt_Intl">${row[0]}</core:set>
 										<gel:log level="debug" message="----- Found Internal_ID ${vPrnt_Intl} for Parent Item ${vParentItem}${vNewCode}."/>
 									</core:forEach>
-									<gel:set select="$vCuSTomInfo/text()" value="${vPrnt_Intl}"/>
+									<gel:set select="$vCustomInfo/text()" value="${vPrnt_Intl}"/>
 								</core:if>
-								<core:if teST="${pOperation=='SNAPSHOT'}">
-									<core:if teST="${vColumName=='name'}">
-										<gel:set select="$vCuSTomInfo/text()" value="${vNameSTring} [${vItemNameTruncated}] ${vAsOfDateSTring} ${vDateSTring} ${vTimeSTring}"/>
+								<core:if test="${pOperation=='SNAPSHOT'}">
+									<core:if test="${vColumnName=='name'}">
+										<gel:set select="$vCustomInfo/text()" value="${vNameString} [${vItemNameTruncated}] ${vAsOfDateString} ${vDateString} ${vTimeString}"/>
 									</core:if>
 								</core:if>
-								<core:if teST="${vColumName=='STrat_plan_STatus'}">
-									<gel:set select="$vCuSTomInfo/text()" value="${vPlanSTatus}"/>
+								<core:if test="${vColumnName=='strat_plan_status'}">
+									<gel:set select="$vCustomInfo/text()" value="${vPlanStatus}"/>
 								</core:if>
 								<core:set var="vFoundAsOfDate" value="0"/>
-								<core:if teST="${vColumName=='plan_as_of_date'}">
+								<core:if test="${vColumnName=='plan_as_of_date'}">
 									<core:set var="vFoundAsOfDate" value="1"/>
-									<gel:set select="$vCuSTomInfo/text()" value="${vDateSTring}T${vTimeSTring}:00"/>
+									<gel:set select="$vCustomInfo/text()" value="${vDateString}T${vTimeString}:00"/>
 								</core:if>
 								<core:set var="vFoundPlanOrig" value="0"/>
-								<core:if teST="${vColumName=='STrat_orig_item'}">
+								<core:if test="${vColumnName=='strat_orig_item'}">
 									<core:set var="vFoundPlanOrig" value="1"/>
-									<gel:set select="$vCuSTomInfo/text()" value="${vItem_Code}"/>
+									<gel:set select="$vCustomInfo/text()" value="${vItem_Code}"/>
 								</core:if>
-								<core:if teST="${vColumName=='STrat_hierarchy'}">
-									<gel:set select="$vCuSTomInfo/text()" value="${vPlan_Code}${vNewCode}"/>
+								<core:if test="${vColumnName=='strat_hierarchy'}">
+									<gel:set select="$vCustomInfo/text()" value="${vPlan_Code}${vNewCode}"/>
 								</core:if>
-								<core:if teST="${pOperation=='COPY'}">
-									<core:if teST="${vColumName=='itemSTatus'}">
-										<gel:set select="$vCuSTomInfo/text()" value="0"/>
+								<core:if test="${pOperation=='COPY'}">
+									<core:if test="${vColumnName=='itemStatus'}">
+										<gel:set select="$vCustomInfo/text()" value="0"/>
 									</core:if>
-									<core:if teST="${vColumName=='item_STatus_direct'}">
-										<gel:set select="$vCuSTomInfo/text()" value="0"/>
+									<core:if test="${vColumnName=='item_Status_direct'}">
+										<gel:set select="$vCustomInfo/text()" value="0"/>
 									</core:if>
-									<core:if teST="${vColumName=='item_STatus_children'}">
-										<gel:set select="$vCuSTomInfo/text()" value="0"/>
+									<core:if test="${vColumnName=='item_Status_children'}">
+										<gel:set select="$vCustomInfo/text()" value="0"/>
 									</core:if>
-									<core:if teST="${vColumName=='kpi_STatus'}">
-										<gel:set select="$vCuSTomInfo/text()" value="0"/>
+									<core:if test="${vColumnName=='kpi_Status'}">
+										<gel:set select="$vCustomInfo/text()" value="0"/>
 									</core:if>
-									<core:if teST="${vColumName=='kpi_STatus_direct'}">
-										<gel:set select="$vCuSTomInfo/text()" value="0"/>
+									<core:if test="${vColumnName=='kpi_Status_direct'}">
+										<gel:set select="$vCustomInfo/text()" value="0"/>
 									</core:if>
-									<core:if teST="${vColumName=='kpi_STatus_children'}">
-										<gel:set select="$vCuSTomInfo/text()" value="0"/>
+									<core:if test="${vColumnName=='kpi_Status_children'}">
+										<gel:set select="$vCustomInfo/text()" value="0"/>
 									</core:if>
 								</core:if>
 							</gel:forEach>
 							<!-- If no As Of Date is found, insert one -->
-							<core:if teST="${vFoundAsOfDate == 0}">
+							<core:if test="${vFoundAsOfDate == 0}">
 								<gel:parse var="v_xml_planAsOfDate">
-									<ColumnValue name="plan_as_of_date">${vDateSTring}T${vTimeSTring}:00</ColumnValue>
+									<ColumnValue name="plan_as_of_date">${vDateString}T${vTimeString}:00</ColumnValue>
 								</gel:parse>
-								<gel:set insert="true" select="$vInSTance/CuSTomInformation" value="${v_xml_planAsOfDate}"/>
+								<gel:set insert="true" select="$vInstance/CustomInformation" value="${v_xml_planAsOfDate}"/>
 							</core:if>
 							<!-- If no Original Item is found, insert one -->
-							<core:if teST="${vFoundPlanOrig == 0}">
+							<core:if test="${vFoundPlanOrig == 0}">
 								<gel:parse var="v_xml_planOrig">
-									<ColumnValue name="STrat_orig_item">${vItem_Code}</ColumnValue>
+									<ColumnValue name="strat_orig_item">${vItem_Code}</ColumnValue>
 								</gel:parse>
-								<gel:set insert="true" select="$vInSTance/CuSTomInformation" value="${v_xml_planOrig}"/>
+								<gel:set insert="true" select="$vInstance/CustomInformation" value="${v_xml_planOrig}"/>
 							</core:if>
 						</gel:forEach>
 				
 						<gel:set select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus" var="v_xml_new"/>			
-						<core:if teST="${DebugLevel &gt; 1}">
+						<core:if test="${DebugLevel &gt; 1}">
 							<gel:serialize var="${v_xml_new}" fileName="${XOGwebFolder}/XOGWRITE_NewSI_${vPlan_Code}${vNewCode}_${vItem_Code}.xml"/>
 							<gel:log level="debug" message="XOG Output can be found at: ${XOGwebPath}/XOGWRITE_NewSI_${vPlan_Code}${vNewCode}_${vItem_Code}.xml"/> 
 						</core:if>
@@ -615,31 +616,31 @@
 							</soap:invoke>
 						</core:catch>
 
-						<core:if teST="${v_xog_exception != null}">
+						<core:if test="${v_xog_exception != null}">
 							<gel:log level="warning" message="Caught Exception: ${v_xog_exception}."/>
 							<core:set var="exitClause" value="1"/>
 						</core:if>
 				  
-						<core:if teST="${v_xog_exception == null}">
-							<core:if teST="${DebugLevel &gt; 1}">
+						<core:if test="${v_xog_exception == null}">
+							<core:if test="${DebugLevel &gt; 1}">
 								<gel:serialize var="${runresult}" fileName="${XOGwebFolder}/XOGRESULT_NewSI_${vPlan_Code}${vNewCode}_${vItem_Code}.xml"/>
 								<gel:log level="debug" message="XOG Output can be found at: ${XOGwebPath}/XOGRESULT_NewSI_${vPlan_Code}${vNewCode}_${vItem_Code}.xml"/> 
 							</core:if>
 
-							<gel:set asSTring="true" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/STatus/@STate" var="XOGoutcome"/>
+							<gel:set asString="true" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/Status/@state" var="XOGoutcome"/>
 							<core:switch on="${XOGoutcome}">
 								<core:case value="SUCCESS">
-									<gel:set asSTring="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/STatiSTics/@totalNumberOfRecords" var="totalNumberOfRecords"/>
-									<core:if teST="${DebugLevel &gt; 0}">
-										<core:set var="vMessage" value="InSTances XOGed-out this requeST ${totalNumberOfRecords}"/>
+									<gel:set asString="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/Statistics/@totalNumberOfRecords" var="totalNumberOfRecords"/>
+									<core:if test="${DebugLevel &gt; 0}">
+										<core:set var="vMessage" value="Instances XOGed-out this request ${totalNumberOfRecords}"/>
 										<gel:log level="debug" message="${vMessage}"/>
 									</core:if>
 								</core:case>
 								<core:case value="FAILURE">
-									<gel:set asSTring="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/STatiSTics" var="STats"/>
-									<gel:set asSTring="false" select="$STats/@totalNumberOfRecords" var="totalNumberOfRecords"/>
-									<gel:set asSTring="false" select="$STats/@failureRecords" var="failureRecords"/>
-									<core:if teST="${DebugLevel &gt; 0}">
+									<gel:set asString="false" select="$runresult/soapenv:Envelope/soapenv:Body/NikuDataBus/XOGOutput/Statistics" var="Stats"/>
+									<gel:set asString="false" select="$Stats/@totalNumberOfRecords" var="totalNumberOfRecords"/>
+									<gel:set asString="false" select="$Stats/@failureRecords" var="failureRecords"/>
+									<core:if test="${DebugLevel &gt; 0}">
 										<core:set var="vMessage" value="XOG failed.  Out of ${totalNumberOfRecords} records, ${failureRecords} failed."/>
 										<gel:log level="debug" message="${vMessage}"/>
 									</core:if>
