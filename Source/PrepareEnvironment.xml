@@ -189,6 +189,18 @@
 			<gel:persist var="dbOwner" value="${dbOwner}" scope="INSTANCE"/>
 
 			<!-- SQL Server Compatibility-->
+			<core:set var="isNullFunction" value="ISNULL"/>
+			<core:if test="${dbVendor=='oracle'}">
+				<core:set var="isNullFunction" value="NVL"/>
+			</core:if>
+			<gel:persist var="isNullFunction" value="${isNullFunction}" scope="INSTANCE"/>
+			
+			<core:set var="currentDateFunction" value="GETDATE()"/>
+			<core:if test="${dbVendor=='oracle'}">
+				<core:set var="currentDateFunction" value="SYSDATE"/>
+			</core:if>
+			<gel:persist var="currentDateFunction" value="${currentDateFunction}" scope="INSTANCE"/>
+			
 			<core:set var="lengthFunction" value="LEN"/>
 			<core:if test="${dbVendor=='oracle'}">
 				<core:set var="lengthFunction" value="LENGTH"/>
