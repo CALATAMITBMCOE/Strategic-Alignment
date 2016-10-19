@@ -13,7 +13,7 @@
     xmlns:q="http://www.niku.com/xog/Query">
 	
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 5.0 							-->
+	<!-- Package: Strategic Alignment 5.1 							-->
 	<!-- Process: Strategic Item Status Initialize					-->
 	<!-- Step	: Initialize Indicator Item Status Scale			-->
 	<!-- Action	: Initialize Indicator Item Status Scale			-->
@@ -77,7 +77,7 @@
 						<ColumnValue name="code">${vKPICODE}-${vScale}</ColumnValue>
 						<ColumnValue name="name">${vKPICODE}-${vScale}</ColumnValue>
 						<ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
-						<ColumnValue name="itemStatus">${vScale}</ColumnValue>
+						<ColumnValue name="itemstatus">${vScale}</ColumnValue>
 					</CustomInformation>
 					<OBSAssocs completed="false"/>
 					<Security>

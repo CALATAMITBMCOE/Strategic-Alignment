@@ -8,7 +8,7 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 5.0 							-->
+	<!-- Package: Strategic Alignment 5.1 							-->
 	<!-- Process: Strategic Indicators Calculation 					-->
 	<!-- Step	: Indicator Calculation and Rollup					-->
 	<!-- Action	: Auto Measurement Calculation						-->
@@ -133,8 +133,8 @@
 							<ColumnValue name="code">${vInd_Code}-${vInd_Updt_Name}</ColumnValue>
 							<ColumnValue name="measurement_date">${vInd_Updt_Date}</ColumnValue>
 							<ColumnValue name="measurement_value"/>
-							<ColumnValue name="itemStatus">0</ColumnValue>
-							<ColumnValue name="kpi_Status"/>
+							<ColumnValue name="itemstatus">0</ColumnValue>
+							<ColumnValue name="kpi_status"/>
 						</CustomInformation>
 					</instance>
 				</CustomInformation>
@@ -236,8 +236,8 @@
 						<CustomInformation>
 							<ColumnValue name="name">${vMeas_Name}</ColumnValue>
 							<ColumnValue name="code">${vMeas_Code}</ColumnValue>
-							<ColumnValue name="itemStatus">-1</ColumnValue>
-							<ColumnValue name="kpi_Status">0</ColumnValue>
+							<ColumnValue name="itemstatus">-1</ColumnValue>
+							<ColumnValue name="kpi_status">0</ColumnValue>
 						</CustomInformation>
 					</instance>
 				</CustomInformation>

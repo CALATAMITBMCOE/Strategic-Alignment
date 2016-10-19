@@ -8,7 +8,7 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 5.0 							-->
+	<!-- Package: Strategic Alignment 5.1 							-->
 	<!-- Process: Strategic Indicators Calculation 					-->
 	<!-- Step	: Indicator Calculation and Rollup					-->
 	<!-- Action	: Auto Measurement Calculation						-->
@@ -167,8 +167,8 @@
 				<instance instanceCode="${vIndicator2U_MCod}" objectCode="strat_kpi_measure" parentInstanceCode="${vIndicator2U_Code}" parentObjectCode="strat_kpi">
 					<CustomInformation>
 				        <ColumnValue name="measurement_value">${vIndicator2U_MVal}</ColumnValue>
-						<ColumnValue name="kpi_Status">0</ColumnValue>
-						<ColumnValue name="itemStatus">0</ColumnValue>
+						<ColumnValue name="kpi_status">0</ColumnValue>
+						<ColumnValue name="itemstatus">0</ColumnValue>
 					</CustomInformation>
 				</instance>
 			</gel:parse>

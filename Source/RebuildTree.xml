@@ -8,7 +8,7 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 5.0 	[NOT IN USE]			-->
+	<!-- Package: Strategic Alignment 5.1 	[NOT IN USE]			-->
 	<!-- Process: Strategic Item - Rebuild Tree						-->
 	<!-- Step	: Rebuild Tree										-->
 	<!-- Action	: Rebuild Tree										-->
@@ -31,7 +31,7 @@
     <!-- Reading Item Data-->
 
     <sql:query escapeText="false" var="vItem">
-		Select ${dbOwner}.CMN_NULL_INT_FCT(I.PARENTITEM,0), I.CODE, I.ITEM_LEVEL, I.ID, SC.CODE, SC.ID
+		Select ${dbOwner}.CMN_NULL_FLOAT_FCT(I.PARENTITEM,0), I.CODE, I.ITEM_LEVEL, I.ID, SC.CODE, SC.ID
 		FROM ODF_CA_STRATEGIC_ITEM I inner join ODF_CA_Strat_SCOPE SC on SC.ID = I.Strat_SCOPE
 		WHERE I.ACTIVE = 1
 	</sql:query>
@@ -118,7 +118,7 @@
 				<gel:log level="debug" message="Parent ${vItem_Parent} is not Zero, searching up."/>
 			</core:if>
 			<sql:query escapeText="false" var="vItem">
-				Select ${dbOwner}.CMN_NULL_INT_FCT(I.PARENTITEM,0), I.CODE, I.ITEM_LEVEL
+				Select ${dbOwner}.CMN_NULL_FLOAT_FCT(I.PARENTITEM,0), I.CODE, I.ITEM_LEVEL
 				FROM ODF_CA_STRATEGIC_ITEM I
 				WHERE I.id=${vItem_Parent}
 			</sql:query>

@@ -8,7 +8,7 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 5.0 							-->
+	<!-- Package: Strategic Alignment 5.1 							-->
 	<!-- Process: Strategic Indicator Calculation 					-->
 	<!-- Step	: Indicator Calculation and Rollup					-->
 	<!-- Action	: Rollup Items										-->
@@ -93,8 +93,8 @@
 			<gel:parse var="v_xml_item_instance">
 				<instance instanceCode="${vItem_Code}" objectCode="strategic_item">
 					<CustomInformation>
-						<ColumnValue name="kpi_Status_direct">${vItem_IndicatorStatus}</ColumnValue>
-						<ColumnValue name="item_Status_direct">${vItem_ItemStatus}</ColumnValue>
+						<ColumnValue name="kpi_status_direct">${vItem_IndicatorStatus}</ColumnValue>
+						<ColumnValue name="item_status_direct">${vItem_ItemStatus}</ColumnValue>
 						<ColumnValue name="issue_score">${vItem_IssueScore}</ColumnValue>
 					</CustomInformation>
 				</instance>
@@ -189,7 +189,7 @@
 
 		<core:set var="vFoundItems2" value="0"/>
 	    <sql:query escapeText="false" var="vItemsRoll">
-			Select 	SI.NAME, SI.CODE, SI.ID, SI.ROLLUP_METHOD, SI.KPI_STATUS_DEFN, ${dbOwner}.CMN_NULL_INT_FCT(SI.ROLLUP_LIMIT_PERCENT,99999999), ${dbOwner}.CMN_NULL_INT_FCT(SI.KPI_STATUS_DIRECT,0), ${dbOwner}.CMN_NULL_INT_FCT(SI.ITEM_STATUS_DIRECT,0), ${dbOwner}.CMN_NULL_INT_FCT(SI.ISSUE_SCORE,0), ${dbOwner}.CMN_NULL_INT_FCT(SI.RISK_SCORE,0)
+			Select 	SI.NAME, SI.CODE, SI.ID, SI.ROLLUP_METHOD, SI.KPI_STATUS_DEFN, ${dbOwner}.CMN_NULL_FLOAT_FCT(SI.ROLLUP_LIMIT_PERCENT,99999999), ${dbOwner}.CMN_NULL_FLOAT_FCT(SI.KPI_STATUS_DIRECT,0), ${dbOwner}.CMN_NULL_FLOAT_FCT(SI.ITEM_STATUS_DIRECT,0), ${dbOwner}.CMN_NULL_FLOAT_FCT(SI.ISSUE_SCORE,0), ${dbOwner}.CMN_NULL_FLOAT_FCT(SI.RISK_SCORE,0)
 			FROM ODF_CA_STRATEGIC_ITEM SI
 			WHERE SI.ACTIVE = 1 
 			AND SI.ITEM_LEVEL = ${vCurrentLevel} AND SI.Strat_PLAN_STATUS = 'ACTIVE' 
@@ -232,9 +232,9 @@
 			<core:set var="vChild_RiskScore">0</core:set>
 			<sql:query escapeText="false" var="vItemIndicators2">
 				Select ${vAggrFunction}(${vWeight} (Case When SI.KPI_STATUS &gt; ${vItem_Limt} Then ${vItem_Limt} Else SI.KPI_STATUS End)), round(${vAggrFunction}(${vWeight}SI.ITEMSTATUS),0), 
-						MAX(${dbOwner}.CMN_NULL_INT_FCT(SI.ISSUE_SCORE,0)), MAX(${dbOwner}.CMN_NULL_INT_FCT(SI.ACC_RISK_SCORE,0)),
-						Case When MAX(${dbOwner}.CMN_NULL_INT_FCT(SI.ISSUE_SCORE,0)) &gt; ${vItem_Issu} then MAX(${dbOwner}.CMN_NULL_INT_FCT(SI.ISSUE_SCORE,0)) else ${vItem_Issu} end FINALISSUE, 
-						Case When MAX(${dbOwner}.CMN_NULL_INT_FCT(SI.ACC_RISK_SCORE,0)) &gt; ${vItem_Risk} then MAX(${dbOwner}.CMN_NULL_INT_FCT(SI.ACC_RISK_SCORE,0)) else ${vItem_Risk} end FINALRISK 
+						MAX(${dbOwner}.CMN_NULL_FLOAT_FCT(SI.ISSUE_SCORE,0)), MAX(${dbOwner}.CMN_NULL_FLOAT_FCT(SI.ACC_RISK_SCORE,0)),
+						Case When MAX(${dbOwner}.CMN_NULL_FLOAT_FCT(SI.ISSUE_SCORE,0)) &gt; ${vItem_Issu} then MAX(${dbOwner}.CMN_NULL_FLOAT_FCT(SI.ISSUE_SCORE,0)) else ${vItem_Issu} end FINALISSUE, 
+						Case When MAX(${dbOwner}.CMN_NULL_FLOAT_FCT(SI.ACC_RISK_SCORE,0)) &gt; ${vItem_Risk} then MAX(${dbOwner}.CMN_NULL_FLOAT_FCT(SI.ACC_RISK_SCORE,0)) else ${vItem_Risk} end FINALRISK 
 				FROM ODF_CA_STRATEGIC_ITEM SI
 				WHERE SI.ACTIVE = 1 
 				AND SI.PARENTITEM = ${vItem_Intl}
@@ -297,10 +297,10 @@
 			<gel:parse var="v_xml_item_instance2">
 				<instance instanceCode="${vItem_Code}" objectCode="strategic_item">
 					<CustomInformation>
-						<ColumnValue name="kpi_Status_children">${vChild_IndicatorStatus}</ColumnValue>
-						<ColumnValue name="item_Status_children">${vChild_ItemStatus}</ColumnValue>
-						<ColumnValue name="kpi_Status">${vItem_IndicatorStatus}</ColumnValue>
-						<ColumnValue name="itemStatus">${vItem_ItemStatus}</ColumnValue>
+						<ColumnValue name="kpi_status_children">${vChild_IndicatorStatus}</ColumnValue>
+						<ColumnValue name="item_status_children">${vChild_ItemStatus}</ColumnValue>
+						<ColumnValue name="kpi_status">${vItem_IndicatorStatus}</ColumnValue>
+						<ColumnValue name="itemstatus">${vItem_ItemStatus}</ColumnValue>
 						<ColumnValue name="issue_score">${vIssueScore}</ColumnValue>
 						<ColumnValue name="acc_risk_score">${vRiskScore}</ColumnValue>
 					</CustomInformation>

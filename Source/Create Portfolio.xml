@@ -8,7 +8,7 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 5.0 							-->
+	<!-- Package: Strategic Alignment 5.1 							-->
 	<!-- Process: Strategic Portfolio Creation 						-->
 	<!-- Step	: Generate Portfolio								-->
 	<!-- Action	: Create Portfolio									-->
@@ -50,7 +50,7 @@
     <!-- Reading Item Data-->
     <sql:query escapeText="false" var="vHier">
 		Select ${subStringFunction}(SI.NAME,1,32), SI.CODE, U.USER_NAME, 
-				SI.STRAT_ALLOC_BENEFIT, SI.STRAT_ALLOC_FUNDING, SI.STRAT_ALLOC_FTE, ${dbOwner}.CMN_NULL_INT_FCT(SI.PTF_OPEXLIM,0), SI.CURRENCY_CODE, 
+				SI.STRAT_ALLOC_BENEFIT, SI.STRAT_ALLOC_FUNDING, SI.STRAT_ALLOC_FTE, ${dbOwner}.CMN_NULL_FLOAT_FCT(SI.PTF_OPEXLIM,0), SI.CURRENCY_CODE, 
 				${selStartDate}, ${selFinishDate}, U.ID 
 		FROM ODF_CA_STRATEGIC_ITEM SI
 			INNER JOIN SRM_RESOURCES R on R.ID = SI.STRAT_PFM_MANAGER

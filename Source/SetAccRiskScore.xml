@@ -41,8 +41,8 @@
 	</gel:parse>
 
 	<sql:query escapeText="false" var="vItemtoSet">
-		Select SI.NAME, SI.CODE, SI.ID, ${dbOwner}.CMN_NULL_INT_FCT(SI.RISK_SCORE,0),
-				(Select ${dbOwner}.CMN_NULL_INT_FCT(count(*),0) From ODF_CA_STRATEGIC_ITEM SI2 WHERE SI2.PARENTITEM = SI.ID) HasChildren
+		Select SI.NAME, SI.CODE, SI.ID, ${dbOwner}.CMN_NULL_FLOAT_FCT(SI.RISK_SCORE,0),
+				(Select ${dbOwner}.CMN_NULL_FLOAT_FCT(count(*),0) From ODF_CA_STRATEGIC_ITEM SI2 WHERE SI2.PARENTITEM = SI.ID) HasChildren
 		FROM ODF_CA_STRATEGIC_ITEM SI 
 		WHERE SI.Strat_PLAN_STATUS = 'ACTIVE'
 	</sql:query>

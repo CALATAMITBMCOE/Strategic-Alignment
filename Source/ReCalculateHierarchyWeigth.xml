@@ -8,7 +8,7 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 5.0 							-->
+	<!-- Package: Strategic Alignment 5.1 							-->
 	<!-- Process: Strategic Item Weights Calculation 				-->
 	<!-- Step	: Recalculate Weights								-->
 	<!-- Action	: ReCalculate Hierarchy Weight						-->
@@ -34,7 +34,7 @@
 	
     <!-- Reading Item Data-->
     <sql:query escapeText="false" var="vItemFields">
-		Select A.NAME, A.CODE, A.PARTITION_CODE, ${dbOwner}.CMN_NULL_INT_FCT(A.Strat_HIERARCHY,A.ID), SI.CODE
+		Select A.NAME, A.CODE, A.PARTITION_CODE, ${dbOwner}.CMN_NULL_FLOAT_FCT(A.Strat_HIERARCHY,A.ID), SI.CODE
 		FROM ODF_CA_STRATEGIC_ITEM A INNER JOIN ODF_CA_STRATEGIC_ITEM SI ON ((SI.ID = A.Strat_HIERARCHY) OR ((A.Strat_HIERARCHY is null) and (SI.ID = A.ID)))
 		WHERE A.id=${vInitialItem_Intl}
 	</sql:query>
@@ -75,7 +75,7 @@
 					<gel:log level="debug" message="Processing Level ${vCurrentLevel}."/> 
 				</core:if>
 				<sql:query escapeText="false" var="vItemLevel">
-					select SI.PARENTITEM, SI.ID, SI.CODE, SI.WEIGHT, SUM(SISUM.WEIGHT), SI.WEIGHT/${dbOwner}.CMN_NULL_INT_FCT(SUM(SISUM.WEIGHT),1)
+					select SI.PARENTITEM, SI.ID, SI.CODE, SI.WEIGHT, SUM(SISUM.WEIGHT), SI.WEIGHT/${dbOwner}.CMN_NULL_FLOAT_FCT(SUM(SISUM.WEIGHT),1)
 					from ODF_CA_STRATEGIC_ITEM SI 
 							INNER JOIN ODF_CA_STRATEGIC_ITEM SISUM on SISUM.PARENTITEM = SI.PARENTITEM 
 					WHERE SI.Strat_HIERARCHY = ${vInitialItem_Hier} 

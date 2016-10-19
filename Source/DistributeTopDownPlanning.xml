@@ -8,7 +8,7 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 5.0 							-->
+	<!-- Package: Strategic Alignment 5.1 							-->
 	<!-- Process: Strategic Top Down Planning Calculation			-->
 	<!-- Step	: Distribute Top Down Planning						-->
 	<!-- Action	: Distribute Top Down Planning						-->
@@ -106,9 +106,9 @@
 
 		<!-- Find Children to Distribute TD Plan -->
 		<sql:query escapeText="false" var="vChildren">
-			SELECT CL.ID, CL.CODE, CL.NAME, round(CL.Strat_ALLOC_PERC * ${dbOwner}.CMN_NULL_INT_FCT(PR.Strat_TOP_DOWN_FUND,0), 0), 
-											round(CL.Strat_ALLOC_PERC * ${dbOwner}.CMN_NULL_INT_FCT(PR.Strat_TD_BENEFIT,0), 0),
-											round(CL.Strat_ALLOC_PERC * ${dbOwner}.CMN_NULL_INT_FCT(PR.Strat_TD_FTE,0), 0),
+			SELECT CL.ID, CL.CODE, CL.NAME, round(CL.Strat_ALLOC_PERC * ${dbOwner}.CMN_NULL_FLOAT_FCT(PR.Strat_TOP_DOWN_FUND,0), 0), 
+											round(CL.Strat_ALLOC_PERC * ${dbOwner}.CMN_NULL_FLOAT_FCT(PR.Strat_TD_BENEFIT,0), 0),
+											round(CL.Strat_ALLOC_PERC * ${dbOwner}.CMN_NULL_FLOAT_FCT(PR.Strat_TD_FTE,0), 0),
 					${selStartDate}, ${selFinishDate}, PR.Strat_PFM_MANAGER, PR.CURRENCY_CODE
 			FROM ODF_CA_STRATEGIC_ITEM Cl
 				INNER JOIN ODF_CA_STRATEGIC_ITEM Pr on Pr.ID = Cl.ParentItem

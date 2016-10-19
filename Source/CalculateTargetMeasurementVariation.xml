@@ -8,7 +8,7 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 5.0 							-->
+	<!-- Package: Strategic Alignment 5.1 							-->
 	<!-- Process: Strategic Indicators Calculation 					-->
 	<!-- Step	: Indicator Calculation and Rollup					-->
 	<!-- Action	: Calculate Target Measurement Variation			-->
@@ -45,18 +45,18 @@
 		Select 	SK.NAME, SK.CODE, SK.ID, SK.KPI_SIGN, SKT.CODE, SKT.TARGET_DATE, SKT.TARGET_VALUE, SKM.MEASUREMENT_DATE, SKM.MEASUREMENT_VALUE, 
    			    case when SK.KPI_SIGN = 'LOW' 
 					then
-						Case when ${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,1) &gt; 0
+						Case when ${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,1) &gt; 0
 							then
-								1-((${dbOwner}.CMN_NULL_INT_FCT(SKM.MEASUREMENT_VALUE,0)-${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,0))/${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,1))
+								1-((${dbOwner}.CMN_NULL_FLOAT_FCT(SKM.MEASUREMENT_VALUE,0)-${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,0))/${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,1))
 							else	
-								${dbOwner}.CMN_NULL_INT_FCT(SKM.MEASUREMENT_VALUE,0)/${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,1)
+								${dbOwner}.CMN_NULL_FLOAT_FCT(SKM.MEASUREMENT_VALUE,0)/${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,1)
 							end
 					else 
-						Case when ${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,1) &gt; 0
+						Case when ${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,1) &gt; 0
 							then
-								${dbOwner}.CMN_NULL_INT_FCT(SKM.MEASUREMENT_VALUE,0)/${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,1)
+								${dbOwner}.CMN_NULL_FLOAT_FCT(SKM.MEASUREMENT_VALUE,0)/${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,1)
 							else
-								1-((${dbOwner}.CMN_NULL_INT_FCT(SKM.MEASUREMENT_VALUE,0)-${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,0))/${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,1))
+								1-((${dbOwner}.CMN_NULL_FLOAT_FCT(SKM.MEASUREMENT_VALUE,0)-${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,0))/${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,1))
 							end
 					end 
 		FROM ODF_CA_Strat_KPI SK 
@@ -99,8 +99,8 @@
 		<gel:parse var="v_xml_target_instance">
 			<instance instanceCode="${vIndicatorTarg_Code}" objectCode="strat_kpi_target" parentInstanceCode="${vIndicator_Code}" parentObjectCode="strat_kpi">
 				<CustomInformation>
-					<ColumnValue name="itemStatus">${vItemScale_ItemStatus}</ColumnValue>
-					<ColumnValue name="kpi_Status">${vIndicator_Stat}</ColumnValue>
+					<ColumnValue name="itemstatus">${vItemScale_ItemStatus}</ColumnValue>
+					<ColumnValue name="kpi_status">${vIndicator_Stat}</ColumnValue>
 				</CustomInformation>
 			</instance>
 		</gel:parse>
@@ -171,18 +171,18 @@
 		Select 	SK.NAME, SK.CODE, SK.ID, SK.KPI_SIGN, SKM.CODE, SKT.TARGET_DATE, SKT.TARGET_VALUE, SKM.MEASUREMENT_DATE, SKM.MEASUREMENT_VALUE, 
    			    case when SK.KPI_SIGN = 'LOW' 
 					then
-						Case when ${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,1) &gt; 0
+						Case when ${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,1) &gt; 0
 							then
-								1-((${dbOwner}.CMN_NULL_INT_FCT(SKM.MEASUREMENT_VALUE,0)-${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,0))/${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,1))
+								1-((${dbOwner}.CMN_NULL_FLOAT_FCT(SKM.MEASUREMENT_VALUE,0)-${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,0))/${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,1))
 							else	
-								${dbOwner}.CMN_NULL_INT_FCT(SKM.MEASUREMENT_VALUE,0)/${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,1)
+								${dbOwner}.CMN_NULL_FLOAT_FCT(SKM.MEASUREMENT_VALUE,0)/${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,1)
 							end
 					else 
-						Case when ${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,1) &gt; 0
+						Case when ${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,1) &gt; 0
 							then
-								${dbOwner}.CMN_NULL_INT_FCT(SKM.MEASUREMENT_VALUE,0)/${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,1)
+								${dbOwner}.CMN_NULL_FLOAT_FCT(SKM.MEASUREMENT_VALUE,0)/${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,1)
 							else
-								1-((${dbOwner}.CMN_NULL_INT_FCT(SKM.MEASUREMENT_VALUE,0)-${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,0))/${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,1))
+								1-((${dbOwner}.CMN_NULL_FLOAT_FCT(SKM.MEASUREMENT_VALUE,0)-${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,0))/${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,1))
 							end
 					end  
 		FROM ODF_CA_Strat_KPI SK 
@@ -224,8 +224,8 @@
 		<gel:parse var="v_xml_measure_instance">
 			<instance instanceCode="${vIndicatorMeas_Code}" objectCode="strat_kpi_measure" parentInstanceCode="${vIndicator_Code}" parentObjectCode="strat_kpi">
 				<CustomInformation>
-					<ColumnValue name="itemStatus">${vItemScale_ItemStatus}</ColumnValue>
-					<ColumnValue name="kpi_Status">${vIndicator_Stat}</ColumnValue>
+					<ColumnValue name="itemstatus">${vItemScale_ItemStatus}</ColumnValue>
+					<ColumnValue name="kpi_status">${vIndicator_Stat}</ColumnValue>
 				</CustomInformation>
 			</instance>
 		</gel:parse>
@@ -298,18 +298,18 @@
 				SKM.MEASUREMENT_DATE, SKM.MEASUREMENT_VALUE, SKMN.ITEMSTATUS,
    			    case when SK.KPI_SIGN = 'LOW' 
 					then
-						Case when ${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,1) &gt; 0
+						Case when ${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,1) &gt; 0
 							then
-								1-((${dbOwner}.CMN_NULL_INT_FCT(SKM.MEASUREMENT_VALUE,0)-${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,0))/${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,1))
+								1-((${dbOwner}.CMN_NULL_FLOAT_FCT(SKM.MEASUREMENT_VALUE,0)-${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,0))/${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,1))
 							else	
-								${dbOwner}.CMN_NULL_INT_FCT(SKM.MEASUREMENT_VALUE,0)/${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,1)
+								${dbOwner}.CMN_NULL_FLOAT_FCT(SKM.MEASUREMENT_VALUE,0)/${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,1)
 							end
 					else 
-						Case when ${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,1) &gt; 0
+						Case when ${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,1) &gt; 0
 							then
-								${dbOwner}.CMN_NULL_INT_FCT(SKM.MEASUREMENT_VALUE,0)/${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,1)
+								${dbOwner}.CMN_NULL_FLOAT_FCT(SKM.MEASUREMENT_VALUE,0)/${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,1)
 							else
-								1-((${dbOwner}.CMN_NULL_INT_FCT(SKM.MEASUREMENT_VALUE,0)-${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,0))/${dbOwner}.CMN_NULL_INT_FCT(SKT.TARGET_VALUE,1))
+								1-((${dbOwner}.CMN_NULL_FLOAT_FCT(SKM.MEASUREMENT_VALUE,0)-${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,0))/${dbOwner}.CMN_NULL_FLOAT_FCT(SKT.TARGET_VALUE,1))
 							end
 					end 
 		FROM ODF_CA_Strat_KPI SK

@@ -8,7 +8,7 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 5.0 							-->
+	<!-- Package: Strategic Alignment 5.1 							-->
 	<!-- Process: Strategy Control									-->
 	<!-- Step	: Distribute Evaluation								-->
 	<!-- Action	: Distribute Evaluation								-->
@@ -35,7 +35,7 @@
 
     <!-- Reading Cycle Data-->
     <sql:query escapeText="false" var="vCycleFields">
-		Select A.NAME, A.CODE, A.PARTITION_CODE, A.Strat_HIERARCHY, A.Strat_CYCLE_METHOD, ${dbOwner}.CMN_NULL_INT_FCT(A.PORTFOLIO,0), U.USER_NAME
+		Select A.NAME, A.CODE, A.PARTITION_CODE, A.Strat_HIERARCHY, A.Strat_CYCLE_METHOD, ${dbOwner}.CMN_NULL_FLOAT_FCT(A.PORTFOLIO,0), U.USER_NAME
 		FROM ODF_CA_Strat_EVAL_CYCLE A
 			INNER JOIN CMN_SEC_USERS U on U.ID = A.CREATED_BY
 		WHERE A.id=${vCycle_Intl}

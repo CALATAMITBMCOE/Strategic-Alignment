@@ -72,7 +72,7 @@
 	</core:if>
 
 	<core:set var="XOGlogFolder" value="${vInstallDir}/logs"/>
-	<core:set var="XOGwebFolder" value="${vInstallDir}/webroot/Strat_logs"/>
+	<core:set var="XOGwebFolder" value="${vInstallDir}/webroot/strat_logs"/>
 	<!-- Then create the new folder mkdirs will create all intermediate parent folders  -->
 	<util:file name="${XOGwebFolder}" var="logsfoldervar" />
 	<core:set var="CreateLogsDirDone" value="${logsfoldervar.mkdirs()}" />

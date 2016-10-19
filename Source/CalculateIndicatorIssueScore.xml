@@ -54,7 +54,7 @@
     <core:set var="vMaxScore">4</core:set>
     
 	<sql:query escapeText="false" var="vIndctoActivate">
-		Select SR.NAME, SR.CODE, SI.NAME, SI.CODE, SI.ID, MAX(${dbOwner}.CMN_NULL_INT_FCT(CI.ACC_ISSUE_SCORE,0))
+		Select SR.NAME, SR.CODE, SI.NAME, SI.CODE, SI.ID, MAX(${dbOwner}.CMN_NULL_FLOAT_FCT(CI.ACC_ISSUE_SCORE,0))
 		FROM ODF_CA_Strat_ISSUE SR inner join  ODF_CA_Strat_KPI SI on SI.ID = SR.ODF_PARENT_ID
 		  left outer join ODF_MULTI_VALUED_LOOKUPS MVL on MVL.OBJECT='strat_kpi' and MVL.ATTRIBUTE='strat_children_kpi' and MVL.PK_ID = SI.ID
 		  left outer join ODF_CA_STRAT_KPI CI on CI.ID = MVL.VALUE

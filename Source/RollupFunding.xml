@@ -8,7 +8,7 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 5.0 							-->
+	<!-- Package: Strategic Alignment 5.1 							-->
 	<!-- Process: Strategic Rollup Allocated and Committed Funding	-->
 	<!-- Step	: Rollup Funding									-->
 	<!-- Action	: Rollup funding									-->
@@ -114,7 +114,7 @@
 			</core:if>
 			
 			<sql:query escapeText="false" var="vChildrenCommit1">
-				select round(${dbOwner}.CMN_NULL_INT_FCT(sum(C.SLICE),0),0)
+				select round(${dbOwner}.CMN_NULL_FLOAT_FCT(sum(C.SLICE),0),0)
 					from INV_INVESTMENTS I
 						inner join ODF_CA_INV OI on OI.ID = I.ID
 						inner join ODF_OBJECT_INSTANCE_MAPPING OM on OM.PRIMARY_OBJECT_INSTANCE_ID = I.ID 
@@ -140,7 +140,7 @@
 			</core:if>
 						
 			<sql:query escapeText="false" var="vChildrenCommit2">
-				select round(${dbOwner}.CMN_NULL_INT_FCT(sum(B.SLICE),0),0)
+				select round(${dbOwner}.CMN_NULL_FLOAT_FCT(sum(B.SLICE),0),0)
 					from INV_INVESTMENTS I
 						inner join ODF_CA_INV OI on OI.ID = I.ID
 						inner join ODF_OBJECT_INSTANCE_MAPPING OM on OM.PRIMARY_OBJECT_INSTANCE_ID = I.ID 
@@ -217,7 +217,7 @@
 			</core:if>
 						
 			<sql:query escapeText="false" var="vChildrenCommit1">
-				select round(${dbOwner}.CMN_NULL_INT_FCT(sum(C.SLICE),0),0)
+				select round(${dbOwner}.CMN_NULL_FLOAT_FCT(sum(C.SLICE),0),0)
 					from INV_INVESTMENTS I
 						inner join ODF_CA_INV OI on OI.ID = I.ID
 						inner join ODF_OBJECT_INSTANCE_MAPPING OM on OM.PRIMARY_OBJECT_INSTANCE_ID = I.ID 
@@ -242,7 +242,7 @@
 			</core:if>
 									
 			<sql:query escapeText="false" var="vChildrenCommit2">
-				select round(${dbOwner}.CMN_NULL_INT_FCT(sum(B.SLICE),0),0)
+				select round(${dbOwner}.CMN_NULL_FLOAT_FCT(sum(B.SLICE),0),0)
 					from INV_INVESTMENTS I
 						inner join ODF_CA_INV OI on OI.ID = I.ID
 						inner join ODF_OBJECT_INSTANCE_MAPPING OM on OM.PRIMARY_OBJECT_INSTANCE_ID = I.ID 

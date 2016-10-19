@@ -8,7 +8,7 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 5.0 							-->
+	<!-- Package: Strategic Alignment 5.1 							-->
 	<!-- Process: Strategy Control									-->
 	<!-- Step	: Close Evaluation									-->
 	<!-- Action	: Calculate Investment Alignment					-->
@@ -126,7 +126,7 @@
 				<core:set var="vTreeLevel" value="${vTreeLevel-1}"/>
 			</core:while>
 			<sql:query escapeText="false" var="vEvaluations">
-				Select SE.CODE, SE.METRICID, SM.NAME, SE.INVESTMENTID, I.NAME, ${dbOwner}.CMN_NULL_INT_FCT(SE.INVEVALUATION,0), MS.MetricValue, round(MS.MetricValue * ${vTree_Weight_Acum},6)
+				Select SE.CODE, SE.METRICID, SM.NAME, SE.INVESTMENTID, I.NAME, ${dbOwner}.CMN_NULL_FLOAT_FCT(SE.INVEVALUATION,0), MS.MetricValue, round(MS.MetricValue * ${vTree_Weight_Acum},6)
 				From ODF_CA_Strat_EVALUATION SE
 					Inner Join INV_INVESTMENTS I on I.ID = SE.INVESTMENTID
 					Inner Join ODF_CA_Strat_ALIGN_METRIC SM ON SM.ID = SE.METRICID
