@@ -1,0 +1,235 @@
+<gel:script xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:core="jelly:core"
+    xmlns:file="jelly:com.niku.union.gel.FileTagLibrary"
+    xmlns:gel="jelly:com.niku.union.gel.GELTagLibrary"
+    xmlns:soap="jelly:com.niku.union.gel.SOAPTagLibrary"
+    xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:sql="jelly:sql" xmlns:xog="http://www.niku.com/xog"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+   	<!--============================================================-->
+	<!-- Package: Strategic Alignment 5.1 	[NOT IN USE]			-->
+	<!-- Process: Strategic Item - Rebuild Tree						-->
+	<!-- Step	: Rebuild Tree										-->
+	<!-- Action	: Rebuild Tree										-->
+   	<!--============================================================-->
+	<!-- Object : n/a												-->
+   	<!--============================================================-->
+	<!-- This process rebuilds all trees on Strat_tree_flat			-->
+   	<!--============================================================-->
+
+	<core:if test="${DebugLevel &gt; 0}">
+		<gel:log level="debug" message="Start Script"/>
+		<gel:log level="debug" message=">>Persisted XOG URL   : ${XOGURL}"/>
+		<gel:log level="debug" message=">>Persisted LOG Folder: ${XOGlogFolder}"/>
+		<gel:log level="debug" message=">>Persisted WEB Folder: ${XOGwebFolder}"/>
+		<gel:log level="debug" message=">>Persisted SessionID : ${sessionID}"/>
+		<gel:log level="debug" message=">>Persisted DebugLevel: ${DebugLevel}"/>
+	</core:if>
+
+    <gel:setDataSource dbId="niku"/>
+	<!-- Fix Parent Item  -->
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0005'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0002'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0004'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0003'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001-01') WHERE CODE = 'SI0003-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001-01') WHERE CODE = 'SI0005-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001-01') WHERE CODE = 'SI0002-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001-01') WHERE CODE = 'SI0004-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0002') WHERE CODE = 'SI0008'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0002') WHERE CODE = 'SI0006'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0002') WHERE CODE = 'SI0007'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0002-01') WHERE CODE = 'SI0008-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0002-01') WHERE CODE = 'SI0006-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0002-01') WHERE CODE = 'SI0007-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0003') WHERE CODE = 'SI0009'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0003') WHERE CODE = 'SI0011'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0003') WHERE CODE = 'SI0010'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0003-01') WHERE CODE = 'SI0009-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0003-01') WHERE CODE = 'SI0011-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0003-01') WHERE CODE = 'SI0010-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0004') WHERE CODE = 'SI0013'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0004') WHERE CODE = 'SI0014'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0004') WHERE CODE = 'SI0012'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0004-01') WHERE CODE = 'SI0014-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0004-01') WHERE CODE = 'SI0013-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0004-01') WHERE CODE = 'SI0012-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0005') WHERE CODE = 'SI0015'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0005') WHERE CODE = 'SI0016'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0005-01') WHERE CODE = 'SI0016-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0005-01') WHERE CODE = 'SI0015-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0026') WHERE CODE = 'SI0031'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0026') WHERE CODE = 'SI0030'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0026') WHERE CODE = 'SI0029'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0026') WHERE CODE = 'SI0028'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0026-01') WHERE CODE = 'SI0031-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0026-01') WHERE CODE = 'SI0030-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0026-01') WHERE CODE = 'SI0029-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0026-01') WHERE CODE = 'SI0028-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0026-02') WHERE CODE = 'SI0028-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0026-02') WHERE CODE = 'SI0031-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0026-02') WHERE CODE = 'SI0030-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0026-02') WHERE CODE = 'SI0029-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0026-03') WHERE CODE = 'SI0031-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0026-03') WHERE CODE = 'SI0028-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0026-03') WHERE CODE = 'SI0030-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0026-03') WHERE CODE = 'SI0029-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0026-04') WHERE CODE = 'SI0030-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0026-04') WHERE CODE = 'SI0028-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0026-04') WHERE CODE = 'SI0031-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0026-04') WHERE CODE = 'SI0029-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0027') WHERE CODE = 'SI0034'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0027') WHERE CODE = 'SI0033'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0027') WHERE CODE = 'SI0032'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0028') WHERE CODE = 'SI0022'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0028-01') WHERE CODE = 'SI0022-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0028-02') WHERE CODE = 'SI0022-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0028-03') WHERE CODE = 'SI0022-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0028-04') WHERE CODE = 'SI0022-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0029') WHERE CODE = 'SI0036'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0029') WHERE CODE = 'SI0021'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0029-01') WHERE CODE = 'SI0021-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0029-01') WHERE CODE = 'SI0036-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0029-02') WHERE CODE = 'SI0036-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0029-02') WHERE CODE = 'SI0021-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0029-03') WHERE CODE = 'SI0021-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0029-03') WHERE CODE = 'SI0036-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0029-04') WHERE CODE = 'SI0021-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0029-04') WHERE CODE = 'SI0036-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0030') WHERE CODE = 'SI0038'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0030') WHERE CODE = 'SI0025'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0030-01') WHERE CODE = 'SI0038-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0030-01') WHERE CODE = 'SI0025-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0030-02') WHERE CODE = 'SI0038-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0030-02') WHERE CODE = 'SI0025-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0030-03') WHERE CODE = 'SI0038-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0030-03') WHERE CODE = 'SI0025-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0030-04') WHERE CODE = 'SI0025-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0030-04') WHERE CODE = 'SI0038-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0031') WHERE CODE = 'SI0037'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0031') WHERE CODE = 'SI0023'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0031-01') WHERE CODE = 'SI0023-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0031-01') WHERE CODE = 'SI0037-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0031-02') WHERE CODE = 'SI0037-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0031-02') WHERE CODE = 'SI0023-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0031-03') WHERE CODE = 'SI0037-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0031-03') WHERE CODE = 'SI0023-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0031-04') WHERE CODE = 'SI0023-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0031-04') WHERE CODE = 'SI0037-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0032') WHERE CODE = 'SI0019'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0032') WHERE CODE = 'SI0018'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0033') WHERE CODE = 'SI0024'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0033') WHERE CODE = 'SI0020'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0034') WHERE CODE = 'SI0035'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0034') WHERE CODE = 'SI0017'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0221') WHERE CODE = 'ST001015'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0221') WHERE CODE = 'ST001014'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0221') WHERE CODE = 'ST001013'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0221') WHERE CODE = 'ST001012'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0221') WHERE CODE = 'ST001011'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0221') WHERE CODE = 'ST001010'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0221') WHERE CODE = 'ST001009'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0221') WHERE CODE = 'ST001008'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0221') WHERE CODE = 'ST001007'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0221') WHERE CODE = 'ST001006'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0221') WHERE CODE = 'ST001005'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0221') WHERE CODE = 'ST001004'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0221') WHERE CODE = 'ST001003'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0221') WHERE CODE = 'ST001002'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'SI0221') WHERE CODE = 'ST001001'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'ST001007') WHERE CODE = 'ST001016'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'ST001008') WHERE CODE = 'ST001018'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'ST001008') WHERE CODE = 'ST001017'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'ST001009') WHERE CODE = 'ST001019'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'ST001010') WHERE CODE = 'ST001020'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'ST001011') WHERE CODE = 'ST001021'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'ST001012') WHERE CODE = 'ST001022'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'ST001013') WHERE CODE = 'ST001023'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'ST001014') WHERE CODE = 'ST001024'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = 'ST001015') WHERE CODE = 'ST001025'</sql:update>
+	<!-- Fix Parent Plan -->
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0022-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0025-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0023-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0021-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0038-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0036-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0037-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0038-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0022-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0021-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0038-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0023-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0021-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0037-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0036-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0022-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0021-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0025-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0025-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0037-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0036-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0022-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0037-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0038-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0023-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0025-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0036-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0023-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0037'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0035'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0038'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0036'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0023'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0019'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0024'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0018'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0020'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0022'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0021'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0017'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = 'SI0001') WHERE CODE = 'SI0025'</sql:update>
+	<!-- Fix Related Plan Parent -->
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0002') WHERE CODE = 'SI0021-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0002') WHERE CODE = 'SI0021-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0002') WHERE CODE = 'SI0021-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0002') WHERE CODE = 'SI0021-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0002') WHERE CODE = 'SI0035'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0002') WHERE CODE = 'SI0021'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0002') WHERE CODE = 'SI0017'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0005') WHERE CODE = 'SI0025-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0005') WHERE CODE = 'SI0038-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0005') WHERE CODE = 'SI0038-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0005') WHERE CODE = 'SI0038-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0005') WHERE CODE = 'SI0025-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0005') WHERE CODE = 'SI0025-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0005') WHERE CODE = 'SI0038-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0005') WHERE CODE = 'SI0025-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0005') WHERE CODE = 'SI0038'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0005') WHERE CODE = 'SI0025'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0008') WHERE CODE = 'SI0036-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0008') WHERE CODE = 'SI0036-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0008') WHERE CODE = 'SI0036-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0008') WHERE CODE = 'SI0036-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0008') WHERE CODE = 'SI0036'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0009') WHERE CODE = 'SI0022-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0009') WHERE CODE = 'SI0022-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0009') WHERE CODE = 'SI0022-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0009') WHERE CODE = 'SI0022-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0009') WHERE CODE = 'SI0019'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0009') WHERE CODE = 'SI0018'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0009') WHERE CODE = 'SI0022'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0012') WHERE CODE = 'SI0020'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0014') WHERE CODE = 'SI0023-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0014') WHERE CODE = 'SI0037-04'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0014') WHERE CODE = 'SI0023-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0014') WHERE CODE = 'SI0037-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0014') WHERE CODE = 'SI0037-01'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0014') WHERE CODE = 'SI0037-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0014') WHERE CODE = 'SI0023-02'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0014') WHERE CODE = 'SI0023-03'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0014') WHERE CODE = 'SI0037'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0014') WHERE CODE = 'SI0023'</sql:update>
+	<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = 'SI0014') WHERE CODE = 'SI0024'</sql:update>
+	</gel:script>
