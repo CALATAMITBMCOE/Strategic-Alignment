@@ -1,0 +1,6 @@
+<XOGOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/status.xsd">
+  <Object type="customObjectInstance"/>
+  <Records/>
+  <Statistics failureRecords="0" insertedRecords="173" totalNumberOfRecords="1153" updatedRecords="980"/>
+  <Status elapsedTime="1 minutes 10.462999999999994 seconds " state="SUCCESS"/>
+</XOGOutput>

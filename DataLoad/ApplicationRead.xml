@@ -1,0 +1,13 @@
+<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_read.xsd">
+  <Header version="7.0.1" action="read" objectType="application" externalSource="NIKU">
+    <!-- you change the order by simply swap 1 and 2 number in the name attribute -->
+    <args name="order_by_1" value="name"/>
+    <args name="order_by_2" value="objectID"/>
+    <args name="include_resources" value="false"/>
+    <args name="include_tasks" value="false"/>
+    <args name="include_allocations" value="false"/>
+  </Header>
+  <Query>
+    <Filter name="objectID" criteria="EQUALS">AP1010</Filter>
+  </Query>
+</NikuDataBus>

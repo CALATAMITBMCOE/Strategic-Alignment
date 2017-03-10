@@ -1,0 +1,11 @@
+<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_read.xsd">
+  <Header version="8.0" action="read" objectType="service" externalSource="NIKU">
+    <args name="order_by_1" value="objectID"/>
+    <args name="include_resources" value="false"/>
+    <args name="include_tasks" value="false"/>
+    <args name="include_allocations" value="false"/>
+  </Header>
+  <Query>
+    <Filter name="objectID" criteria="EQUALS">SV1012</Filter>
+  </Query>
+</NikuDataBus>

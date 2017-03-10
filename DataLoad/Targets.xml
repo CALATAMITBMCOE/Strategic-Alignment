@@ -183,6 +183,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0001T2022" objectCode="strat_kpi_target" parentInstanceCode="I0001" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0001T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">72</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0002T2009" objectCode="strat_kpi_target" parentInstanceCode="I0002" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -357,7 +371,21 @@
         <ColumnValue name="name">2021 Target</ColumnValue>
         <ColumnValue name="code">I0002T2021</ColumnValue>
         <ColumnValue name="target_date">2021-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">100</ColumnValue>
+        <ColumnValue name="target_value">99</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0002T2022" objectCode="strat_kpi_target" parentInstanceCode="I0002" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0002T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">99</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -547,6 +575,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0003T2022" objectCode="strat_kpi_target" parentInstanceCode="I0003" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0003T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">51</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0004T2009" objectCode="strat_kpi_target" parentInstanceCode="I0004" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -721,6 +763,20 @@
         <ColumnValue name="name">2021 Target</ColumnValue>
         <ColumnValue name="code">I0004T2021</ColumnValue>
         <ColumnValue name="target_date">2021-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">1</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0004T2022" objectCode="strat_kpi_target" parentInstanceCode="I0004" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0004T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
         <ColumnValue name="target_value">1</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
@@ -911,6 +967,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0005T2022" objectCode="strat_kpi_target" parentInstanceCode="I0005" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0005T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">57052623</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0006T2009" objectCode="strat_kpi_target" parentInstanceCode="I0006" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -1086,6 +1156,20 @@
         <ColumnValue name="code">I0006T2021</ColumnValue>
         <ColumnValue name="target_date">2021-12-31T00:00:00</ColumnValue>
         <ColumnValue name="target_value">39945782</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0006T2022" objectCode="strat_kpi_target" parentInstanceCode="I0006" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0006T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">40744698</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -1275,6 +1359,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0007T2022" objectCode="strat_kpi_target" parentInstanceCode="I0007" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0007T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">32</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0008T2009" objectCode="strat_kpi_target" parentInstanceCode="I0008" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -1457,6 +1555,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0008T2022" objectCode="strat_kpi_target" parentInstanceCode="I0008" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0008T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">642967200</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0009T2009" objectCode="strat_kpi_target" parentInstanceCode="I0009" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -1631,6 +1743,20 @@
         <ColumnValue name="name">2021 Target</ColumnValue>
         <ColumnValue name="code">I0009T2021</ColumnValue>
         <ColumnValue name="target_date">2021-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">18</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0009T2022" objectCode="strat_kpi_target" parentInstanceCode="I0009" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0009T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
         <ColumnValue name="target_value">18</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
@@ -1821,6 +1947,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0010T2022" objectCode="strat_kpi_target" parentInstanceCode="I0010" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0010T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">43</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0011T2009" objectCode="strat_kpi_target" parentInstanceCode="I0011" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -1995,6 +2135,20 @@
         <ColumnValue name="name">2021 Target</ColumnValue>
         <ColumnValue name="code">I0011T2021</ColumnValue>
         <ColumnValue name="target_date">2021-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">2</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0011T2022" objectCode="strat_kpi_target" parentInstanceCode="I0011" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0011T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
         <ColumnValue name="target_value">2</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
@@ -2185,6 +2339,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0012T2022" objectCode="strat_kpi_target" parentInstanceCode="I0012" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0012T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">74</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0013T2009" objectCode="strat_kpi_target" parentInstanceCode="I0013" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -2367,6 +2535,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0013T2022" objectCode="strat_kpi_target" parentInstanceCode="I0013" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0013T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">99</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0014T2009" objectCode="strat_kpi_target" parentInstanceCode="I0014" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -2541,6 +2723,20 @@
         <ColumnValue name="name">2021 Target</ColumnValue>
         <ColumnValue name="code">I0014T2021</ColumnValue>
         <ColumnValue name="target_date">2021-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">13</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0014T2022" objectCode="strat_kpi_target" parentInstanceCode="I0014" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0014T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
         <ColumnValue name="target_value">13</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
@@ -2731,6 +2927,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0015T2022" objectCode="strat_kpi_target" parentInstanceCode="I0015" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0015T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">56</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0016T2009" objectCode="strat_kpi_target" parentInstanceCode="I0016" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -2913,6 +3123,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0016T2022" objectCode="strat_kpi_target" parentInstanceCode="I0016" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0016T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">58939</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0017T2009" objectCode="strat_kpi_target" parentInstanceCode="I0017" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -3073,7 +3297,7 @@
         <ColumnValue name="name">2020 Target</ColumnValue>
         <ColumnValue name="code">I0017T2020</ColumnValue>
         <ColumnValue name="target_date">2020-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">102</ColumnValue>
+        <ColumnValue name="target_value">99.5</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -3087,7 +3311,21 @@
         <ColumnValue name="name">2021 Target</ColumnValue>
         <ColumnValue name="code">I0017T2021</ColumnValue>
         <ColumnValue name="target_date">2021-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">104</ColumnValue>
+        <ColumnValue name="target_value">99.5</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0017T2022" objectCode="strat_kpi_target" parentInstanceCode="I0017" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0017T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">99.799999999999997</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -3277,6 +3515,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0018T2022" objectCode="strat_kpi_target" parentInstanceCode="I0018" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0018T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">2</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0019T2009" objectCode="strat_kpi_target" parentInstanceCode="I0019" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -3451,6 +3703,20 @@
         <ColumnValue name="name">2021 Target</ColumnValue>
         <ColumnValue name="code">I0019T2021</ColumnValue>
         <ColumnValue name="target_date">2021-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">24</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0019T2022" objectCode="strat_kpi_target" parentInstanceCode="I0019" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0019T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
         <ColumnValue name="target_value">24</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
@@ -3641,6 +3907,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0020T2022" objectCode="strat_kpi_target" parentInstanceCode="I0020" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0020T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">1</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0021T2009" objectCode="strat_kpi_target" parentInstanceCode="I0021" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -3787,7 +4067,7 @@
         <ColumnValue name="name">2019 Target</ColumnValue>
         <ColumnValue name="code">I0021T2019</ColumnValue>
         <ColumnValue name="target_date">2019-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">40</ColumnValue>
+        <ColumnValue name="target_value">39</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -3801,7 +4081,7 @@
         <ColumnValue name="name">2020 Target</ColumnValue>
         <ColumnValue name="code">I0021T2020</ColumnValue>
         <ColumnValue name="target_date">2020-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">41</ColumnValue>
+        <ColumnValue name="target_value">39</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -3815,7 +4095,21 @@
         <ColumnValue name="name">2021 Target</ColumnValue>
         <ColumnValue name="code">I0021T2021</ColumnValue>
         <ColumnValue name="target_date">2021-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">42</ColumnValue>
+        <ColumnValue name="target_value">38</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0021T2022" objectCode="strat_kpi_target" parentInstanceCode="I0021" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0021T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">38</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -3983,7 +4277,7 @@
         <ColumnValue name="name">2020 Target</ColumnValue>
         <ColumnValue name="code">I0022T2020</ColumnValue>
         <ColumnValue name="target_date">2020-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">100</ColumnValue>
+        <ColumnValue name="target_value">98</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -3997,7 +4291,21 @@
         <ColumnValue name="name">2021 Target</ColumnValue>
         <ColumnValue name="code">I0022T2021</ColumnValue>
         <ColumnValue name="target_date">2021-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">102</ColumnValue>
+        <ColumnValue name="target_value">98</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0022T2022" objectCode="strat_kpi_target" parentInstanceCode="I0022" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0022T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">99</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -4187,6 +4495,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0023T2022" objectCode="strat_kpi_target" parentInstanceCode="I0023" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0023T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">0.90000000000000002</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0024T2009" objectCode="strat_kpi_target" parentInstanceCode="I0024" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -4263,7 +4585,7 @@
         <ColumnValue name="name">2014 Target</ColumnValue>
         <ColumnValue name="code">I0024T2014</ColumnValue>
         <ColumnValue name="target_date">2014-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">99.5</ColumnValue>
+        <ColumnValue name="target_value">99</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -4277,7 +4599,7 @@
         <ColumnValue name="name">2015 Target</ColumnValue>
         <ColumnValue name="code">I0024T2015</ColumnValue>
         <ColumnValue name="target_date">2015-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">99.900000000000006</ColumnValue>
+        <ColumnValue name="target_value">99.5</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -4291,7 +4613,7 @@
         <ColumnValue name="name">2016 Target</ColumnValue>
         <ColumnValue name="code">I0024T2016</ColumnValue>
         <ColumnValue name="target_date">2016-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">99.950000000000003</ColumnValue>
+        <ColumnValue name="target_value">99.5</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -4305,7 +4627,7 @@
         <ColumnValue name="name">2017 Target</ColumnValue>
         <ColumnValue name="code">I0024T2017</ColumnValue>
         <ColumnValue name="target_date">2017-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">99.950000000000003</ColumnValue>
+        <ColumnValue name="target_value">99.799999999999997</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -4319,7 +4641,7 @@
         <ColumnValue name="name">2018 Target</ColumnValue>
         <ColumnValue name="code">I0024T2018</ColumnValue>
         <ColumnValue name="target_date">2018-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">99.950000000000003</ColumnValue>
+        <ColumnValue name="target_value">99.799999999999997</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -4333,7 +4655,7 @@
         <ColumnValue name="name">2019 Target</ColumnValue>
         <ColumnValue name="code">I0024T2019</ColumnValue>
         <ColumnValue name="target_date">2019-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">99.950000000000003</ColumnValue>
+        <ColumnValue name="target_value">99.900000000000006</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -4347,7 +4669,7 @@
         <ColumnValue name="name">2020 Target</ColumnValue>
         <ColumnValue name="code">I0024T2020</ColumnValue>
         <ColumnValue name="target_date">2020-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">103</ColumnValue>
+        <ColumnValue name="target_value">99.900000000000006</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -4361,7 +4683,21 @@
         <ColumnValue name="name">2021 Target</ColumnValue>
         <ColumnValue name="code">I0024T2021</ColumnValue>
         <ColumnValue name="target_date">2021-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">105</ColumnValue>
+        <ColumnValue name="target_value">99.900000000000006</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0024T2022" objectCode="strat_kpi_target" parentInstanceCode="I0024" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0024T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">99.950000000000003</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -4543,6 +4879,20 @@
         <ColumnValue name="name">2021 Target</ColumnValue>
         <ColumnValue name="code">I0025T2021</ColumnValue>
         <ColumnValue name="target_date">2021-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">100</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0025T2022" objectCode="strat_kpi_target" parentInstanceCode="I0025" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0025T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
         <ColumnValue name="target_value">100</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
@@ -4733,6 +5083,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0041T2022" objectCode="strat_kpi_target" parentInstanceCode="I0041" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0041T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">48</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0042T2009" objectCode="strat_kpi_target" parentInstanceCode="I0042" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -4907,6 +5271,20 @@
         <ColumnValue name="name">2021 Target</ColumnValue>
         <ColumnValue name="code">I0042T2021</ColumnValue>
         <ColumnValue name="target_date">2021-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">80</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0042T2022" objectCode="strat_kpi_target" parentInstanceCode="I0042" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0042T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
         <ColumnValue name="target_value">80</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
@@ -5097,6 +5475,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0043T2022" objectCode="strat_kpi_target" parentInstanceCode="I0043" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0043T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">24</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0047T2009" objectCode="strat_kpi_target" parentInstanceCode="I0047" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -5271,6 +5663,20 @@
         <ColumnValue name="name">2021 Target</ColumnValue>
         <ColumnValue name="code">I0047T2021</ColumnValue>
         <ColumnValue name="target_date">2021-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">1</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0047T2022" objectCode="strat_kpi_target" parentInstanceCode="I0047" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0047T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
         <ColumnValue name="target_value">1</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
@@ -5461,6 +5867,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0048T2022" objectCode="strat_kpi_target" parentInstanceCode="I0048" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0048T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">3</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0051T2009" objectCode="strat_kpi_target" parentInstanceCode="I0051" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -5635,6 +6055,20 @@
         <ColumnValue name="name">2021 Target</ColumnValue>
         <ColumnValue name="code">I0051T2021</ColumnValue>
         <ColumnValue name="target_date">2021-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">64</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0051T2022" objectCode="strat_kpi_target" parentInstanceCode="I0051" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0051T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
         <ColumnValue name="target_value">64</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
@@ -5825,6 +6259,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0052T2022" objectCode="strat_kpi_target" parentInstanceCode="I0052" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0052T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">60</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0026T2009" objectCode="strat_kpi_target" parentInstanceCode="I0026" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -5957,7 +6405,7 @@
         <ColumnValue name="name">2018 Target</ColumnValue>
         <ColumnValue name="code">I0026T2018</ColumnValue>
         <ColumnValue name="target_date">2018-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">4.4000000000000004</ColumnValue>
+        <ColumnValue name="target_value">4.2999999999999998</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -5971,7 +6419,7 @@
         <ColumnValue name="name">2019 Target</ColumnValue>
         <ColumnValue name="code">I0026T2019</ColumnValue>
         <ColumnValue name="target_date">2019-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">4.5999999999999996</ColumnValue>
+        <ColumnValue name="target_value">4.4000000000000004</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -5985,7 +6433,7 @@
         <ColumnValue name="name">2020 Target</ColumnValue>
         <ColumnValue name="code">I0026T2020</ColumnValue>
         <ColumnValue name="target_date">2020-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">4.7999999999999998</ColumnValue>
+        <ColumnValue name="target_value">4.5</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -5999,7 +6447,21 @@
         <ColumnValue name="name">2021 Target</ColumnValue>
         <ColumnValue name="code">I0026T2021</ColumnValue>
         <ColumnValue name="target_date">2021-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="target_value">5</ColumnValue>
+        <ColumnValue name="target_value">4.5999999999999996</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0026T2022" objectCode="strat_kpi_target" parentInstanceCode="I0026" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0026T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">4.7000000000000002</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -6189,6 +6651,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0027T2022" objectCode="strat_kpi_target" parentInstanceCode="I0027" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0027T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">4</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0028T2009" objectCode="strat_kpi_target" parentInstanceCode="I0028" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -6364,6 +6840,20 @@
         <ColumnValue name="code">I0028T2021</ColumnValue>
         <ColumnValue name="target_date">2021-12-31T00:00:00</ColumnValue>
         <ColumnValue name="target_value">4.5</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0028T2022" objectCode="strat_kpi_target" parentInstanceCode="I0028" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0028T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">4.7999999999999998</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -6553,6 +7043,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0030T2022" objectCode="strat_kpi_target" parentInstanceCode="I0030" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0030T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">4</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0031T2009" objectCode="strat_kpi_target" parentInstanceCode="I0031" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -6727,6 +7231,20 @@
         <ColumnValue name="name">2021 Target</ColumnValue>
         <ColumnValue name="code">I0031T2021</ColumnValue>
         <ColumnValue name="target_date">2021-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="target_value">7</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_target_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0031T2022" objectCode="strat_kpi_target" parentInstanceCode="I0031" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2022 Target</ColumnValue>
+        <ColumnValue name="code">I0031T2022</ColumnValue>
+        <ColumnValue name="target_date">2022-12-31T00:00:00</ColumnValue>
         <ColumnValue name="target_value">7</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>

@@ -407,6 +407,62 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0001M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0001" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0001M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">59</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0001M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0001" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0001M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">59</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0001M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0001" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0001M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">59</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0001M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0001" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0001M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">60</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0002M2009-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0002" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -813,6 +869,62 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0002M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0002" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0002M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">85</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0002M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0002" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0002M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">85</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0002M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0002" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0002M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">85</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0002M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0002" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0002M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">86</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0003M2009-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0003" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -1211,6 +1323,62 @@
         <ColumnValue name="name">2016-Q1</ColumnValue>
         <ColumnValue name="code">I0003M2016-Q1</ColumnValue>
         <ColumnValue name="measurement_date">2016-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">39</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0003M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0003" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0003M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">39</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0003M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0003" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0003M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">39</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0003M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0003" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0003M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">39</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0003M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0003" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0003M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
         <ColumnValue name="measurement_value">39</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
@@ -2437,6 +2605,174 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0004M2016-04" objectCode="strat_kpi_measure" parentInstanceCode="I0004" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-04</ColumnValue>
+        <ColumnValue name="code">I0004M2016-04</ColumnValue>
+        <ColumnValue name="measurement_date">2016-04-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">0.76000000000000001</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0004M2016-05" objectCode="strat_kpi_measure" parentInstanceCode="I0004" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-05</ColumnValue>
+        <ColumnValue name="code">I0004M2016-05</ColumnValue>
+        <ColumnValue name="measurement_date">2016-05-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">0.80000000000000004</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0004M2016-06" objectCode="strat_kpi_measure" parentInstanceCode="I0004" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-06</ColumnValue>
+        <ColumnValue name="code">I0004M2016-06</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">0.76000000000000001</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0004M2016-07" objectCode="strat_kpi_measure" parentInstanceCode="I0004" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-07</ColumnValue>
+        <ColumnValue name="code">I0004M2016-07</ColumnValue>
+        <ColumnValue name="measurement_date">2016-07-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">0.75</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0004M2016-08" objectCode="strat_kpi_measure" parentInstanceCode="I0004" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-08</ColumnValue>
+        <ColumnValue name="code">I0004M2016-08</ColumnValue>
+        <ColumnValue name="measurement_date">2016-08-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">0.69999999999999996</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0004M2016-09" objectCode="strat_kpi_measure" parentInstanceCode="I0004" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-09</ColumnValue>
+        <ColumnValue name="code">I0004M2016-09</ColumnValue>
+        <ColumnValue name="measurement_date">2016-09-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">0.71999999999999997</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0004M2016-10" objectCode="strat_kpi_measure" parentInstanceCode="I0004" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-10</ColumnValue>
+        <ColumnValue name="code">I0004M2016-10</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">0.75</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0004M2016-11" objectCode="strat_kpi_measure" parentInstanceCode="I0004" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-11</ColumnValue>
+        <ColumnValue name="code">I0004M2016-11</ColumnValue>
+        <ColumnValue name="measurement_date">2016-11-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">0.77000000000000002</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0004M2016-12" objectCode="strat_kpi_measure" parentInstanceCode="I0004" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-12</ColumnValue>
+        <ColumnValue name="code">I0004M2016-12</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">0.79000000000000004</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0004M2017-01" objectCode="strat_kpi_measure" parentInstanceCode="I0004" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-01</ColumnValue>
+        <ColumnValue name="code">I0004M2017-01</ColumnValue>
+        <ColumnValue name="measurement_date">2017-01-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">0.80000000000000004</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0004M2017-02" objectCode="strat_kpi_measure" parentInstanceCode="I0004" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-02</ColumnValue>
+        <ColumnValue name="code">I0004M2017-02</ColumnValue>
+        <ColumnValue name="measurement_date">2017-02-28T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">0.82999999999999996</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0004M2017-03" objectCode="strat_kpi_measure" parentInstanceCode="I0004" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-03</ColumnValue>
+        <ColumnValue name="code">I0004M2017-03</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">0.83999999999999997</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0005M2009-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0005" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -2836,6 +3172,62 @@
         <ColumnValue name="code">I0005M2016-Q1</ColumnValue>
         <ColumnValue name="measurement_date">2016-03-31T00:00:00</ColumnValue>
         <ColumnValue name="measurement_value">44951855</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0005M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0005" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0005M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">45176614</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0005M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0005" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0005M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">45086261</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0005M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0005" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0005M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">45266606</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0005M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0005" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0005M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">45764539</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -3249,6 +3641,62 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0006M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0006" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0006M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">24450230</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0006M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0006" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0006M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">24401330</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0006M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0006" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0006M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">24498935</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0006M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0006" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0006M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">24768423</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0007M2009-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0007" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -3591,7 +4039,7 @@
         <ColumnValue name="name">2015-Q1</ColumnValue>
         <ColumnValue name="code">I0007M2015-Q1</ColumnValue>
         <ColumnValue name="measurement_date">2015-03-31T00:00:00</ColumnValue>
-        <ColumnValue name="measurement_value">39</ColumnValue>
+        <ColumnValue name="measurement_value">39.5</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -3605,7 +4053,7 @@
         <ColumnValue name="name">2015-Q2</ColumnValue>
         <ColumnValue name="code">I0007M2015-Q2</ColumnValue>
         <ColumnValue name="measurement_date">2015-06-30T00:00:00</ColumnValue>
-        <ColumnValue name="measurement_value">39</ColumnValue>
+        <ColumnValue name="measurement_value">39.799999999999997</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -3619,7 +4067,7 @@
         <ColumnValue name="name">2015-Q3</ColumnValue>
         <ColumnValue name="code">I0007M2015-Q3</ColumnValue>
         <ColumnValue name="measurement_date">2015-10-31T00:00:00</ColumnValue>
-        <ColumnValue name="measurement_value">39</ColumnValue>
+        <ColumnValue name="measurement_value">40.100000000000001</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -3633,7 +4081,7 @@
         <ColumnValue name="name">2015-Q4</ColumnValue>
         <ColumnValue name="code">I0007M2015-Q4</ColumnValue>
         <ColumnValue name="measurement_date">2015-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="measurement_value">39</ColumnValue>
+        <ColumnValue name="measurement_value">39.5</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -3648,6 +4096,62 @@
         <ColumnValue name="code">I0007M2016-Q1</ColumnValue>
         <ColumnValue name="measurement_date">2016-03-31T00:00:00</ColumnValue>
         <ColumnValue name="measurement_value">38.799999999999997</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0007M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0007" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0007M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">38.700000000000003</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0007M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0007" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0007M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">38</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0007M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0007" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0007M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">38.600000000000001</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0007M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0007" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0007M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">38.5</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -3753,6 +4257,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0008M2016" objectCode="strat_kpi_measure" parentInstanceCode="I0008" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016</ColumnValue>
+        <ColumnValue name="code">I0008M2016</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">451403680</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0009M2009" objectCode="strat_kpi_measure" parentInstanceCode="I0009" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -3843,6 +4361,20 @@
         <ColumnValue name="name">2015</ColumnValue>
         <ColumnValue name="code">I0009M2015</ColumnValue>
         <ColumnValue name="measurement_date">2015-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">14</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0009M2016" objectCode="strat_kpi_measure" parentInstanceCode="I0009" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016</ColumnValue>
+        <ColumnValue name="code">I0009M2016</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
         <ColumnValue name="measurement_value">14</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
@@ -3949,6 +4481,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0010M2016" objectCode="strat_kpi_measure" parentInstanceCode="I0010" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016</ColumnValue>
+        <ColumnValue name="code">I0010M2016</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">27</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0011M2009" objectCode="strat_kpi_measure" parentInstanceCode="I0011" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -4040,6 +4586,20 @@
         <ColumnValue name="code">I0011M2015</ColumnValue>
         <ColumnValue name="measurement_date">2015-12-31T00:00:00</ColumnValue>
         <ColumnValue name="measurement_value">7</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0011M2016" objectCode="strat_kpi_measure" parentInstanceCode="I0011" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016</ColumnValue>
+        <ColumnValue name="code">I0011M2016</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">8</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -4145,6 +4705,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0012M2016" objectCode="strat_kpi_measure" parentInstanceCode="I0012" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016</ColumnValue>
+        <ColumnValue name="code">I0012M2016</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">40</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0013M2009" objectCode="strat_kpi_measure" parentInstanceCode="I0013" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -4243,6 +4817,20 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0013M2016" objectCode="strat_kpi_measure" parentInstanceCode="I0013" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016</ColumnValue>
+        <ColumnValue name="code">I0013M2016</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">93</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0014M2009" objectCode="strat_kpi_measure" parentInstanceCode="I0014" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -4319,7 +4907,7 @@
         <ColumnValue name="name">2014</ColumnValue>
         <ColumnValue name="code">I0014M2014</ColumnValue>
         <ColumnValue name="measurement_date">2014-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="measurement_value">9.9000000000000004</ColumnValue>
+        <ColumnValue name="measurement_value">9.5999999999999996</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -4333,7 +4921,21 @@
         <ColumnValue name="name">2015</ColumnValue>
         <ColumnValue name="code">I0014M2015</ColumnValue>
         <ColumnValue name="measurement_date">2015-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="measurement_value">10.1</ColumnValue>
+        <ColumnValue name="measurement_value">9.8000000000000007</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0014M2016" objectCode="strat_kpi_measure" parentInstanceCode="I0014" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016</ColumnValue>
+        <ColumnValue name="code">I0014M2016</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">10.199999999999999</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -4747,6 +5349,62 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0015M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0015" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0015M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">42</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0015M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0015" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0015M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">42</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0015M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0015" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0015M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">44</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0015M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0015" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0015M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">40</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0016M2009-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0016" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -5146,6 +5804,62 @@
         <ColumnValue name="code">I0016M2016-Q1</ColumnValue>
         <ColumnValue name="measurement_date">2016-03-31T00:00:00</ColumnValue>
         <ColumnValue name="measurement_value">27345</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0016M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0016" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0016M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">27482</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0016M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0016" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0016M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">27427</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0016M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0016" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0016M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">27537</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0016M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0016" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0016M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">27840</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -6371,6 +7085,174 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0017M2016-04" objectCode="strat_kpi_measure" parentInstanceCode="I0017" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-04</ColumnValue>
+        <ColumnValue name="code">I0017M2016-04</ColumnValue>
+        <ColumnValue name="measurement_date">2016-04-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">99.599999999999994</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0017M2016-05" objectCode="strat_kpi_measure" parentInstanceCode="I0017" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-05</ColumnValue>
+        <ColumnValue name="code">I0017M2016-05</ColumnValue>
+        <ColumnValue name="measurement_date">2016-05-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">99.400000000000006</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0017M2016-06" objectCode="strat_kpi_measure" parentInstanceCode="I0017" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-06</ColumnValue>
+        <ColumnValue name="code">I0017M2016-06</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">99.200000000000003</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0017M2016-07" objectCode="strat_kpi_measure" parentInstanceCode="I0017" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-07</ColumnValue>
+        <ColumnValue name="code">I0017M2016-07</ColumnValue>
+        <ColumnValue name="measurement_date">2016-07-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">99.299999999999997</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0017M2016-08" objectCode="strat_kpi_measure" parentInstanceCode="I0017" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-08</ColumnValue>
+        <ColumnValue name="code">I0017M2016-08</ColumnValue>
+        <ColumnValue name="measurement_date">2016-08-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">98.799999999999997</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0017M2016-09" objectCode="strat_kpi_measure" parentInstanceCode="I0017" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-09</ColumnValue>
+        <ColumnValue name="code">I0017M2016-09</ColumnValue>
+        <ColumnValue name="measurement_date">2016-09-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">99.299999999999997</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0017M2016-10" objectCode="strat_kpi_measure" parentInstanceCode="I0017" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-10</ColumnValue>
+        <ColumnValue name="code">I0017M2016-10</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">99.200000000000003</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0017M2016-11" objectCode="strat_kpi_measure" parentInstanceCode="I0017" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-11</ColumnValue>
+        <ColumnValue name="code">I0017M2016-11</ColumnValue>
+        <ColumnValue name="measurement_date">2016-11-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">99</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0017M2016-12" objectCode="strat_kpi_measure" parentInstanceCode="I0017" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-12</ColumnValue>
+        <ColumnValue name="code">I0017M2016-12</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">98.599999999999994</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0017M2017-01" objectCode="strat_kpi_measure" parentInstanceCode="I0017" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-01</ColumnValue>
+        <ColumnValue name="code">I0017M2017-01</ColumnValue>
+        <ColumnValue name="measurement_date">2017-01-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">98.900000000000006</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0017M2017-02" objectCode="strat_kpi_measure" parentInstanceCode="I0017" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-02</ColumnValue>
+        <ColumnValue name="code">I0017M2017-02</ColumnValue>
+        <ColumnValue name="measurement_date">2017-02-28T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">98.700000000000003</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0017M2017-03" objectCode="strat_kpi_measure" parentInstanceCode="I0017" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-03</ColumnValue>
+        <ColumnValue name="code">I0017M2017-03</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">99</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0018M2009-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0018" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -6769,6 +7651,62 @@
         <ColumnValue name="name">2016-Q1</ColumnValue>
         <ColumnValue name="code">I0018M2016-Q1</ColumnValue>
         <ColumnValue name="measurement_date">2016-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">3</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0018M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0018" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0018M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">3</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0018M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0018" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0018M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">3</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0018M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0018" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0018M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">3</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0018M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0018" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0018M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
         <ColumnValue name="measurement_value">3</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
@@ -7183,6 +8121,62 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0019M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0019" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0019M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">40</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0019M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0019" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0019M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">41</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0019M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0019" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0019M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">40</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0019M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0019" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0019M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">41</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0020M2009-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0020" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -7582,6 +8576,62 @@
         <ColumnValue name="code">I0020M2016-Q1</ColumnValue>
         <ColumnValue name="measurement_date">2016-03-31T00:00:00</ColumnValue>
         <ColumnValue name="measurement_value">1.24</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0020M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0020" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0020M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">1.22</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0020M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0020" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0020M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">1.23</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0020M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0020" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0020M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">1.3500000000000001</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0020M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0020" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0020M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">1.25</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -7995,6 +9045,62 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0021M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0021" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0021M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">41</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0021M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0021" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0021M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">40.799999999999997</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0021M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0021" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0021M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">40</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0021M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0021" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0021M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">39.5</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0022M2009-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0022" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -8394,6 +9500,62 @@
         <ColumnValue name="code">I0022M2016-Q1</ColumnValue>
         <ColumnValue name="measurement_date">2016-03-31T00:00:00</ColumnValue>
         <ColumnValue name="measurement_value">88</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0022M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0022" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0022M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">87</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0022M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0022" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0022M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">88</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0022M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0022" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0022M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">88</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0022M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0022" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0022M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">89</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -8807,6 +9969,62 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0023M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0023" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0023M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">1.7</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0023M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0023" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0023M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">1.55</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0023M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0023" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0023M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">1.54</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0023M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0023" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0023M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">1.3999999999999999</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0024M2009" objectCode="strat_kpi_measure" parentInstanceCode="I0024" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -8898,6 +10116,20 @@
         <ColumnValue name="code">I0024M2015</ColumnValue>
         <ColumnValue name="measurement_date">2015-12-31T00:00:00</ColumnValue>
         <ColumnValue name="measurement_value">97</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0024M2016" objectCode="strat_kpi_measure" parentInstanceCode="I0024" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016</ColumnValue>
+        <ColumnValue name="code">I0024M2016</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">95</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -9311,6 +10543,62 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0025M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0025" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0025M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">60</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0025M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0025" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0025M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">60</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0025M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0025" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0025M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">60</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0025M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0025" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0025M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">61</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0041M2009-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0041" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -9709,6 +10997,62 @@
         <ColumnValue name="name">2016-Q1</ColumnValue>
         <ColumnValue name="code">I0041M2016-Q1</ColumnValue>
         <ColumnValue name="measurement_date">2016-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">29</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0041M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0041" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0041M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">29</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0041M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0041" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0041M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">29</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0041M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0041" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0041M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">29</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0041M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0041" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0041M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
         <ColumnValue name="measurement_value">29</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
@@ -10123,6 +11467,62 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0042M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0042" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0042M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">60</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0042M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0042" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0042M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">60</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0042M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0042" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0042M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">60</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0042M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0042" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0042M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">61</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0043M2009-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0043" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -10521,6 +11921,62 @@
         <ColumnValue name="name">2016-Q1</ColumnValue>
         <ColumnValue name="code">I0043M2016-Q1</ColumnValue>
         <ColumnValue name="measurement_date">2016-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">21</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0043M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0043" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0043M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">21</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0043M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0043" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0043M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">21</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0043M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0043" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0043M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">21</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0043M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0043" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0043M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
         <ColumnValue name="measurement_value">21</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
@@ -10935,6 +12391,62 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0047M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0047" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0047M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">1</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0047M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0047" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0047M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">1.2</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0047M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0047" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0047M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">2.2999999999999998</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0047M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0047" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0047M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">1.1000000000000001</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0048M2009-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0048" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -11277,7 +12789,7 @@
         <ColumnValue name="name">2015-Q1</ColumnValue>
         <ColumnValue name="code">I0048M2015-Q1</ColumnValue>
         <ColumnValue name="measurement_date">2015-03-31T00:00:00</ColumnValue>
-        <ColumnValue name="measurement_value">3</ColumnValue>
+        <ColumnValue name="measurement_value">4</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -11291,7 +12803,7 @@
         <ColumnValue name="name">2015-Q2</ColumnValue>
         <ColumnValue name="code">I0048M2015-Q2</ColumnValue>
         <ColumnValue name="measurement_date">2015-06-30T00:00:00</ColumnValue>
-        <ColumnValue name="measurement_value">4</ColumnValue>
+        <ColumnValue name="measurement_value">5</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -11305,7 +12817,7 @@
         <ColumnValue name="name">2015-Q3</ColumnValue>
         <ColumnValue name="code">I0048M2015-Q3</ColumnValue>
         <ColumnValue name="measurement_date">2015-09-30T00:00:00</ColumnValue>
-        <ColumnValue name="measurement_value">3</ColumnValue>
+        <ColumnValue name="measurement_value">4</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -11319,7 +12831,7 @@
         <ColumnValue name="name">2015-Q4</ColumnValue>
         <ColumnValue name="code">I0048M2015-Q4</ColumnValue>
         <ColumnValue name="measurement_date">2015-12-31T00:00:00</ColumnValue>
-        <ColumnValue name="measurement_value">3</ColumnValue>
+        <ColumnValue name="measurement_value">5</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -11333,6 +12845,62 @@
         <ColumnValue name="name">2016-Q1</ColumnValue>
         <ColumnValue name="code">I0048M2016-Q1</ColumnValue>
         <ColumnValue name="measurement_date">2016-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">5</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0048M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0048" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0048M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">4</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0048M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0048" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0048M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">3</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0048M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0048" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0048M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">4</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0048M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0048" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0048M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
         <ColumnValue name="measurement_value">3</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
@@ -11747,6 +13315,62 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0051M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0051" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0051M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">57</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0051M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0051" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0051M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">57</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0051M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0051" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0051M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">57</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0051M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0051" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0051M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">58</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0052M2009-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0052" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -12153,6 +13777,62 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0052M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0052" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0052M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">45</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0052M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0052" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0052M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">45</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0052M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0052" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0052M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">45</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0052M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0052" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0052M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">45</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0026M2009-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0026" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -12551,7 +14231,63 @@
         <ColumnValue name="name">2016-Q1</ColumnValue>
         <ColumnValue name="code">I0026M2016-Q1</ColumnValue>
         <ColumnValue name="measurement_date">2016-03-31T00:00:00</ColumnValue>
-        <ColumnValue name="measurement_value">4</ColumnValue>
+        <ColumnValue name="measurement_value">3.7999999999999998</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0026M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0026" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0026M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">3.7999999999999998</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0026M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0026" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0026M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">3.7000000000000002</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0026M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0026" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0026M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">3.7999999999999998</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0026M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0026" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0026M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">3.8999999999999999</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>
@@ -12965,6 +14701,62 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0027M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0027" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0027M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">3.7200000000000002</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0027M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0027" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0027M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">3.73</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0027M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0027" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0027M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">3.75</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0027M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0027" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0027M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">3.7999999999999998</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0028M2009-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0028" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -13363,6 +15155,62 @@
         <ColumnValue name="name">2016-Q1</ColumnValue>
         <ColumnValue name="code">I0028M2016-Q1</ColumnValue>
         <ColumnValue name="measurement_date">2016-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">3.8700000000000001</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0028M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0028" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0028M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">3.8799999999999999</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0028M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0028" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0028M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">3.8999999999999999</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0028M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0028" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0028M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">3.9199999999999999</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0028M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0028" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0028M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
         <ColumnValue name="measurement_value">3.8700000000000001</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
@@ -13777,6 +15625,62 @@
         <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
       </Security>
     </instance> 
+    <instance instanceCode="I0030M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0030" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0030M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">2.96</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0030M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0030" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0030M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">2.9500000000000002</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0030M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0030" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0030M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">2.9700000000000002</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0030M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0030" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0030M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">2.9700000000000002</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
     <instance instanceCode="I0031M2009-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0031" parentObjectCode="strat_kpi">
       <CustomInformation>
         <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
@@ -14176,6 +16080,62 @@
         <ColumnValue name="code">I0031M2016-Q1</ColumnValue>
         <ColumnValue name="measurement_date">2016-03-31T00:00:00</ColumnValue>
         <ColumnValue name="measurement_value">15</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0031M2016-Q2" objectCode="strat_kpi_measure" parentInstanceCode="I0031" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q2</ColumnValue>
+        <ColumnValue name="code">I0031M2016-Q2</ColumnValue>
+        <ColumnValue name="measurement_date">2016-06-30T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">13</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0031M2016-Q3" objectCode="strat_kpi_measure" parentInstanceCode="I0031" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q3</ColumnValue>
+        <ColumnValue name="code">I0031M2016-Q3</ColumnValue>
+        <ColumnValue name="measurement_date">2016-10-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">15</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0031M2016-Q4" objectCode="strat_kpi_measure" parentInstanceCode="I0031" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2016-Q4</ColumnValue>
+        <ColumnValue name="code">I0031M2016-Q4</ColumnValue>
+        <ColumnValue name="measurement_date">2016-12-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">14</ColumnValue>
+      </CustomInformation>
+      <OBSAssocs complete="false"/>
+      <Security>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="admin"/>
+        <UserSecurity rightCode="odf_cst_strat_kpi_measure_edit" userName="xog"/>
+      </Security>
+    </instance> 
+    <instance instanceCode="I0031M2017-Q1" objectCode="strat_kpi_measure" parentInstanceCode="I0031" parentObjectCode="strat_kpi">
+      <CustomInformation>
+        <ColumnValue name="partition_code">NIKU.ROOT</ColumnValue>
+        <ColumnValue name="name">2017-Q1</ColumnValue>
+        <ColumnValue name="code">I0031M2017-Q1</ColumnValue>
+        <ColumnValue name="measurement_date">2017-03-31T00:00:00</ColumnValue>
+        <ColumnValue name="measurement_value">14</ColumnValue>
       </CustomInformation>
       <OBSAssocs complete="false"/>
       <Security>

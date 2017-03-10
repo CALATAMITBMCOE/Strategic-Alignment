@@ -13,7 +13,7 @@
     xmlns:q="http://www.niku.com/xog/Query">
 
    	<!--============================================================-->
-	<!-- Package: Strategic Alignment 5.1 							-->
+	<!-- Package: Strategic Alignment 5.3							-->
 	<!-- Process: Strategic Indicator Calculation 					-->
 	<!-- 		  Strategic Alignment Metric Initialize				-->
 	<!-- 		  Strategic Portfolio Creation 						-->
@@ -90,24 +90,42 @@
     <core:set var="WebServerid" value="${config.getProperties().getWebServer().getWebServerInstance(0).getId()}"/>
 	<!-- Tests if Instance 0 is app - then gets instance 0 data -->
 	<core:if test="${WebServerid == 'app'}">
-        <core:set var="entryUrl" value="${config.getProperties().getWebServer().getWebServerInstance(0).getEntryUrl()}"/>
-        <core:set var="entryUrlPort" value="${config.getProperties().getWebServer().getWebServerInstance(0).getPort()}"/>
+		<core:set var="SSLEnabled" value="${config.getProperties().getWebServer().getWebServerInstance(0).getEnableSSLPort()}"/>
+		<core:if test="${SSLEnabled == 'false'}">
+			<core:set var="entryUrl" value="${config.getProperties().getWebServer().getWebServerInstance(0).getEntryUrl()}"/>
+			<core:set var="entryUrlPort" value="${config.getProperties().getWebServer().getWebServerInstance(0).getPort()}"/>
+		</core:if>
+		<core:if test="${SSLEnabled == 'true'}">
+			<core:set var="entryUrl" value="${config.getProperties().getWebServer().getWebServerInstance(0).getSslEntryUrl()}"/>
+		</core:if>
 	</core:if>
 	<!-- Tests if Instance 0 is not app - then reads instance 1 -->
 	<core:if test="${WebServerid != 'app'}">
 		<core:set var="WebServerid" value="${config.getProperties().getWebServer().getWebServerInstance(1).getId()}"/>
 		<!-- Tests if Instance 1 is app - then gets instance 1 data -->
 		<core:if test="${WebServerid == 'app'}">
-			<core:set var="entryUrl" value="${config.getProperties().getWebServer().getWebServerInstance(1).getEntryUrl()}"/>
-			<core:set var="entryUrlPort" value="${config.getProperties().getWebServer().getWebServerInstance(1).getPort()}"/>
+			<core:set var="SSLEnabled" value="${config.getProperties().getWebServer().getWebServerInstance(1).getEnableSSLPort()}"/>
+			<core:if test="${SSLEnabled == 'false'}">
+				<core:set var="entryUrl" value="${config.getProperties().getWebServer().getWebServerInstance(1).getEntryUrl()}"/>
+				<core:set var="entryUrlPort" value="${config.getProperties().getWebServer().getWebServerInstance(1).getPort()}"/>
+			</core:if>
+			<core:if test="${SSLEnabled == 'true'}">
+				<core:set var="entryUrl" value="${config.getProperties().getWebServer().getWebServerInstance(1).getSslEntryUrl()}"/>
+			</core:if>
 		</core:if>
 
 		<!-- Tests if Instance 1 is not app - then reads instance 2 -->
 		<core:if test="${WebServerid != 'app'}">
 			<core:set var="WebServerid" value="${config.getProperties().getWebServer().getWebServerInstance(2).getId()}"/>
 			<core:if test="${WebServerid == 'app'}">
-				<core:set var="entryUrl" value="${config.getProperties().getWebServer().getWebServerInstance(2).getEntryUrl()}"/>
-				<core:set var="entryUrlPort" value="${config.getProperties().getWebServer().getWebServerInstance(2).getPort()}"/>
+				<core:set var="SSLEnabled" value="${config.getProperties().getWebServer().getWebServerInstance(2).getEnableSSLPort()}"/>
+				<core:if test="${SSLEnabled == 'false'}">
+					<core:set var="entryUrl" value="${config.getProperties().getWebServer().getWebServerInstance(2).getEntryUrl()}"/>
+					<core:set var="entryUrlPort" value="${config.getProperties().getWebServer().getWebServerInstance(2).getPort()}"/>
+				</core:if>
+				<core:if test="${SSLEnabled == 'true'}">
+					<core:set var="entryUrl" value="${config.getProperties().getWebServer().getWebServerInstance(2).getSslEntryUrl()}"/>
+				</core:if>
 			</core:if>
 			<core:if test="${WebServerid != 'app'}">
 				<gel:log level="ERROR" message="WebServerid	APP not Found!"/>
@@ -115,7 +133,7 @@
 		</core:if>
 	</core:if>
 		
-	<core:set var="XOGwebPath" value="${entryUrl}/niku/Strat_logs"/>
+	<core:set var="XOGwebPath" value="${entryUrl}/niku/strat_logs"/>
 	<core:if test="${DebugLevel &gt; 1}">
 		<gel:log level="debug" message="WebServerid	: ${WebServerid}"/>
 		<gel:log level="debug" message="entryUrl	: ${entryUrl}"/>
@@ -124,6 +142,9 @@
 
 	<!-- Not sure whether I should use entryUrl -->
 	<core:set var="XOGURL" value="${entryUrl}:${entryUrlPort}"/>
+	<core:if test="${SSLEnabled == 'true'}">
+		<core:set var="XOGURL" value="${entryUrl}"/>
+	</core:if>
 	<core:if test="${DebugLevel &gt; 0}">
 		<gel:log level="debug" message="XOGURL: ${XOGURL}"/>
 		<gel:log level="debug" message="XOGlogFolder: ${XOGlogFolder}"/>
