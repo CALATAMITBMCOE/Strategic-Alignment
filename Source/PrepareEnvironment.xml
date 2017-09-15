@@ -132,7 +132,16 @@
 			</core:if>
 		</core:if>
 	</core:if>
-		
+
+	<!-- This should work with NA Servers where SSL is implemented in Apache and CA PPM is unaware of it -->
+	<core:invoke var="vProtocol" on="${entryUrl}" method="substring">
+		<core:arg type="int" value="0"/>
+		<core:arg type="int" value="5"/>
+	</core:invoke>
+	<core:if test="${vProtocol == 'https'}">
+		<core:set var="SSLEnabled" value="true"/>
+	</core:if>
+	
 	<core:set var="XOGwebPath" value="${entryUrl}/niku/strat_logs"/>
 	<core:if test="${DebugLevel &gt; 1}">
 		<gel:log level="debug" message="WebServerid	: ${WebServerid}"/>
@@ -140,6 +149,7 @@
 		<gel:log level="debug" message="entryUrlPort: ${entryUrlPort}"/>
 	</core:if>
 
+	
 	<!-- Not sure whether I should use entryUrl -->
 	<core:set var="XOGURL" value="${entryUrl}:${entryUrlPort}"/>
 	<core:if test="${SSLEnabled == 'true'}">
