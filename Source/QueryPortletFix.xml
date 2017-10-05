@@ -78,7 +78,7 @@
         <core:set var="vFileFileID">${row[1]}</core:set>
         <core:set var="vFileVersionID">${row[2]}</core:set>
 		<gel:log level="debug" message="Found hierView.html: odf_pk=${vFileODFPK}. FileID=${vFileFileID}. VersionID=${vFileVersionID}."/> 
-		<sql:update escapeText="false" var="vUpdate">UPDATE cmn_html_retrieve_services SET HTML_TEXT = REPLACE(REPLACE(REPLACE(HTML_TEXT, 'fileId=5101215', 'fileId=${vFileFileID}'), 'versionId=5101216', 'versionId=${vFileVersionID}'), 'odf_pk=5000000', 'odf_pk=${vFileODFPK}') WHERE PORTLET_ID in (select ID FROM CMN_PORTLETS WHERE PORTLET_CODE like '%hiev%' and portlet_type_code = 'HTML')</sql:update>
+		<sql:update escapeText="false" var="vUpdate">UPDATE cmn_html_retrieve_services SET HTML_TEXT = REPLACE(REPLACE(REPLACE(HTML_TEXT, 'fileId=1234560', 'fileId=${vFileFileID}'), 'versionId=1234561', 'versionId=${vFileVersionID}'), 'odf_pk=1234562', 'odf_pk=${vFileODFPK}') WHERE PORTLET_ID in (select ID FROM CMN_PORTLETS WHERE PORTLET_CODE like '%hiev%' and portlet_type_code = 'HTML')</sql:update>
     </core:forEach>
 
 	<!-- Find wsdl_wrapper.js file -->
@@ -94,7 +94,7 @@
         <core:set var="vFileFileID">${row[1]}</core:set>
         <core:set var="vFileVersionID">${row[2]}</core:set>
 		<gel:log level="debug" message="Found wsdl_wrapper.js: odf_pk=${vFileODFPK}. FileID=${vFileFileID}. VersionID=${vFileVersionID}."/> 
-		<sql:update escapeText="false" var="vUpdate">UPDATE cmn_html_retrieve_services SET HTML_TEXT = REPLACE(REPLACE(REPLACE(HTML_TEXT, 'fileId=5102205', 'fileId=${vFileFileID}'), 'versionId=5102206', 'versionId=${vFileVersionID}'), 'odf_pk=5001000', 'odf_pk=${vFileODFPK}') WHERE PORTLET_ID in (select ID FROM CMN_PORTLETS WHERE PORTLET_CODE like '%hiev%' and portlet_type_code = 'HTML')</sql:update>
+		<sql:update escapeText="false" var="vUpdate">UPDATE cmn_html_retrieve_services SET HTML_TEXT = REPLACE(REPLACE(REPLACE(HTML_TEXT, 'fileId=1234563', 'fileId=${vFileFileID}'), 'versionId=1234564', 'versionId=${vFileVersionID}'), 'odf_pk=1234565', 'odf_pk=${vFileODFPK}') WHERE PORTLET_ID in (select ID FROM CMN_PORTLETS WHERE PORTLET_CODE like 'strat%map%' and portlet_type_code = 'HTML')</sql:update>
     </core:forEach>
 
 </gel:script>
