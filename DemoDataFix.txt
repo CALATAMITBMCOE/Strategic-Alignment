@@ -1,0 +1,13 @@
+These queries (Oracle format) are used to generate the demo data correction statements that are used in the GEL Script action of the “Strategic Item Demo Data Fix” process. To use:
+1)	Run the query
+2)	Copy the resulting rows and paste in the “DemoDataFix.xml” file. Place it in the correct Action in the Process.
+
+select '<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PARENTITEM = (select si.id from odf_ca_strategic_item si where si.code = ''' || sp.code || ''') WHERE CODE = ''' || si.code || '''</sql:update>'
+from odf_ca_strategic_item si inner join odf_ca_strategic_item sp on sp.id = si.parentitem
+
+select '<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET PLAN_RELATED = (select si.id from odf_ca_strategic_item si where si.code = ''' || pr.code || ''') WHERE CODE = ''' || si.code || '''</sql:update>'
+from odf_ca_strategic_item si inner join odf_ca_strategic_item pr on pr.id = si.plan_related
+
+select '<sql:update escapeText="false" var="vUpdate">UPDATE ODF_CA_STRATEGIC_ITEM SET RELATED_PLAN_PARENT = (select si.id from odf_ca_strategic_item si where si.code = ''' || srpp.code || ''') WHERE CODE = ''' || si.code || '''</sql:update>'
+from odf_ca_strategic_item si inner join odf_ca_strategic_item srpp on srpp.id = si.related_plan_parent
+
