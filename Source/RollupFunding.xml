@@ -120,7 +120,7 @@
 						inner join ODF_OBJECT_INSTANCE_MAPPING OM on OM.PRIMARY_OBJECT_INSTANCE_ID = I.ID 
 							and OM.PRIMARY_OBJECT_INSTANCE_CODE = 'project' AND OM.SECONDARY_OBJECT_INSTANCE_CODE = 'financials'
 						inner join FIN_FINANCIALS F on F.ID = OM.SECONDARY_OBJECT_INSTANCE_ID
-						inner join ODF_SL_PLAN_COST C on C.PRJ_OBJECT_ID = F.ID and C.SLICE_REQUEST_ID = (select ID from PRJ_BLB_SLICEREQUESTS WHERE REQUEST_NAME = 'Planned CoST for Top-Down Plan')
+						inner join ODF_SL_PLAN_COST C on C.PRJ_OBJECT_ID = F.ID and C.SLICE_REQUEST_ID = (select ID from PRJ_BLB_SLICEREQUESTS WHERE REQUEST_NAME = 'Planned Cost for Top-Down Plan')
 					WHERE OI.Strat_FUND_SOURCE = ${vChild_Intl} AND I.STATUS = 1 
 					AND ${sliceDate} between '${vChild_Strt}' and '${vChild_Fnsh}'
 			</sql:query>
@@ -223,7 +223,7 @@
 						inner join ODF_OBJECT_INSTANCE_MAPPING OM on OM.PRIMARY_OBJECT_INSTANCE_ID = I.ID 
 							and OM.PRIMARY_OBJECT_INSTANCE_CODE = 'project' AND OM.SECONDARY_OBJECT_INSTANCE_CODE = 'financials'
 						inner join FIN_FINANCIALS F on F.ID = OM.SECONDARY_OBJECT_INSTANCE_ID
-						inner join ODF_SL_PLAN_COST C on C.PRJ_OBJECT_ID = F.ID and C.SLICE_REQUEST_ID = (select ID from PRJ_BLB_SLICEREQUESTS WHERE REQUEST_NAME = 'Planned CoST for Top-Down Plan')
+						inner join ODF_SL_PLAN_COST C on C.PRJ_OBJECT_ID = F.ID and C.SLICE_REQUEST_ID = (select ID from PRJ_BLB_SLICEREQUESTS WHERE REQUEST_NAME = 'Planned Cost for Top-Down Plan')
 					WHERE OI.Strat_FUND_SOURCE = ${vParent_Intl} AND I.STATUS = 1 
 					AND ${sliceDate} between '${vParent_Strt}' and '${vParent_Fnsh}'
 			</sql:query>
